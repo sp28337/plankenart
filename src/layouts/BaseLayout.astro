@@ -1,0 +1,22 @@
+---
+import '../styles/global.css';
+const { pageTitle, pageDescription } = Astro.props;
+---
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Планкен Арт" />
+    <meta name="description" content={pageDescription} />
+
+    <title>{pageTitle}</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+  </head>
+
+  <body>
+    <div class="min-h-screen">
+      <slot />
+    </div>
+  </body>
+</html>

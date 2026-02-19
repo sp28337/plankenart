@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://plankenart.ru/sitemap-index.xml

@@ -1,0 +1,12 @@
+---
+import '../styles/global.css';
+import BaseLayout from './BaseLayout.astro';
+
+const { pageTitle, pageDescription } = Astro.props;
+---
+<BaseLayout
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+>
+  <slot />
+</BaseLayout>
