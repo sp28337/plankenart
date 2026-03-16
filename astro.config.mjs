@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
@@ -8,4 +8,18 @@ export default defineConfig({
 	},
 	site: 'https://plankenart.ru',
 	integrations: [sitemap()],
+	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: "Manrope",
+			cssVariable: "--font-manrope",
+			weights: [500, 600, 700]
+  	},
+		{
+			provider: fontProviders.google(),
+			name: "Inter",
+			cssVariable: "--font-inter",
+			weights: [500, 600, 700],
+		}
+	]
 });
