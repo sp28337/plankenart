@@ -1,0 +1,28 @@
+---
+import { Picture } from 'astro:assets';
+import logo from "../../images/logo.png";
+
+interface Props {
+  variant?: "mobile" | "desktop";
+}
+const { variant = "mobile" } = Astro.props;
+---
+<a 
+  href="/" 
+  class:list={[
+    variant === "desktop" ? "px-3 py-5" : "px-2 py-3",
+    "flex justify-center items-center bg-white rounded-b-3xl",
+  ]}
+>
+  <Picture
+    src={logo}  
+    formats={['avif', 'webp']}
+    alt="Логотип ПланкенАрт" 
+    class:list={[
+      variant === "desktop" ? "size-24" : "size-18",
+      "object-contain",
+    ]}
+    loading="eager"
+    fetchpriority="high"
+  />
+</a>
