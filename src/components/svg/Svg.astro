@@ -1,0 +1,53 @@
+---
+export interface Props {
+  variant?: "default" | "footer" | "menu";
+  size?: "default" | "s" | "m" | "l" | "xl";
+  hover?: "burger";
+  viewBox?: "default" | "tg" | "phone" | "burger";
+}
+
+const {
+  variant = "default",
+  size = "default",
+  hover = "default",
+  viewBox = "default",
+} = Astro.props;
+
+const base = "group-hover:scale-[1.1] transition-all duration-300";
+
+const hovers = {
+  default: "",
+  burger: "group-hover:fill-html",
+}
+
+const variants = {
+  default: "fill-foreground",
+  menu: "fill-foreground",
+  footer: "fill-white",
+};
+
+
+const sizes = {
+  default: "w-6 h-6",
+  s: "w-[15px] h-[15px]",
+  m: "w-5 h-5",
+  l: "w-6 h-6",
+  xl: "w-7 h-7",
+};
+
+const viewBoxes = {
+  default: "0 0 48 48",
+  tg: "0 0 48 48",
+  burger: "0 0 15 15",
+  phone: "0 0 220 220",
+};
+
+const classes = `${base} ${variants[variant]} ${hovers[hover]} ${sizes[size]}`;
+---
+<svg 
+  class={classes}
+  viewBox={viewBoxes[viewBox]}
+  xmlns="http://www.w3.org/2000/svg"
+> 
+  <slot />
+</svg>
