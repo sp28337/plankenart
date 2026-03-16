@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+
+@theme inline {
+    --font-manrope: var(--font-manrope);
+    --font-inter: var(--font-inter);
+}
+
+@theme {
+  --color-html: #FFF8EE;
+  --color-menu: #B7A48C;
+  --color-nav: color-mix(in srgb, #C2B1A3 60%, transparent);
+  --color-footer: #282828;
+  --color-material-gradient-top: #F8E2D0;
+  --color-material-gradient-bottom: #F4EAE5;
+  --color-btn: color-mix(in srgb, #DF9B42 75%, transparent);
+  --color-btn-solid: #DF9B42;
+  --color-border: #D3A887;
+  --color-line: #C27530;
+  --color-foreground: #5B4038;
+}
+
+@utility material-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-material-gradient-top),
+    var(--color-material-gradient-bottom)
+  );
+}
