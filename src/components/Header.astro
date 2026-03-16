@@ -1,0 +1,23 @@
+---
+import MobileNavigation from "./ui/MobileNavigation.astro";
+import Logo from "./ui/Logo.astro";
+import Navigation from "./ui/Navigation.astro";
+import ContactButtons from "./ui/ContactButtons.astro";
+---
+<header class="fixed top-0 w-full max-w-7xl px-2 lg:px-4">
+  <div class="flex justify-between gap-6">
+
+    <div class="flex lg:hidden w-full justify-between">
+      <Logo />
+      <ContactButtons variant="mobile" />
+    </div>
+
+    <div class="hidden lg:flex w-full justify-between">
+      <Logo variant="desktop"/>
+      <Navigation />
+      <ContactButtons variant="desktop" />
+    </div>
+
+  </div>
+</header>
+<MobileNavigation/>
