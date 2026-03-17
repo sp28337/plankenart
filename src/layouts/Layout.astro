@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
 import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
 
 const { pageTitle, pageDescription } = Astro.props;
 ---
@@ -8,5 +11,7 @@ const { pageTitle, pageDescription } = Astro.props;
   pageTitle={pageTitle}
   pageDescription={pageDescription}
 >
+	<Header/>
   <slot />
+  <Footer/>
 </BaseLayout>

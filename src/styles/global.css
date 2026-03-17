@@ -28,3 +28,12 @@
     var(--color-material-gradient-bottom)
   );
 }
+
+@layer components {
+  footer::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-10 z-10;
+    background: var(--color-html);
+    border-radius: 0 0 30px 30px;
+  }
+}
