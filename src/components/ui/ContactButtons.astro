@@ -7,7 +7,7 @@ import Phone from "../svg/phone.astro";
 interface Props {
   variant?: "mobile" | "desktop";
 }
-const { variant = "icon-only" } = Astro.props;
+const { variant = "mobile" } = Astro.props;
 const phone = "+7 (952) 543 37 16";
 const phoneHref = "tel:+79525433716";
 const tgHref = "https://t.me/Spedd87";
@@ -30,7 +30,8 @@ const tgHref = "https://t.me/Spedd87";
       variant === "desktop" 
       ? "hover:bg-amber-fade backdrop-blur-xl" 
       : "hover:bg-html",
-      "flex justify-center items-center bg-btn rounded-full group w-11 h-11",
+      "flex justify-center items-center bg-btn rounded-full", 
+      "group w-11 h-11 transition-colors duration-300",
     ]}
   >
     <Svg size="xl">
