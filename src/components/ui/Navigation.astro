@@ -1,0 +1,33 @@
+---
+const links = [
+  { href: "/about",    label: "О нас"    },
+  { href: "/services", label: "Услуги"   },
+  { href: "/catalog",  label: "Каталог"  },
+  { href: "/objects",  label: "Объекты"  },
+  { href: "/contacts", label: "Контакты" },
+];
+
+const current = Astro.url.pathname;
+---
+
+<nav
+  aria-label="Основная навигация"
+  class="px-5 font-inter font-semibold w-112.5 text-white 
+  tracking-tight flex items-center justify-between h-12.5 gap-2.5
+  bg-menu backdrop-blur-xl rounded-[20px] translate-y-5"
+>
+  {links.map(({ href, label }) => (
+    <a
+      href={href}
+      aria-current={current.startsWith(href) ? "page" : undefined}
+      class:list={[
+        "hover:underline transition-all duration-300",
+        current.startsWith(href)
+          ? "bg-btn"
+          : ""
+      ]}
+    >
+      {label}
+    </a>
+  ))}
+</nav>

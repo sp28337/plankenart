@@ -1,0 +1,135 @@
+name: CI Planken Art
+
+on:
+  push:
+    branches:
+      # - main
+      - dev
+  pull_request:
+    branches:
+      # - main
+      - dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.21.0
+
+      # 3. Node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.11.1'
+          cache: 'pnpm'
+
+      # 4. Dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 6. Build Astro
+      - name: Build Astro project
+        run: pnpm build
+
+      # 7a. DEV: Upload dist to server
+      - name: Upload dist to DEV server
+        if: github.ref == 'refs/heads/dev'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          port: ${{ secrets.DEV_PORT }}
+          username: ${{ secrets.DEV_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "~/plankenart_build/"
+          rm: true
+
+      # 7b. DEV: Deploy
+      - name: Deploy on DEV server
+        if: github.ref == 'refs/heads/dev'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_HOST }}
+          port: ${{ secrets.DEV_PORT }}
+          username: ${{ secrets.DEV_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          script: |
+            # Резервная копия
+            if [ -d "/var/sp28337/plankenart" ]; then
+              sudo cp -r /var/sp28337/plankenart /var/sp28337/plankenart.backup.$(date +%Y%m%d_%H%M%S)
+            fi
+            
+            # Деплой
+            sudo cp -r ~/plankenart_build/dist/* /var/sp28337/plankenart/dist/
+            sudo chmod -R 755 /var/sp28337/plankenart/dist
+            sudo chown -R sp28337-data:sp28337-data /var/sp28337/plankenart/dist
+            
+            # Проверка nginx
+            sudo nginx -t
+            sudo systemctl reload nginx
+            
+            # Очистка
+            rm -rf ~/plankenart_build/*
+            
+            echo "✅ DEV Deployment successful!"
+
+      # 8a. PROD: Upload dist to server
+      - name: Upload dist to PROD server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          port: ${{ secrets.PROD_PORT }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "/home/www/plankenart_build/"
+          rm: true
+
+      # 8b. PROD: Deploy
+      - name: Deploy on PROD server
+        if: github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          port: ${{ secrets.PROD_PORT }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Резервная копия
+            if [ -d "/var/www/plankenart" ]; then
+              sudo cp -r /var/www/plankenart /var/www/plankenart.backup.$(date +%Y%m%d_%H%M%S)
+            fi
+            
+            # Деплой
+            sudo cp -r /home/www/astro_build/dist/* /var/www/plankenart/dist/
+            sudo chmod -R 755 /var/www/plankenart/dist
+            sudo chown -R www-data:www-data /var/www/plankenart/dist
+            
+            # Проверка nginx
+            sudo nginx -t
+            sudo systemctl reload nginx
+            
+            # Очистка
+            rm -rf /home/www/plankenart_build/*
+            
+            echo "✅ PROD Deployment successful!"
+
+      # 9. Notification (опционально)
+      - name: Notify deployment
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment completed successfully"
+          else
+            echo "❌ Deployment failed"
+          fi

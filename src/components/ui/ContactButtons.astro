@@ -1,0 +1,76 @@
+---
+import Svg from "../svg/Svg.astro"
+import Telegram from "../svg/telegram.astro";
+import Burger from "../svg/burger.astro";
+import Phone from "../svg/phone.astro";
+
+interface Props {
+  variant?: "mobile" | "desktop";
+}
+const { variant = "icon-only" } = Astro.props;
+const phone = "+7 (952) 543 37 16";
+const phoneHref = "tel:+79525433716";
+const tgHref = "https://t.me/Spedd87";
+---
+
+<div 
+  class:list={[
+    variant === "desktop"
+    ? "bg-none translate-y-5"
+    : "bg-menu translate-y-3.5 p-2",
+    "flex items-center backdrop-blur-xl lg:backdrop-blur-none h-14 rounded-[23px] gap-2.5"
+  ]}
+>
+
+  <!-- Telegram -->
+  <a
+    href={tgHref}
+    aria-label="Написать в Telegram"
+    class:list={[
+      variant === "desktop" 
+      ? "hover:bg-amber-fade backdrop-blur-xl" 
+      : "hover:bg-html",
+      "flex justify-center items-center bg-btn rounded-full group w-11 h-11",
+    ]}
+  >
+    <Svg size="xl">
+      <Telegram/>
+    </Svg>
+  </a>
+
+  <!-- Phone -->
+  <a
+    href={phoneHref}
+    aria-label={`Позвонить: ${phone}`}
+    class:list={[
+      "flex justify-center items-center transition-colors duration-300", 
+      "rounded-[20px] font-bold bg-btn text-foreground group",
+      variant === "desktop" 
+      ? "w-auto h-12.5 gap-4 px-6.25 hover:bg-amber-fade backdrop-blur-xl" 
+      : "w-11 h-11 hover:bg-html"
+    ]}
+  >
+    <Svg viewBox="phone" size="l">
+      <Phone/>
+    </Svg>
+    {variant === "desktop" && <span>{phone}</span>}
+  </a>
+
+  <!-- Burger -->
+  <button 
+    id="burger-btn"
+    aria-label="Открыть меню"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    class:list={[
+      variant === "desktop" && "hidden",
+      "flex justify-center items-center w-10",
+      "h-10 rounded-full cursor-pointer group"
+    ]}
+  >
+    <Svg viewBox="burger" size="m" hover="burger">
+      <Burger/>
+    </Svg>
+  </button>
+
+</div>
