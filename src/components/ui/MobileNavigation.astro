@@ -13,7 +13,7 @@ const current = Astro.url.pathname;
 <!-- Overlay -->
 <div
   id="mobile-menu-overlay"
-  class="top-20 fixed inset-0 z-40 bg-footer-primary/60 opacity-0 
+  class="top-20 fixed inset-0 z-40 opacity-0 
   pointer-events-none transition-opacity duration-300 lg:hidden"
   aria-hidden="true"
 ></div>
@@ -24,7 +24,7 @@ const current = Astro.url.pathname;
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
-  class="fixed top-16 right-0 z-50 lg:hidden
+  class="fixed top-19 right-0 z-50 lg:hidden
          bg-bg-primary opacity-0 pointer-events-none
          transition-all duration-300 ease-out"
 >
@@ -37,7 +37,7 @@ const current = Astro.url.pathname;
         href={href}
         aria-current={current.startsWith(href) ? "page" : undefined}
         class:list={[
-          "flex items-center justify-center tracking-tight w-39 h-7.5",
+          "flex items-center justify-center tracking-tight w-41 h-7.5",
           "backdrop-blur-xl rounded-xl bg-menu text-white",
           "transition-colors hover:bg-amber-fade duration-300 ",
         ]}

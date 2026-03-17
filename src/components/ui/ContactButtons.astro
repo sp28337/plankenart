@@ -17,8 +17,8 @@ const tgHref = "https://t.me/Spedd87";
   class:list={[
     variant === "desktop"
     ? "bg-none translate-y-5"
-    : "bg-menu translate-y-2 p-2",
-    "flex items-center backdrop-blur-xl h-12.5 rounded-[20px] gap-2.5"
+    : "bg-menu translate-y-3.5 p-2",
+    "flex items-center backdrop-blur-xl h-14 rounded-[23px] gap-2.5"
   ]}
 >
 
@@ -28,12 +28,12 @@ const tgHref = "https://t.me/Spedd87";
     aria-label="Написать в Telegram"
     class:list={[
       variant === "desktop" 
-      ? "w-11 h-11 hover:bg-amber-fade" 
-      : "w-10 h-10 hover:bg-html",
-      "flex justify-center items-center bg-btn rounded-full group",
+      ? "hover:bg-amber-fade" 
+      : "hover:bg-html",
+      "flex justify-center items-center bg-btn rounded-full group w-11 h-11",
     ]}
   >
-    <Svg size={variant === "desktop" ? "xl" : "l"}>
+    <Svg size="xl">
       <Telegram/>
     </Svg>
   </a>
@@ -47,10 +47,10 @@ const tgHref = "https://t.me/Spedd87";
       "rounded-[20px] font-bold bg-btn text-foreground group",
       variant === "desktop" 
       ? "w-auto h-12.5 gap-4 px-6.25 hover:bg-amber-fade" 
-      : "w-10 h-10 hover:bg-html"
+      : "w-11 h-11 hover:bg-html"
     ]}
   >
-    <Svg viewBox="phone" size={variant === "desktop" ? "l" : "m"}>
+    <Svg viewBox="phone" size="l">
       <Phone/>
     </Svg>
     {variant === "desktop" && <span>{phone}</span>}
@@ -68,7 +68,7 @@ const tgHref = "https://t.me/Spedd87";
       "h-10 rounded-full cursor-pointer group"
     ]}
   >
-    <Svg viewBox="burger" size="s" hover="burger">
+    <Svg viewBox="burger" size="m" hover="burger">
       <Burger/>
     </Svg>
   </button>
