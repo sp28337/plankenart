@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import Svg from "./svg/Svg.astro"
+import Telegram from "./svg/telegram.astro";
+import heroImg from '../images/tmp/hero.png';
+export interface Props {
+  variant?: "home" | "catalog" | "objets";
+  title?: string;
+}
+
+const {
+  variant,
+  title,
+} = Astro.props;
+---
+
+<section class="w-full relative">
+  <Image
+    src={heroImg}
+    alt="Hero background"
+    class="w-full object-cover object-[60%_0%] rounded-b-[30px]
+           h-[90svh] mx-auto max-w-500 sm:object-[0%_30%]  
+           lg:h-[90vh] lg:max-h-225 transition-all duration-200"
+    loading="eager"
+    widths={[400, 800, 1200, 1920]}
+    sizes="100vw"
+  />
+  <div class="absolute bottom-2 lg:bottom-8 flex flex-col justify-between lg:items-end 
+              lg:flex-row max-w-7xl px-2 lg:px-4 w-full left-1/2 -translate-x-1/2
+              items-start gap-2 lg:gap-0"
+  >
+    <div class="w-full h-auto p-3.75 md:px-7.5 md:py-5 bg-nav rounded-[20px] 
+                md:rounded-[30px] backdrop-blur-xl
+                lg:max-w-170 flex flex-col gap-4 cursor-default"
+    >
+      <h1 class="tracking-tighter text-3xl sm:text-4xl md:text-5xl font-bold 
+                leading-8 md:leading-12">
+        {title}
+      </h1>
+      <span class:list={[
+        variant == "home" 
+        ? "text-sm font-normal md:text-lg leading-4 md:leading-6 text-white/80" 
+        : "hidden",
+      ]}  
+      >
+        Шлифовка древесины на профессиональном оборудовании и покрытие 
+        натуральными маслами OSMO.  Работаем по Нижнему Новгороду и области.
+      </span>
+    </div>
+    {
+      variant == "home" &&
+      <a
+        href="https://t.me/Spedd87"
+        aria-label="Связаться со специалистом через телеграм"
+        class:list={[
+          "w-full md:w-auto flex justify-center items-center transition-colors duration-300 gap-4", 
+          "rounded-[20px] h-12.5 font-medium bg-html hover:bg-btn text-foreground group", 
+          "px-7.5 py-2.5 backdrop-blur-xl",
+        ]}
+      >
+        <span>Написать специалисту</span>
+        <Svg viewBox="tg" size="l">
+          <Telegram/>
+        </Svg>
+      </a>
+    }
+  </div>
+</section>
