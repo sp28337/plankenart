@@ -13,13 +13,15 @@ export default defineConfig({
 			provider: fontProviders.google(),
 			name: "Manrope",
 			cssVariable: "--font-manrope",
-			weights: [500, 600, 700]
+			weights: [500, 600, 700, 800],
+			subsets: ["latin", "cyrillic"],
   	},
 		{
 			provider: fontProviders.google(),
 			name: "Inter",
 			cssVariable: "--font-inter",
-			weights: [500, 600, 700],
+			weights: [500, 600, 700, 900],
+			subsets: ["latin", "cyrillic"],
 		}
 	]
 });
