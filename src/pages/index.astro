@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import heroImg from '../images/tmp/hero.png';
 
 ---
 
@@ -10,6 +11,10 @@ import Hero from '../components/Hero.astro';
   pageDescription="Шлифовка древесины на проф-оборудовании, защита натуральными составами — масло, лазурь, краска"
 >
 	<main class="w-full">
-		<Hero title="Монтаж и обработка планкена в Нижнем Новгороде" variant="home"/>
+		<Hero 
+			title={["Монтаж и обработка планкена", "в Нижнем Новгороде"]} 
+			variant="home"
+			img={heroImg}
+		/>
 	</main>
 </Layout>
