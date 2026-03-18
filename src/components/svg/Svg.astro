@@ -3,7 +3,7 @@ export interface Props {
   variant?: "default" | "footer" | "menu";
   size?: "default" | "s" | "m" | "l" | "xl";
   hover?: "burger";
-  viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk";
+  viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk" | "arrow";
 }
 
 const {
@@ -42,6 +42,7 @@ const viewBoxes = {
   phone: "0 0 220 220",
   vk: "0 0 32 32",
   location: "0 0 100 100",
+  arrow: "0 0 18 18",
 };
 
 const classes = `${base} ${variants[variant]} ${hovers[hover]} ${sizes[size]}`;

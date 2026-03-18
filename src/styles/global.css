@@ -12,8 +12,10 @@
   --color-amber-fade: color-mix(in srgb, #b45309 60%, transparent);
   --color-nav: color-mix(in srgb, #B7A48C 60%, transparent);
   --color-footer: #282828;
-  --color-material-gradient-top: #F8E2D0;
   --color-material-gradient-bottom: #F4EAE5;
+  --color-material-gradient-top: #F8E2D0;
+  --color-text-gradient-bottom: #E8DED9;
+  --color-text-gradient-top: #CD966C;
   --color-btn: color-mix(in srgb, #DF9B42 75%, transparent);
   --color-btn-solid: #DF9B42;
   --color-border: #D3A887;
@@ -27,6 +29,17 @@
     var(--color-material-gradient-top),
     var(--color-material-gradient-bottom)
   );
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-text-gradient-top) 50%,
+    var(--color-text-gradient-bottom)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @layer components {
