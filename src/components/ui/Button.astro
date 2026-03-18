@@ -1,0 +1,20 @@
+---
+import Svg from "../svg/Svg.astro"
+import Arrow from "../svg/arrow.astro";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<a 
+  href="/about"
+  class="flex gap-4 font-inter justify-center items-center text-[20px]
+        font-bold border border-dashed rounded-[20px] h-12.5 border-border
+        hover:border-line hover:border-solid transition-all duration-300"
+>
+  <span class="text-gradient tracking-tighter">{title}</span>
+  <Svg viewBox="arrow" size="m">
+    <Arrow/>
+  </Svg>
+</a>
