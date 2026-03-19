@@ -1,0 +1,48 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets';
+
+
+export interface Props {
+  variant?: "decor";
+  route: string;
+  title: string;
+  img: ImageMetadata;
+};
+
+const {
+  route,
+  img,
+  title,
+  variant = "default",
+} = Astro.props;
+
+const variants = {
+  default: "",
+  decor: "lg:max-w-[420px]"
+}
+
+const base = `transition-all duration-300 relative flex px-2 sm:px-0 w-full justify-evenly 
+              shadow-xl/2 h-12.5 items-center material-gradient rounded-[17px] 
+              font-semibold lg:px-2 transition-all duration-300 group`;
+const classes = `${base} ${variants[variant]}`;
+---
+<a 
+  href={route}
+  class={classes}
+>
+  <div class="min-w-40 truncate">
+    <span class="text-foreground shrink-0 text-sm group-hover:text-amber-fade 
+                  group-hover:underline transition-all duration-300">
+      {title}
+    </span>
+  </div>
+  <Image
+    src={img}
+    alt={title}
+    class="w-35 h-12.5 md:w-37.5 md:h-15 object-contain right-1 sm:right-2 
+           transition-all duration-300"
+    loading="eager"
+    widths={[150]}
+  />
+</a>
