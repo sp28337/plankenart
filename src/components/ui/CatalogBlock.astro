@@ -1,0 +1,146 @@
+---
+import Button from "./Button.astro"
+import plankenPL from "../../images/assets/materials/planken-pryamoj-listvennicza-732-198.png"
+import plankenPT from "../../images/assets/materials/planken-pryamoj-termoyasen-732-198.png"
+import plankenKL from "../../images/assets/materials/planken-kosoy-listvennicza-720-226.png"
+import plankenKT from "../../images/assets/materials/planken-kosoy-termoyasen-732-198.png"
+import palubnayaL from "../../images/assets/materials/palubnaya-doska-listvennicza-702-232.png"
+import palubnayaS from "../../images/assets/materials/palubnaya-doska-sosna-702-232.png"
+import palubnayaE from "../../images/assets/materials/palubnaya-doska-listvennicza-702-232.png"
+import brusL from "../../images/assets/materials/imitacziya-brusa-listvennicza-823-210.png"
+import brusT from "../../images/assets/materials/imitacziya-brusa-termoyasen-823-210.png"
+import brusS from "../../images/assets/materials/imitacziya-brusa-sosna-823-210.png"
+import brusE from "../../images/assets/materials/imitacziya-brusa-listvennicza-823-210.png"
+import shtilL from "../../images/assets/materials/vagonka-shtil-listvennicza-667-222.png"
+import shtilS from "../../images/assets/materials/vagonka-shtil-sosna-667-222.png"
+import shtilE from "../../images/assets/materials/vagonka-shtil-listvennicza-667-222.png"
+import shtilT from "../../images/assets/materials/vagonka-shtil-termoyasen-667-222.png"
+import terrasnayaT from "../../images/assets/materials/terrasnaya-doska-termoyasen-722-186.png"
+import decor from "../../images/assets/materials/decorativnie-iadeliya-1335-835.png"
+import MaterialCard from "./MaterialCard.astro"
+
+const materials = [
+  { 
+    href: "/", 
+    img: plankenPL, 
+    title: "Планкен прямой"
+  },
+  { 
+    href: "/", 
+    img: plankenKL, 
+    title: "Планкен скошенный"
+  },
+  { 
+    href: "/", 
+    img: palubnayaL, 
+    title: "Палубная доска"
+  },
+  { 
+    href: "/", 
+    img: terrasnayaT, 
+    title: "Террасная доска"
+  },
+  { 
+    href: "/", 
+    img: shtilS, 
+    title: "Вагонка штиль"
+  },
+  { 
+    href: "/", 
+    img: brusL, 
+    title: "Имитация бруса"
+  },
+  { 
+    href: "/", 
+    img: decor, 
+    title: "Декоративные изделия"
+  },
+];
+
+const row_1 = [
+    { 
+    href: "/", 
+    img: plankenPL, 
+    title: "Планкен прямой"
+  },
+  { 
+    href: "/", 
+    img: plankenKL, 
+    title: "Планкен скошенный"
+  },
+  { 
+    href: "/", 
+    img: palubnayaL, 
+    title: "Палубная доска"
+  },
+]
+const row_2 = [
+  { 
+    href: "/", 
+    img: terrasnayaT, 
+    title: "Террасная доска"
+  },
+  { 
+    href: "/", 
+    img: shtilS, 
+    title: "Вагонка штиль"
+  },
+  { 
+    href: "/", 
+    img: brusL, 
+    title: "Имитация бруса"
+  },
+]
+---
+<section 
+  aria-labelledby="about-heading"
+  class="flex flex-col gap-6 lg:gap-10 justify-between items-center max-w-7xl w-full"
+>
+  <h2 
+    id="about-heading"
+    class="text-[24px] md:text-4xl lg:text-left md:px-2 font-inter 
+            font-bold text-center tracking-tighter cursor-default"
+  >
+    Каталог
+  </h2>
+  <div class="flex flex-col gap-2 w-full">
+    <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
+      <div class="flex flex-col gap-2 lg:flex-row w-full">
+        {row_1.map(({ href, img, title }) => (
+          <MaterialCard
+            route={href}
+            img={img}
+            title={title}
+          />
+        ))}
+      </div>
+      <div class="flex flex-col gap-2 lg:flex-row w-full">
+        {row_2.map(({ href, img, title }) => (
+          <MaterialCard
+            route={href}
+            img={img}
+            title={title}
+          />
+        ))}
+      </div>
+    </div>
+    <div class="flex flex-col gap-2 sm:flex-row justify-center">
+      <MaterialCard
+        variant="decor"
+        route="/"
+        img={decor}
+        title="Декоративные изделия"
+      />
+      <Button href="/catalog" title="перейти в каталог" variant="catalog"/>
+    </div>
+  </div>
+  <!-- <div class="flex flex-wrap justify-between gap-3">
+    {materials.map(({ href, img, title }) => (
+      <MaterialCard
+        route={href}
+        img={img}
+        title={title}
+      />
+    ))}
+  </div> -->
+</section>

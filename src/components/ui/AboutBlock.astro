@@ -4,18 +4,18 @@ import AdvantagesCard from "./AdvantagesCard.astro"
 ---
 <section 
   aria-labelledby="about-heading"
-  class="flex flex-row pt-8 gap-10 justify-between items-center max-w-7xl mx-auto"
+  class="flex flex-row gap-10 justify-between items-center max-w-7xl"
 >
-  <div class="flex flex-col gap-4 lg:gap-10 lg:max-w-125">
+  <div class="flex flex-col gap-6 lg:gap-10 lg:max-w-125">
     <h2 
       id="about-heading"
       class="text-[24px] md:text-4xl lg:text-left md:px-2 font-inter 
-             font-bold text-center tracking-tighter"
+             font-bold text-center tracking-tighter cursor-default"
     >
       О нас
     </h2>
-    <div class="flex flex-col px-2 gap-4 lg:gap-8">
-      <h3 class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5">
+    <div class="flex flex-col px-2 gap-4 lg:gap-8 cursor-default">
+      <h3 class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5 lg:leading-none">
         Наша компания специализируется на обработке 
         погонажных изделий различных пород древесины
       </h3>
@@ -27,9 +27,9 @@ import AdvantagesCard from "./AdvantagesCard.astro"
         чтобы масло ложилось ровно, а готовое изделие выглядело аккуратно и дорого.
       </p>
     </div>
-    <Button title="ПОДРОБНЕЕ"/>
+    <Button href="/about" title="подробнее"/>
   </div>
-  <div role="list" class="hidden lg:flex gap-2 items-center justify-center">
+  <div role="list" class="hidden lg:flex gap-2 items-center justify-center cursor-default">
     <div class="flex flex-col gap-2 items-end w-fill mt-8">
       <AdvantagesCard 
         title="Гарантия качества"
