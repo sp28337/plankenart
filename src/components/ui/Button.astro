@@ -3,15 +3,29 @@ import Svg from "../svg/Svg.astro"
 import Arrow from "../svg/arrow.astro";
 
 interface Props {
+  variant?: "default" | "catalog"
+  href: string;
   title: string;
 }
-const { title } = Astro.props;
+const { 
+  href, 
+  title,
+  variant = "default"
+} = Astro.props;
+
+const variants = {
+  default: "",
+  catalog: "lg:max-w-105",
+}
+
+const base = `flex gap-4 font-inter justify-center items-center text-[20px] uppercase
+              w-full font-bold border border-dashed rounded-[20px] h-12.5 border-border
+              hover:border-line hover:border-solid transition-all duration-300`;
+const classes = `${base} ${variants[variant]}`;
 ---
 <a 
-  href="/about"
-  class="flex gap-4 font-inter justify-center items-center text-[20px]
-        font-bold border border-dashed rounded-[20px] h-12.5 border-border
-        hover:border-line hover:border-solid transition-all duration-300"
+  href={href}
+  class={classes}
 >
   <span class="text-gradient tracking-tighter">{title}</span>
   <Svg viewBox="arrow" size="m">
