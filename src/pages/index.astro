@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import AboutBlock from '../components/ui/AboutBlock.astro';
 import heroImg from '../images/tmp/hero.png';
 
 ---
@@ -16,5 +17,8 @@ import heroImg from '../images/tmp/hero.png';
 			variant="home"
 			img={heroImg}
 		/>
+		<div class="px-2 lg:px-4 text-foreground">
+			<AboutBlock/>
+		</div>
 	</main>
 </Layout>

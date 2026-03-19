@@ -1,0 +1,58 @@
+---
+import Button from "./Button.astro"
+import AdvantagesCard from "./AdvantagesCard.astro"
+---
+<section 
+  aria-labelledby="about-heading"
+  class="flex flex-row pt-8 gap-10 justify-between items-center max-w-7xl mx-auto"
+>
+  <div class="flex flex-col gap-4 lg:gap-10 lg:max-w-125">
+    <h2 
+      id="about-heading"
+      class="text-[24px] md:text-4xl lg:text-left md:px-2 font-inter 
+             font-bold text-center tracking-tighter"
+    >
+      О нас
+    </h2>
+    <div class="flex flex-col px-2 gap-4 lg:gap-8">
+      <h3 class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5">
+        Наша компания специализируется на обработке 
+        погонажных изделий различных пород древесины
+      </h3>
+      
+      <p class="text-[14px] md:text-lg font-regilar opacity-70">
+        Мы шлифуем древесину на профессиональном оборудовании и покрываем её 
+        натуральными составами, такими как масла, лазурь и краска. 
+        На рынке более 10 лет, и за это время мы точно научились подготавливать материалы так,
+        чтобы масло ложилось ровно, а готовое изделие выглядело аккуратно и дорого.
+      </p>
+    </div>
+    <Button title="ПОДРОБНЕЕ"/>
+  </div>
+  <div role="list" class="hidden lg:flex gap-2 items-center justify-center">
+    <div class="flex flex-col gap-2 items-end w-fill mt-8">
+      <AdvantagesCard 
+        title="Гарантия качества"
+        content="Cотрудничаем с официальным дилером масел OSMO в Нижнем Новгороде."
+        size="s"
+      />
+      <AdvantagesCard 
+        title="Натуральные масла для защиты древесины"
+        content="Работаем с качественными натуральными маслами для дерева, которые глубоко проникают в структуру, защищают от влаги и подчеркивают природную текстуру древесины."
+        size="xl"
+      />
+    </div>
+    <div class="flex flex-col gap-2 items-start w-fill">
+      <AdvantagesCard 
+        title="Высокоточная шлифовка"
+        content="Используем профессиональное оборудование для шлифовки. Обеспечиваем идеально ровное покрытие без дефектов и перепадов."
+        size="l"
+      />
+      <AdvantagesCard 
+        title="Современный дизайн"
+        content="Следим за трендами отделки и предлагаем актуальные решения для вашего проекта"
+        size="m"
+      />
+    </div>
+  </div>
+</section>

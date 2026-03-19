@@ -13,7 +13,7 @@ export default defineConfig({
 			provider: fontProviders.google(),
 			name: "Manrope",
 			cssVariable: "--font-manrope",
-			weights: [500, 600, 700, 800],
+			weights: [300, 400, 500, 600, 700, 800],
 			subsets: ["latin", "cyrillic"],
   	},
 		{
