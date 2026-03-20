@@ -63,3 +63,22 @@
     border-radius: 0 0 30px 30px;
   }
 }
+
+@keyframes menu-slide-down {
+  from { transform: translateY(-110%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes menu-slide-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-110%); }
+}
+
+.menu-item-wrap {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.menu-link {
+  transform: translateY(-110%);
+}

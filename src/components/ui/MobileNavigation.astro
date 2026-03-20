@@ -13,8 +13,9 @@ const current = Astro.url.pathname;
 <!-- Overlay -->
 <div
   id="mobile-menu-overlay"
-  class="top-20 fixed inset-0 z-100 opacity-0 
-  pointer-events-none transition-opacity duration-300 lg:hidden"
+  class="fixed inset-0 z-99 opacity-0 
+         pointer-events-none transition-opacity duration-500
+         backdrop-blur-[10px] bg-black/70 lg:hidden"
   aria-hidden="true"
 ></div>
 
@@ -25,25 +26,26 @@ const current = Astro.url.pathname;
   aria-modal="true"
   aria-hidden="true"
   class="fixed top-19 right-0 z-101 lg:hidden
-         bg-bg-primary opacity-0 pointer-events-none
-         transition-all duration-300 ease-out"
+         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-500"
 >
   <nav 
     aria-label="Меню навигации" 
     class="flex flex-col px-2 font-inter font-semibold gap-1"
   >
     {links.map(({ href, label }) => (
-      <a
-        href={href}
-        aria-current={current.startsWith(href) ? "page" : undefined}
-        class:list={[
-          "flex items-center justify-center tracking-tight w-41 h-7.5",
-          "transform-gpu will-change-transform backdrop-blur-xl rounded-xl",
-          "transition-colors hover:bg-amber-fade duration-300 bg-nav",
-        ]}
-      >
-        {label}
-      </a>
+      <div class="menu-item-wrap">
+        <a
+          href={href}
+          aria-current={current.startsWith(href) ? "page" : undefined}
+          class:list={[
+            "menu-link flex items-center justify-center tracking-tight w-41 h-7.5",
+            "transform-gpu will-change-transform rounded-xl",
+            "transition-colors hover:bg-amber-fade duration-300 bg-nav",
+          ]}
+        >
+          {label}
+        </a>
+      </div>
     ))}
   </nav>
 </div>
@@ -52,31 +54,63 @@ const current = Astro.url.pathname;
   const btn     = document.getElementById("burger-btn")!;
   const menu    = document.getElementById("mobile-menu")!;
   const overlay = document.getElementById("mobile-menu-overlay")!;
+  const links   = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
+
+  const n        = links.length;
+  const DURATION = 100;
+  const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
+
+  let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function resetLinks() {
+    links.forEach(el => {
+      el.style.animation = "none";
+      el.style.transform = "translateY(-110%)";
+    });
+  }
 
   function openMenu() {
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+
+    resetLinks();
+    menu.offsetHeight;
+
+    menu.classList.remove("opacity-0", "pointer-events-none");
+    menu.classList.add("opacity-100");
     menu.setAttribute("aria-hidden", "false");
-    menu.classList.remove("translate-y-[-8px]", "opacity-0", "pointer-events-none");
-    menu.classList.add("translate-y-0", "opacity-100");
 
     overlay.classList.remove("opacity-0", "pointer-events-none");
     overlay.classList.add("opacity-100");
 
+    links.forEach((el, i) => {
+      el.style.animation =
+        `menu-slide-down ${DURATION}ms ${EASING} ${i * DURATION}ms forwards`;
+    });
+
     btn.setAttribute("aria-expanded", "true");
     btn.setAttribute("aria-label", "Закрыть меню");
-
     menu.querySelector("a")?.focus();
   }
 
   function closeMenu() {
-    menu.setAttribute("aria-hidden", "true");
-    menu.classList.add("translate-y-[-8px]", "opacity-0", "pointer-events-none");
-    menu.classList.remove("translate-y-0", "opacity-100");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "Открыть меню");
+
+    menu.classList.add("opacity-0", "pointer-events-none");
+    menu.classList.remove("opacity-100");
 
     overlay.classList.add("opacity-0", "pointer-events-none");
     overlay.classList.remove("opacity-100");
 
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Открыть меню");
+    menu.setAttribute("aria-hidden", "true");
+
+    closeTimer = setTimeout(() => {
+      resetLinks();
+      closeTimer = null;
+    }, DURATION);
   }
 
   function toggleMenu() {
@@ -86,14 +120,12 @@ const current = Astro.url.pathname;
   btn.addEventListener("click", toggleMenu);
   overlay.addEventListener("click", closeMenu);
 
-  // Закрыть по Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
       closeMenu();
-      btn.focus(); // вернуть фокус на кнопку
+      btn.focus();
     }
   });
 
-  // Закрыть при переходе на другую страницу (View Transitions)
   document.addEventListener("astro:before-swap", closeMenu);
 </script>
