@@ -26,7 +26,8 @@ const imgVariants = {
   5: "w-30 h-[101px] lg:w-30 lg:h-30 -right-12 lg:-right-8 bottom-6",
 }
 
-const base = `flex flex-col gap-4 material-gradient rounded-3xl px-6 py-18 lg:py-0 min-h-[200px]
+const base = `flex flex-col gap-4 material-gradient rounded-3xl px-6 py-18 
+              lg:py-0 min-h-[200px] cursor-default hover:shadow-xl/6 transition-all duration-700
               shadow-xl/2 relative lg:min-h-[280px] justify-center
               w-full overflow-hidden`;
 
@@ -44,7 +45,8 @@ const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
   <p class="opacity-70 text-md tracking-tight z-1 max-w-62.5">
     {content}
   </p>
-  <span class="absolute right-4 top-4 lg:right-6 lg:top-6 text-[80px] lg:text-[100px] font-inter font-bold 
+  <span class="absolute right-4 top-4 lg:right-6 lg:top-6 text-[80px] lg:text-[100px] 
+              font-inter font-bold 
               number-gradient opacity-20 leading-20 tracking-tighter">
     {number}
   </span>
