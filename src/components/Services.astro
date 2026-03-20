@@ -1,0 +1,62 @@
+---
+import ServiceCard from "./ui/ServiceCard.astro"
+import mirka from "../images/assets/services/mirka.png"
+import oil from "../images/assets/services/oil.png"
+import color from "../images/assets/services/colors.png"
+import drel from "../images/assets/services/drel.png"
+import clipboard from "../images/assets/services/clipboard.png"
+---
+<section class="flex flex-col gap-6 lg:gap-10 w-full items-center">
+  <h2 class="text-[24px] md:text-4xl lg:text-left md:px-2 font-inter font-bold text-center 
+            tracking-tighter cursor-default capitalize">
+    услуги
+  </h2>
+  <div role="list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-8">
+    <ServiceCard
+      imgVariant="1"
+      img={mirka}
+      number="01"
+      title="Шлифовка древесины"
+      content="Шлифуем погонажные изделия (вагонку, террасную доску, планкен и другие материалы) в два этапа"
+    />
+    <ServiceCard
+      imgVariant="2"
+      img={oil}
+      number="02"
+      title="Покрытие натуральными маслами"
+      content="Наносим масло в два слоя для равномерного и насыщенного результата, подчеркивая текстуру древесины"
+    />
+    <ServiceCard
+      imgVariant="3"
+      img={color}
+      number="03"
+      title="Бесплатные выкрасы"
+      content="Мы работаем с дизайн-бюро и готовы предоставить выкрасы нужных цветов и оттенков в центре Нижнего Новгорода"
+    />
+
+    <div class="contents lg:flex lg:col-span-3 lg:justify-center lg:gap-8">
+      <div class="lg:w-[calc((100%-4rem)/3)]">
+        <ServiceCard
+          imgVariant="4"
+          img={drel}
+          number="04"
+          title="Монтаж изделий"
+          content="Выполняем профессиональный монтаж террасной доски, планкена, фасадных и интерьерных решений"
+        />
+      </div>
+
+      <div class="sm:col-span-2 flex justify-center lg:contents">
+        <div class="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc((100%-4rem)/3)]">
+          <ServiceCard
+            imgVariant="5"
+            img={clipboard}
+            number="05"
+            title="Консультация"
+            content="При обращении к нам Вы получаете бесплатную консультацию со специалистом"
+          />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
