@@ -16,6 +16,8 @@
   --color-material-gradient-top: #F8E2D0;
   --color-text-gradient-bottom: #E8DED9;
   --color-text-gradient-top: #CD966C;
+  --color-number-gradient-bottom: #F2E9E4;
+  --color-number-gradient-top: #D0BEB1;
   --color-btn: color-mix(in srgb, #DF9B42 75%, transparent);
   --color-btn-solid: #DF9B42;
   --color-border: #D3A887;
@@ -36,6 +38,17 @@
     to bottom,
     var(--color-text-gradient-top) 50%,
     var(--color-text-gradient-bottom)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility number-gradient {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-number-gradient-top)30%,
+    var(--color-number-gradient-bottom)
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -1,0 +1,58 @@
+---
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets';
+
+export interface Props {
+  imgVariant: "1" | "2" | "3" | "4" | "5";
+  number: string;
+  content: string;
+  title: string;
+  img: ImageMetadata;
+};
+
+const {
+  imgVariant,
+  img,
+  number,
+  content,
+  title,
+} = Astro.props;
+
+const imgVariants = {
+  1: "w-23 h-23 lg:w-30 lg:h-30 -right-7 lg:-right-2 bottom-4 lg:bottom-3",
+  2: "w-30 h-30 lg:w-33 lg:h-33 -right-7 lg:-right-4 bottom-4",
+  3: "w-30 h-[101px] lg:w-35 lg:h-35 -right-14 bottom-2 -rotate-13",
+  4: "w-23 h-23 lg:w-33 lg:h-33 -right-4 lg:-right-0 bottom-4",
+  5: "w-30 h-[101px] lg:w-30 lg:h-30 -right-12 lg:-right-8 bottom-6",
+}
+
+const base = `flex flex-col gap-4 material-gradient rounded-3xl px-6 py-18 lg:py-0 min-h-[200px]
+              shadow-xl/2 relative lg:min-h-[280px] justify-center
+              w-full overflow-hidden`;
+
+const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-300`;
+
+const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
+---
+<div 
+  role="listitem"
+  class={base}
+>
+  <h3 class="text-lg font-semibold tracking-tighter leading-5 max-w-50">
+    {title}
+  </h3>
+  <p class="opacity-70 text-md tracking-tight z-1 max-w-62.5">
+    {content}
+  </p>
+  <span class="absolute right-4 top-4 lg:right-6 lg:top-6 text-[80px] lg:text-[100px] font-inter font-bold 
+              number-gradient opacity-20 leading-20 tracking-tighter">
+    {number}
+  </span>
+  <Image
+    src={img}
+    alt={title}
+    class={imgStyles}
+    loading="eager"
+    widths={[150]}
+  />
+</div>
