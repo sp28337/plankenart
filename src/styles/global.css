@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
-
 @theme inline {
     --font-manrope: var(--font-manrope);
     --font-inter: var(--font-inter);
 }
 
 @theme {
+  --breakpoint-2xs: 24rem;
+  --breakpoint-xs: 28rem;
+
   --color-html: #FFF8EE;
   --color-menu: #B7A48C;
   --color-amber-fade: color-mix(in srgb, #b45309 60%, transparent);
@@ -31,6 +33,41 @@
     var(--color-material-gradient-top),
     var(--color-material-gradient-bottom)
   );
+}
+
+@utility material-catalog-gradient {
+  position: relative;
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-material-gradient-top),
+    var(--color-material-gradient-bottom)
+  );
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit; /* наследует rounded-[15px] / rounded-[20px] */
+    background-image: linear-gradient(
+      to bottom,
+      var(--color-amber-fade),
+      var(--color-material-gradient-bottom)
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none; /* клики проходят сквозь псевдоэлемент */
+    z-index: 0;
+  }
+
+  &:hover::after {
+    opacity: 0.3;
+  }
+
+  /* Контент должен быть поверх ::after */
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 @utility text-gradient {
