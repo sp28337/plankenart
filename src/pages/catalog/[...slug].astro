@@ -1,0 +1,125 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Hero from '@components/Hero.astro';
+import H2 from '@components/ui/H2.astro'
+import MaterialCard from '@components/ui/MaterialCard.astro';
+import {
+  getRelatedMaterials,
+  getMaterialTypeLabel, getWoodTypeLabel,
+} from '../../lib/materials';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const materials = await getCollection('materials');
+  return materials.map(material => ({
+    params: { slug: material.id },
+    props: { material },
+  }));
+}
+
+const { material } = Astro.props;
+const { Content } = await render(material);
+const related = await getRelatedMaterials(material.id, material.data.materialType, 3);
+---
+
+<Layout
+  pageTitle={material.data.metaTitle}
+  pageDescription={material.data.metaDescription}
+  ogImage={material.data.coverImage}
+>
+  <main class="w-full">
+    <Hero
+      title={material.data.title}
+      excerpt={material.data.excerpt}
+      img={material.data.heroImage}
+    />
+    <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+      <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
+
+        <article class="w-full">
+
+          <!-- tag-list -->
+          <div class="flex flex-wrap gap-2 mb-5">
+            <a
+              href={`/catalog?type=${material.data.materialType}`}
+              class="inline-block text-[0.77rem] px-[0.7rem] py-1 rounded-full font-medium no-underline whitespace-nowrap border border-dashed border-border hover:border-solid hover:border-line transition-all duration-300"
+            >
+              {getMaterialTypeLabel(material.data.materialType)}
+            </a>
+            {material.data.woodType !== 'разные-породы' && (
+              <a
+                href={`/catalog?wood=${material.data.woodType}`}
+                class="inline-block text-[0.77rem] px-[0.7rem] py-1 rounded-full font-medium no-underline whitespace-nowrap border border-dashed border-border hover:border-solid hover:border-line transition-all duration-300"
+              >
+                {getWoodTypeLabel(material.data.woodType)}
+              </a>
+            )}
+          </div>
+
+          <!-- mat-layout -->
+          <div class="block gap-12 items-start">
+
+            <!-- mat-main -->
+            <div class="flex flex-col gap-8">
+
+              <!-- sect: О материале -->
+              <section class="flex flex-col gap-4">
+                <H2 title="О материале"/>
+                <div class="flex flex-col gap-2 w-full">
+                  {material.data.description.split('\n\n').map((p) =>
+                    p.trim() && <p class="opacity-70">{p.trim()}</p>
+                  )}
+                  <div class="opacity-70 text-foreground flex flex-col gap-2">
+                    <Content />
+                  </div>
+                </div>
+              </section>
+
+              <!-- sect: Особенности -->
+              <section class="flex flex-col gap-4">
+                <H2 title="Особенности материала"/>
+                <ul class="list-none m-0 p-0">
+                  {material.data.advantages.map((adv) => (
+                    <li class="flex gap-3 items-center py-[0.7rem] border-b border-border last:border-b-0 text-[0.93rem] opacity-70 leading-normal">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        aria-hidden="true"
+                        class="shrink-0 text-line mt-[0.05rem]"
+                      >
+                        <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M5.5 9.5L8 12L12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <span>{adv}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <!-- sect: Применение -->
+              <section class="flex flex-col gap-4">
+                <H2 title="Область применения"/>
+                <div class="">
+                  <p class="m-0 opacity-70">{material.data.application}</p>
+                </div>
+              </section>
+              <hr class="opacity-70 border-line">
+              {related.length > 0 && (
+                <section class="flex flex-col gap-8">
+                  <H2 title="Другие варианты:"/>
+                  <div class="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2 md:gap-5">
+                    {related.map(rel => <MaterialCard material={rel} compact />)}
+                  </div>
+                </section>
+              )}
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+    </div>
+  </main>
+</Layout>

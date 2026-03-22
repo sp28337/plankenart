@@ -1,0 +1,418 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/Hero.astro"
+import type { CollectionEntry } from "astro:content";
+import catalogImg from '@assets/catalog.png';
+import Fence from "@assets/svg/fence.svg"
+import Trees from "@assets/svg/trees.svg"
+import ChevronDown from "@assets/svg/chevron-down.svg"
+import MaterialCard from "@components/ui/MaterialCard.astro";
+import {
+  getAllMaterials,
+  MATERIAL_TYPE_LABELS,
+  WOOD_TYPE_LABELS,
+} from "../../lib/materials";
+
+const allMaterials = await getAllMaterials();
+
+const woodTypes     = [...new Set(allMaterials.map(m => m.data.woodType).filter(w => w !== "разные-породы"))];
+const materialTypes = [...new Set(allMaterials.map(m => m.data.materialType))];
+
+const WOOD_SLUG_EN: Record<string, string> = {
+  "лиственница":   "larch",
+  "термоясень":    "thermoash",
+  "сосна":         "pine",
+  "ель":           "spruce",
+  "разные-породы": "mixed",
+};
+
+const TYPE_SLUG_EN: Record<string, string> = {
+  "планкен-прямой":       "planken-straight",
+  "планкен-скошенный":        "planken-angled",
+  "палубная-доска":       "deck-board",
+  "террасная-доска":      "terrace-board",
+  "имитация-бруса":       "timber-imitation",
+  "вагонка-штиль":        "lining-shtil",
+  "декоративные-изделия": "decorative",
+};
+---
+
+<Layout pageTitle="Каталог материалов" pageDescription="">
+
+  <!-- Overlay — как в мобильном меню, но для фильтров -->
+  <div
+    id="filter-overlay"
+    class="fixed inset-0 z-98 opacity-0
+           pointer-events-none transition-opacity duration-500
+           backdrop-blur-[6px]"
+    aria-hidden="true"
+  ></div>
+
+  <Hero
+    title="Каталог материалов" 
+    excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
+          натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
+    img={catalogImg}
+  />
+
+  <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+
+    <!-- ═══ ПАНЕЛЬ ФИЛЬТРОВ ══════════════════════════ -->
+    <div class="relative z-99 border border-dashed border-border rounded-[20px] lg:rounded-[25px] gap-1
+                mx-auto max-w-7xl h-12.5 lg:h-15 p-1.25 lg:p-1.75 flex items-center lg:gap-2">
+
+      <!-- Дропдаун: Вид дерева -->
+      <div class="relative flex-1 min-w-0" id="wood-dropdown">
+        <button
+          type="button"
+          id="wood-btn"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-[15px] lg:rounded-[20px] h-10 lg:h-11.5
+                 cursor-pointer transition-colors duration-300 hover:bg-amber-fade
+                 font-semibold tracking-tight text-sm"
+        >
+          <Fence class="hidden 2xs:block w-5 h-5 shrink-0 text-stone-400 pointer-events-none" />
+          <span id="wood-label" class="flex-1 text-left truncate">Вид дерева</span>
+          <ChevronDown
+            id="wood-chevron"
+            class="w-4 h-4 shrink-0 text-stone-400 pointer-events-none transition-transform duration-200"
+          />
+        </button>
+
+        <div
+          id="wood-panel"
+          aria-hidden="true"
+          class="absolute top-[calc(100%+0.5rem)] left-0 w-full z-99
+                 opacity-0 pointer-events-none transition-opacity duration-200
+                 bg-bg-primary"
+        >
+          <nav class="flex flex-col gap-1 font-semibold">
+            <div class="overflow-hidden">
+              <button type="button" data-value="" data-slug="" data-group="wood"
+                class="dd-item w-full lg:max-w-[70%] text-left px-2 xs:px-5 rounded-xl cursor-pointer h-7.5
+                       text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                       transition-colors duration-300 hover:bg-amber-fade bg-nav"
+                style="transform:translateY(-110%)">
+                Вид дерева
+              </button>
+            </div>
+            {woodTypes.map(w => (
+              <div class="overflow-hidden">
+                <button type="button"
+                  data-value={w}
+                  data-slug={WOOD_SLUG_EN[w] ?? w}
+                  data-group="wood"
+                  class="dd-item w-full lg:max-w-[70%] text-left px-2 xs:px-5 rounded-xl cursor-pointer h-7.5
+                         text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                         transition-colors duration-300 hover:bg-amber-fade bg-nav"
+                  style="transform:translateY(-110%)">
+                  {WOOD_TYPE_LABELS[w] ?? w}
+                </button>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        <input type="hidden" id="filter-wood" value="" />
+      </div>
+
+      <!-- Дропдаун: Вид материала -->
+      <div class="relative flex-1 min-w-0" id="type-dropdown">
+        <button
+          type="button"
+          id="type-btn"
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-[15px] lg:rounded-[20px] h-10 lg:h-11.5
+                 cursor-pointer transition-colors duration-300 hover:bg-amber-fade
+                 font-semibold tracking-tight text-sm"
+        >
+          <Trees class="hidden 2xs:block w-5 h-5 shrink-0 text-stone-400 pointer-events-none" />
+          <span id="type-label" class="flex-1 text-left truncate">Вид материала</span>
+          <ChevronDown
+            id="type-chevron"
+            class="w-4 h-4 shrink-0 text-stone-400 pointer-events-none transition-transform duration-200"
+          />
+        </button>
+
+        <div
+          id="type-panel"
+          aria-hidden="true"
+          class="absolute top-[calc(100%+0.5rem)] left-0 w-full z-50
+                 opacity-0 pointer-events-none transition-opacity duration-200
+                 bg-bg-primary"
+        >
+          <nav class="flex flex-col gap-1 font-semibold">
+            <div class="overflow-hidden">
+              <button type="button" data-value="" data-slug="" data-group="type"
+                class="dd-item w-full lg:max-w-[70%] text-left px-2 xs:px-5 rounded-xl cursor-pointer h-7.5
+                       text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                       transition-colors duration-300 hover:bg-amber-fade bg-nav"
+                style="transform:translateY(-110%)">
+                Вид материала
+              </button>
+            </div>
+            {materialTypes.map(t => (
+              <div class="overflow-hidden">
+                <button type="button"
+                  data-value={t}
+                  data-slug={TYPE_SLUG_EN[t] ?? t}
+                  data-group="type"
+                  class="dd-item w-full lg:max-w-[70%] text-left px-2 xs:px-5 rounded-xl cursor-pointer h-7.5
+                         text-xs md:text-sm tracking-tight transform-gpu will-change-transform truncate
+                         transition-colors duration-300 hover:bg-amber-fade bg-nav"
+                  style="transform:translateY(-110%)">
+                  {MATERIAL_TYPE_LABELS[t] ?? t}
+                </button>
+              </div>
+            ))}
+          </nav>
+        </div>
+
+        <input type="hidden" id="filter-type" value="" />
+      </div>
+
+    </div>
+
+    <!-- ═══ СЕТКА КАРТОЧЕК ══════════════════════════════════════════════════ -->
+    <div class="mx-auto max-w-7xl p-1.25 lg:p-1.75 border border-dashed border-border rounded-[25px] mt-2.5">
+
+      <div
+        id="grid"
+        class="grid gap-2 xs:gap-3 lg:gap-4
+               grid-cols-2
+               sm:grid-cols-3
+               md:grid-cols-4
+               lg:grid-cols-5"
+      >
+        {allMaterials.map((m: CollectionEntry<"materials">) => (
+          <MaterialCard material={m} />
+        ))}
+      </div>
+
+      <div id="empty" class="hidden py-24 text-center cursor-default">
+        <p class="text-foreground/50 mb-4">Ничего не найдено по выбранным фильтрам</p>
+        <button
+          id="btn-empty-reset"
+          class="text-sm font-medium text-foreground border border-border 
+                 rounded-2xl px-5 py-2 duration-300
+                 bg-html transition-colors cursor-pointer hover:bg-amber-fade"
+        >
+          Сбросить фильтры
+        </button>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const WOOD_SLUG_RU: Record<string, string> = {
+    "larch":     "лиственница",
+    "thermoash": "термоясень",
+    "pine":      "сосна",
+    "spruce":    "ель",
+    "mixed":     "разные-породы",
+  };
+
+  const TYPE_SLUG_RU: Record<string, string> = {
+    "planken-straight":  "планкен-прямой",
+    "planken-angled":    "планкен-скошенный",
+    "deck-board":        "палубная-доска",
+    "terrace-board":     "террасная-доска",
+    "timber-imitation":  "имитация-бруса",
+    "lining-shtil":      "вагонка-штиль",
+    "decorative":        "декоративные-изделия",
+  };
+
+  const DURATION = 100;
+  const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
+
+  const overlay = document.getElementById("filter-overlay")!;
+
+  // Счётчик открытых дропдаунов — показываем оверлей пока хоть один открыт
+  let openCount = 0;
+
+  function showOverlay() {
+    overlay.classList.remove("opacity-0", "pointer-events-none");
+    overlay.classList.add("opacity-100");
+    overlay.setAttribute("aria-hidden", "false");
+  }
+
+  function hideOverlay() {
+    overlay.classList.add("opacity-0", "pointer-events-none");
+    overlay.classList.remove("opacity-100");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  function initDropdown(
+    btnId:     string,
+    panelId:   string,
+    inputId:   string,
+    labelId:   string,
+    chevronId: string,
+    group:     string,
+  ) {
+    const btn     = document.getElementById(btnId)!;
+    const panel   = document.getElementById(panelId)!;
+    const input   = document.getElementById(inputId) as HTMLInputElement;
+    const labelEl = document.getElementById(labelId)!;
+    const chevron = document.getElementById(chevronId)!;
+    const items   = Array.from(
+      panel.querySelectorAll<HTMLElement>(`[data-group="${group}"]`)
+    );
+    const defaultLabel = labelEl.textContent!.trim();
+
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
+    let isOpen = false;
+
+    function resetItems() {
+      items.forEach(el => {
+        el.style.animation = "none";
+        el.style.transform = "translateY(-110%)";
+      });
+    }
+
+    function openPanel() {
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+      if (isOpen) return;
+      isOpen = true;
+      openCount++;
+
+      resetItems();
+      panel.offsetHeight;
+      panel.classList.remove("opacity-0", "pointer-events-none");
+      panel.classList.add("opacity-100");
+      panel.setAttribute("aria-hidden", "false");
+      btn.setAttribute("aria-expanded", "true");
+      chevron.style.transform = "rotate(180deg)";
+      items.forEach((el, i) => {
+        el.style.animation =
+          `menu-slide-down ${DURATION}ms ${EASING} ${i * DURATION}ms forwards`;
+      });
+
+      if (openCount === 1) showOverlay();
+    }
+
+    function closePanel() {
+      if (!isOpen) return;
+      isOpen = false;
+      openCount = Math.max(0, openCount - 1);
+
+      btn.setAttribute("aria-expanded", "false");
+      chevron.style.transform = "rotate(0deg)";
+      panel.classList.add("opacity-0", "pointer-events-none");
+      panel.classList.remove("opacity-100");
+      panel.setAttribute("aria-hidden", "true");
+      closeTimer = setTimeout(() => { resetItems(); closeTimer = null; }, DURATION);
+
+      if (openCount === 0) hideOverlay();
+    }
+
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      isOpen ? closePanel() : openPanel();
+    });
+
+    items.forEach(item => {
+      item.addEventListener("click", () => {
+        const value = item.dataset.value ?? "";
+        input.value = value;
+        labelEl.textContent = value ? item.textContent!.trim() : defaultLabel;
+        closePanel();
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+    });
+
+    document.addEventListener("click", e => {
+      if (!btn.contains(e.target as Node) && !panel.contains(e.target as Node)) {
+        if (isOpen) closePanel();
+      }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && isOpen) {
+        closePanel();
+        btn.focus();
+      }
+    });
+
+    // Клик по оверлею закрывает дропдаун
+    overlay.addEventListener("click", () => { if (isOpen) closePanel(); });
+
+    return {
+      setLabel(v: string, text: string) {
+        input.value = v;
+        labelEl.textContent = v ? text : defaultLabel;
+      }
+    };
+  }
+
+  const woodDD = initDropdown("wood-btn", "wood-panel", "filter-wood", "wood-label", "wood-chevron", "wood");
+  const typeDD = initDropdown("type-btn", "type-panel", "filter-type", "type-label", "type-chevron", "type");
+
+  const inputWood = document.getElementById("filter-wood") as HTMLInputElement;
+  const inputType = document.getElementById("filter-type") as HTMLInputElement;
+  const grid      = document.getElementById("grid")!;
+  const emptyEl   = document.getElementById("empty")!;
+  const cards     = Array.from(grid.querySelectorAll<HTMLElement>(".material-card"));
+
+  function applyFilters() {
+    const wood = inputWood.value;
+    const type = inputType.value;
+    let visible = 0;
+
+    cards.forEach(card => {
+      const ok = (!wood || card.dataset.wood === wood) && (!type || card.dataset.type === type);
+      card.style.display = ok ? "" : "none";
+      card.toggleAttribute("aria-hidden", !ok);
+      if (ok) visible++;
+    });
+
+    emptyEl.classList.toggle("hidden", visible > 0);
+    grid.classList.toggle("hidden", visible === 0);
+
+    const params = new URLSearchParams();
+    if (wood) {
+      const slugWood = document.querySelector<HTMLElement>(
+        `[data-group="wood"][data-value="${wood}"]`
+      )?.dataset.slug ?? wood;
+      params.set("wood", slugWood);
+    }
+    if (type) {
+      const slugType = document.querySelector<HTMLElement>(
+        `[data-group="type"][data-value="${type}"]`
+      )?.dataset.slug ?? type;
+      params.set("type", slugType);
+    }
+    history.replaceState(null, "", params.toString() ? `?${params}` : location.pathname);
+  }
+
+  inputWood.addEventListener("change", applyFilters);
+  inputType.addEventListener("change", applyFilters);
+
+  document.getElementById("btn-empty-reset")?.addEventListener("click", () => {
+    woodDD.setLabel("", "");
+    typeDD.setLabel("", "");
+    applyFilters();
+  });
+
+  (function restoreFromUrl() {
+    const params   = new URLSearchParams(location.search);
+    const woodSlug = params.get("wood") ?? "";
+    const typeSlug = params.get("type") ?? "";
+
+    const wood = WOOD_SLUG_RU[woodSlug] ?? woodSlug;
+    const type = TYPE_SLUG_RU[typeSlug] ?? typeSlug;
+
+    if (wood) {
+      const item = document.querySelector<HTMLElement>(`[data-group="wood"][data-value="${wood}"]`);
+      if (item) woodDD.setLabel(wood, item.textContent!.trim());
+    }
+    if (type) {
+      const item = document.querySelector<HTMLElement>(`[data-group="type"][data-value="${type}"]`);
+      if (item) typeDD.setLabel(type, item.textContent!.trim());
+    }
+    if (wood || type) applyFilters();
+  })();
+</script>
