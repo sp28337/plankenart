@@ -13,7 +13,7 @@ const current = Astro.url.pathname;
 <!-- Overlay -->
 <div
   id="mobile-menu-overlay"
-  class="fixed inset-0 z-99 opacity-0 
+  class="fixed inset-0 z-100 opacity-0 
          pointer-events-none transition-opacity duration-500
          backdrop-blur-[10px] bg-black/70 lg:hidden"
   aria-hidden="true"
@@ -41,6 +41,9 @@ const current = Astro.url.pathname;
             "menu-link flex items-center justify-center tracking-tight w-41 h-7.5",
             "transform-gpu will-change-transform rounded-xl",
             "transition-colors hover:bg-amber-fade duration-300 bg-nav",
+            current.startsWith(href)
+            ? "underline"
+            : ""
           ]}
         >
           {label}

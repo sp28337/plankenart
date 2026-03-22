@@ -5,11 +5,12 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 
-const { pageTitle, pageDescription } = Astro.props;
+const { pageTitle, pageDescription, ogImage } = Astro.props;
 ---
 <BaseLayout
   pageTitle={pageTitle}
   pageDescription={pageDescription}
+  ogImage={ogImage}
 >
 	<Header/>
   <slot />

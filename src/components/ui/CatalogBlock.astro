@@ -1,109 +1,61 @@
 ---
 import Button from "@components/ui/Button.astro"
 import plankenPL from "@assets/materials/planken-pryamoj-listvennicza-732-198.png"
-import plankenPT from "@assets/materials/planken-pryamoj-termoyasen-732-198.png"
 import plankenKL from "@assets/materials/planken-kosoy-listvennicza-720-226.png"
-import plankenKT from "@assets/materials/planken-kosoy-termoyasen-732-198.png"
 import palubnayaL from "@assets/materials/palubnaya-doska-listvennicza-702-232.png"
-import palubnayaS from "@assets/materials/palubnaya-doska-sosna-702-232.png"
-import palubnayaE from "@assets/materials/palubnaya-doska-listvennicza-702-232.png"
 import brusL from "@assets/materials/imitacziya-brusa-listvennicza-823-210.png"
-import brusT from "@assets/materials/imitacziya-brusa-termoyasen-823-210.png"
-import brusS from "@assets/materials/imitacziya-brusa-sosna-823-210.png"
-import brusE from "@assets/materials/imitacziya-brusa-listvennicza-823-210.png"
-import shtilL from "@assets/materials/vagonka-shtil-listvennicza-667-222.png"
 import shtilS from "@assets/materials/vagonka-shtil-sosna-667-222.png"
-import shtilE from "@assets/materials/vagonka-shtil-listvennicza-667-222.png"
-import shtilT from "@assets/materials/vagonka-shtil-termoyasen-667-222.png"
 import terrasnayaT from "@assets/materials/terrasnaya-doska-termoyasen-722-186.png"
-import decor from "@assets/materials/decorativnie-iadeliya-1335-835.png"
-import MaterialCard from "@components/ui/MaterialCard.astro"
+import decor from "@assets/materials/decorativnie-izdeliya-1335-835.png"
+import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro"
 
 import H2 from "./H2.astro"
 
-const materials = [
-  { 
-    href: "/", 
-    img: plankenPL, 
-    title: "Планкен прямой"
-  },
-  { 
-    href: "/", 
-    img: plankenKL, 
-    title: "Планкен скошенный"
-  },
-  { 
-    href: "/", 
-    img: palubnayaL, 
-    title: "Палубная доска"
-  },
-  { 
-    href: "/", 
-    img: terrasnayaT, 
-    title: "Террасная доска"
-  },
-  { 
-    href: "/", 
-    img: shtilS, 
-    title: "Вагонка штиль"
-  },
-  { 
-    href: "/", 
-    img: brusL, 
-    title: "Имитация бруса"
-  },
-  { 
-    href: "/", 
-    img: decor, 
-    title: "Декоративные изделия"
-  },
-];
-
 const row_1 = [
     { 
-    href: "/", 
+    href: "/catalog?type=planken-straight", 
     img: plankenPL, 
     title: "Планкен прямой"
   },
   { 
-    href: "/", 
+    href: "/catalog?type=planken-angled", 
     img: plankenKL, 
     title: "Планкен скошенный"
   },
   { 
-    href: "/", 
+    href: "/catalog?type=deck-board", 
     img: palubnayaL, 
     title: "Палубная доска"
   },
 ]
 const row_2 = [
   { 
-    href: "/", 
+    href: "/catalog?type=terrace-board", 
     img: terrasnayaT, 
     title: "Террасная доска"
   },
   { 
-    href: "/", 
+    href: "/catalog?type=lining-shtil", 
     img: shtilS, 
     title: "Вагонка штиль"
   },
   { 
-    href: "/", 
+    href: "/catalog?type=timber-imitation", 
     img: brusL, 
     title: "Имитация бруса"
   },
 ]
 ---
 <section 
-  aria-labelledby="about-heading"
+  aria-labelledby="catalog-heading"
   class="flex flex-col gap-6 lg:gap-10 justify-between items-center max-w-7xl w-full"
 >
-  <H2 title="каталог"/>
+  <H2 title="Каталог"/>
   <div role="list" class="flex flex-col gap-2 w-full">
     <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
       <div class="flex flex-col gap-2 lg:flex-row w-full">
         {row_1.map(({ href, img, title }) => (
-          <MaterialCard
+          <MaterialCardSmall
             route={href}
             img={img}
             title={title}
@@ -112,7 +64,7 @@ const row_2 = [
       </div>
       <div class="flex flex-col gap-2 lg:flex-row w-full">
         {row_2.map(({ href, img, title }) => (
-          <MaterialCard
+          <MaterialCardSmall
             route={href}
             img={img}
             title={title}
@@ -121,22 +73,13 @@ const row_2 = [
       </div>
     </div>
     <div class="flex flex-col gap-2 sm:flex-row justify-center">
-      <MaterialCard
+      <MaterialCardSmall
         variant="decor"
-        route="/"
+        route="/catalog?type=decorative"
         img={decor}
         title="Декоративные изделия"
       />
       <Button href="/catalog" title="перейти в каталог" variant="catalog"/>
     </div>
   </div>
-  <!-- <div class="flex flex-wrap justify-between gap-3">
-    {materials.map(({ href, img, title }) => (
-      <MaterialCard
-        route={href}
-        img={img}
-        title={title}
-      />
-    ))}
-  </div> -->
 </section>
