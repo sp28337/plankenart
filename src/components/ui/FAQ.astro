@@ -1,0 +1,70 @@
+---
+const faqs = [
+  {
+    question: "Как заказать?",
+    answer:
+      "Оставьте заявку на сайте или позвоните нам — менеджер свяжется с вами в течение часа и проконсультирует по всем вопросам.",
+  },
+  {
+    question: "Какие сорта древесины используете?",
+    answer:
+      "Мы работаем с дубом, ясенем, буком и сосной. Вся древесина сертифицирована и проходит камерную сушку до нужной влажности.",
+  },
+  {
+    question: "Есть ли гарантия?",
+    answer:
+      "Да, мы даём гарантию 3 года на все изделия. В случае производственного брака — бесплатный ремонт или замена.",
+  },
+  {
+    question: "Почему именно OSMO?",
+    answer:
+      "OSMO — немецкое масло на натуральной основе. Оно глубоко проникает в древесину, не трескается и безопасно для людей и животных.",
+  },
+];
+---
+
+<section class="w-full bg-[#faf6f0] py-16 px-4">
+  <div class="max-w-3xl mx-auto">
+
+    <h2 class="text-center text-2xl font-bold text-[#2c2c2c] mb-10 tracking-tight">
+      Частые вопросы
+    </h2>
+
+    <ul class="divide-y divide-[#e8ddd0]">
+      {faqs.map((faq, i) => (
+        <li>
+          <details class="group" name="faq">
+            <summary
+              class="flex items-center justify-between gap-4
+                     py-5 cursor-pointer list-none
+                     text-[#b87d6b] font-semibold text-[15px]
+                     hover:text-[#9e6555] transition-colors duration-200
+                     select-none"
+            >
+              <span>{faq.question}</span>
+              <span
+                class="text-[#b87d6b] text-base font-normal
+                       transition-transform duration-300
+                       group-open:rotate-90 shrink-0"
+                aria-hidden="true"
+              >
+                ›
+              </span>
+            </summary>
+
+            <div
+              class="overflow-hidden
+                     max-h-0 group-open:max-h-96
+                     transition-all duration-300 ease-in-out"
+            >
+              <p class="pb-5 text-[#6b6b6b] text-sm leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</section>

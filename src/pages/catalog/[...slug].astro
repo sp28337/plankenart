@@ -46,7 +46,9 @@ const related = await getRelatedMaterials(material.id, material.data.materialTyp
                      no-underline whitespace-nowrap border border-dashed border-border 
                      hover:border-solid hover:border-line transition-all duration-300 "
             >
-              {getMaterialTypeLabel(material.data.materialType)}
+              <span class="opacity-70 hover:opacity-100">
+                {getMaterialTypeLabel(material.data.materialType)}
+              </span>
             </a>
             {material.data.woodType !== 'разные-породы' && (
               <a
@@ -55,7 +57,9 @@ const related = await getRelatedMaterials(material.id, material.data.materialTyp
                        no-underline whitespace-nowrap border border-dashed border-border 
                        hover:border-solid hover:border-line transition-all duration-300 "
               >
-                {getWoodTypeLabel(material.data.woodType)}
+                <span class="opacity-70 hover:opacity-100">
+                  {getWoodTypeLabel(material.data.woodType)}
+                </span>
               </a>
             )}
           </div>

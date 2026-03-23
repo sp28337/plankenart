@@ -25,29 +25,29 @@ const { data } = material;
   data-type={data.materialType}
 >
   <div class="flex items-center justify-center">
-    {data.coverImage
-      ? <Image
-          src={data.coverImage}
-          alt={data.coverImageAlt ?? data.title}
-          class="w-35 h-12.5 xs:w-50 xs:h-25 object-contain right-1 sm:right-2
-                 transition-all duration-300"
-          loading="lazy"
-          decoding="async"
-        />
-      : <div class="w-full h-full" style="background:linear-gradient(135deg,#e8ddd0,#c8b49a)" />
-    }
+    <Image
+      src={data.coverImage}
+      alt={data.coverImageAlt ?? data.title}
+      class="w-35 h-12.5 xs:w-50 xs:h-25 object-contain right-1 sm:right-2
+              transition-all duration-300"
+      loading="lazy"
+      decoding="async"
+    />
   </div>
 
   <div class="px-2 xs:px-3 py-2 xs:py-2.5">
-    <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
-      <Trees class="w-4 h-4 shrink-0 pointer-events-none" />
-      {MATERIAL_TYPE_LABELS[data.materialType] ?? data.materialType}
-    </div>
+    
     <div class="flex items-center gap-1.5 text-[12px] font-semibold">
-      <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
+      <Trees class="w-4 h-4 shrink-0 pointer-events-none" />
       {data.woodType !== "разные-породы"
         ? (WOOD_TYPE_LABELS[data.woodType] ?? data.woodType)
         : "Разные породы"}
     </div>
+
+    <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
+      <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
+      {MATERIAL_TYPE_LABELS[data.materialType] ?? data.materialType}
+    </div>
+
   </div>
 </a>
