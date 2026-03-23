@@ -1,14 +1,16 @@
 ---
+import H2 from "./H2.astro";
+
 const faqs = [
   {
     question: "Как заказать?",
     answer:
-      "Оставьте заявку на сайте или позвоните нам — менеджер свяжется с вами в течение часа и проконсультирует по всем вопросам.",
+      "Напишите в телеграм или позвоните нам — менеджер свяжется с вами в течение часа и проконсультирует по всем вопросам.",
   },
   {
     question: "Какие сорта древесины используете?",
     answer:
-      "Мы работаем с дубом, ясенем, буком и сосной. Вся древесина сертифицирована и проходит камерную сушку до нужной влажности.",
+      "Мы работаем с лиственницей, ясенем, сосной и елью. Вся древесина сертифицирована и проходит камерную сушку до нужной влажности.",
   },
   {
     question: "Есть ли гарантия?",
@@ -23,48 +25,43 @@ const faqs = [
 ];
 ---
 
-<section class="w-full bg-[#faf6f0] py-16 px-4">
-  <div class="max-w-3xl mx-auto">
-
-    <h2 class="text-center text-2xl font-bold text-[#2c2c2c] mb-10 tracking-tight">
-      Частые вопросы
-    </h2>
-
-    <ul class="divide-y divide-[#e8ddd0]">
-      {faqs.map((faq, i) => (
-        <li>
-          <details class="group" name="faq">
-            <summary
-              class="flex items-center justify-between gap-4
-                     py-5 cursor-pointer list-none
-                     text-[#b87d6b] font-semibold text-[15px]
-                     hover:text-[#9e6555] transition-colors duration-200
-                     select-none"
+<section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center">
+  <H2 title="Частые вопросы"/>
+  <div class="w-full flex flex-col gap-2 md:gap-6 ">
+    {faqs.map((faq, i) => (
+      <li class="list-none">
+        <details class="group" name="faq">
+          <summary
+            class="text-gradient font-bold text-[16px] xs:text-[20px] sm:text-[24px] 
+                   md:text-[28px] lg:text-[32px] font-inter tracking-tighter 
+                   list-none cursor-pointer group-hover:-translate-y-1 transition-all duration-300"
+          >
+          <div class="flex justify-between w-full px-1 md:px-5">
+            <span>{faq.question}</span>
+            <span
+              class="text-gradient transition-transform duration-300
+                      group-open:rotate-90"
+              aria-hidden="true"
             >
-              <span>{faq.question}</span>
-              <span
-                class="text-[#b87d6b] text-base font-normal
-                       transition-transform duration-300
-                       group-open:rotate-90 shrink-0"
-                aria-hidden="true"
-              >
-                ›
-              </span>
-            </summary>
-
-            <div
-              class="overflow-hidden
-                     max-h-0 group-open:max-h-96
-                     transition-all duration-300 ease-in-out"
-            >
-              <p class="pb-5 text-[#6b6b6b] text-sm leading-relaxed">
-                {faq.answer}
-              </p>
-            </div>
-          </details>
-        </li>
-      ))}
-    </ul>
-
+              ›
+            </span>
+          </div>
+          </summary>
+          <div
+            class="overflow-hidden
+                    max-h-0 group-open:max-h-96
+                    transition-all duration-300 ease-in-out"
+          >
+            <p class="px-1 pt-2 md:px-5 md:pt-5 text-foreground/70 text-[14px] 
+                      md:text-[18px] lg:text-xl leading-relaxed cursor-default">
+              {faq.answer}
+            </p>
+          </div>
+        </details>
+      </li>
+      <hr class="border-line/30 group-open:hidden"/>
+    ))}
+    
   </div>
+  </ul>
 </section>
