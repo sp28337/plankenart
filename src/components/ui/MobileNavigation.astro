@@ -1,7 +1,7 @@
 ---
 const links = [
   { href: "/about",    label: "О нас"    },
-  { href: "/services", label: "Услуги"   },
+  { href: "/#services", label: "Услуги"   },
   { href: "/catalog",  label: "Каталог"  },
   { href: "/objects",  label: "Объекты"  },
   { href: "/contacts", label: "Контакты" },
@@ -59,7 +59,6 @@ const current = Astro.url.pathname;
   const overlay = document.getElementById("mobile-menu-overlay")!;
   const links   = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
 
-  const n        = links.length;
   const DURATION = 100;
   const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
 
@@ -131,4 +130,10 @@ const current = Astro.url.pathname;
   });
 
   document.addEventListener("astro:before-swap", closeMenu);
+  
+  links.forEach(el => {
+  if (el.getAttribute("href")?.includes("#")) {
+    el.addEventListener("click", closeMenu);
+    }
+  });
 </script>

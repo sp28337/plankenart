@@ -10,11 +10,9 @@ import {
 
 interface Props {
   material: CollectionEntry<'materials'>;
-  compact?: boolean;
-  showTags?: boolean;
 }
 
-const { material, compact = false, showTags = true } = Astro.props;
+const { material } = Astro.props;
 const { data } = material;
 ---
 
