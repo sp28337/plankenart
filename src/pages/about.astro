@@ -1,0 +1,25 @@
+---
+import '../styles/global.css';
+import Layout from '@layouts/Layout.astro';
+import Hero from '@components/Hero.astro';
+import heroImg from '@assets/about-hero.png';
+import FAQ from '@components/ui/FAQ.astro';
+
+---
+
+<Layout
+	pageTitle="О компании ПланкенАрт — 10 лет обработки древесины в Нижнем Новгороде"
+  pageDescription="ПланкенАрт — профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Более 10 лет опыта, работа с премиум-сегментом и B2B. Официальный партнёр OSMO в Нижнем Новгороде."
+>
+	<main class="w-full">
+		<Hero 
+			title="О компании ПланкенАрт"
+			img={heroImg}
+		/>
+		<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+			<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
+				<FAQ/>
+			</div>
+		</div>
+	</main>
+</Layout>
