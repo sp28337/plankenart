@@ -58,17 +58,17 @@ const TYPE_SLUG_EN: Record<string, string> = {
   <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
 
     <!-- ═══ ПАНЕЛЬ ФИЛЬТРОВ ══════════════════════════ -->
-    <div class="relative z-99 border border-dashed border-border rounded-[20px] lg:rounded-[25px] gap-1
-                mx-auto max-w-7xl h-12.5 lg:h-15 p-1.25 lg:p-1.75 flex items-center lg:gap-2">
+    <div class="relative z-99 border border-dashed border-border rounded-[17px] md:rounded-[20px] gap-2
+                mx-auto max-w-7xl h-10 md:h-12 lg:h-14 p-1 md:p-1.5 flex items-center">
 
       <!-- Дропдаун: Вид дерева -->
-      <div class="relative flex-1 min-w-0" id="wood-dropdown">
+      <div class="relative flex h-full w-full" id="wood-dropdown">
         <button
           type="button"
           id="wood-btn"
           aria-haspopup="listbox"
           aria-expanded="false"
-          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-[15px] lg:rounded-[20px] h-10 lg:h-11.5
+          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-xl md:rounded-[14px] lg:rounded-[17px]
                  cursor-pointer transition-colors duration-300 hover:bg-amber-fade
                  font-semibold tracking-tight text-sm"
         >
@@ -83,7 +83,7 @@ const TYPE_SLUG_EN: Record<string, string> = {
         <div
           id="wood-panel"
           aria-hidden="true"
-          class="absolute top-[calc(100%+0.5rem)] left-0 w-full z-99
+          class="absolute top-[calc(100%+0.5rem)] md:top-[calc(100%+0.8rem)] left-0 w-full z-99
                  opacity-0 pointer-events-none transition-opacity duration-200
                  bg-bg-primary"
         >
@@ -118,13 +118,13 @@ const TYPE_SLUG_EN: Record<string, string> = {
       </div>
 
       <!-- Дропдаун: Вид материала -->
-      <div class="relative flex-1 min-w-0" id="type-dropdown">
+      <div class="relative flex h-full w-full" id="type-dropdown">
         <button
           type="button"
           id="type-btn"
           aria-haspopup="listbox"
           aria-expanded="false"
-          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-[15px] lg:rounded-[20px] h-10 lg:h-11.5
+          class="w-full flex items-center gap-2.5 px-2 xs:px-5 bg-nav rounded-xl md:rounded-[14px] lg:rounded-[17px]
                  cursor-pointer transition-colors duration-300 hover:bg-amber-fade
                  font-semibold tracking-tight text-sm"
         >
@@ -139,7 +139,7 @@ const TYPE_SLUG_EN: Record<string, string> = {
         <div
           id="type-panel"
           aria-hidden="true"
-          class="absolute top-[calc(100%+0.5rem)] left-0 w-full z-50
+          class="absolute top-[calc(100%+0.5rem)] md:top-[calc(100%+0.8rem)] left-0 w-full z-50
                  opacity-0 pointer-events-none transition-opacity duration-200
                  bg-bg-primary"
         >
@@ -176,11 +176,11 @@ const TYPE_SLUG_EN: Record<string, string> = {
     </div>
 
     <!-- ═══ СЕТКА КАРТОЧЕК ══════════════════════════════════════════════════ -->
-    <div class="mx-auto max-w-7xl p-1.25 lg:p-1.75 border border-dashed border-border rounded-[20px] lg:rounded-[25px] mt-2.5">
+    <div class="mx-auto max-w-7xl p-1 md:p-1.5 border border-dashed border-border rounded-[20px] lg:rounded-[25px] mt-2.5">
 
       <div
         id="grid"
-        class="grid gap-2 xs:gap-3 lg:gap-4
+        class="grid gap-2
                grid-cols-2
                sm:grid-cols-3
                md:grid-cols-4

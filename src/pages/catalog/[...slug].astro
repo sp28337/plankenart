@@ -1,7 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
-import H2 from '@components/ui/H2.astro'
+import H2 from '@components/ui/H2.astro';
+import Tag from '@components/ui/Tag.astro';
 import MaterialCard from '@components/ui/MaterialCard.astro';
 import {
   getRelatedMaterials,
@@ -40,27 +41,15 @@ const related = await getRelatedMaterials(material.id, material.data.materialTyp
 
           <!-- tag-list -->
           <div class="flex flex-wrap gap-2 mb-5">
-            <a
-              href={`/catalog?type=${material.data.materialType}`}
-              class="inline-block text-[0.77rem] px-[0.7rem] py-1 rounded-xl font-medium 
-                     no-underline whitespace-nowrap border border-dashed border-border 
-                     hover:border-solid hover:border-line transition-all duration-300 "
-            >
-              <span class="opacity-70 hover:opacity-100">
-                {getMaterialTypeLabel(material.data.materialType)}
-              </span>
-            </a>
+            <Tag 
+              href=`/catalog?type=${material.data.materialType}` 
+              tag={getMaterialTypeLabel(material.data.materialType)}
+            />
             {material.data.woodType !== 'разные-породы' && (
-              <a
+              <Tag 
                 href={`/catalog?wood=${material.data.woodType}`}
-                class="inline-block text-[0.77rem] px-[0.7rem] py-1 rounded-xl font-medium 
-                       no-underline whitespace-nowrap border border-dashed border-border 
-                       hover:border-solid hover:border-line transition-all duration-300 "
-              >
-                <span class="opacity-70 hover:opacity-100">
-                  {getWoodTypeLabel(material.data.woodType)}
-                </span>
-              </a>
+                tag={getWoodTypeLabel(material.data.woodType)}
+              />
             )}
           </div>
 

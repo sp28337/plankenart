@@ -17,6 +17,16 @@ const {
 } = Astro.props;
 
 
+const variants = {
+  default: "h-[50svh] lg:h-[90svh] lg:max-h-225",
+  home: "h-[90svh] lg:max-h-225 min-h-162.5 object-[60%_0%] sm:object-[0%_30%] mx-auto max-w-500",
+  short: "",
+}
+
+const base = `w-full object-cover rounded-b-[20px] lg:rounded-b-[30px] transition-all duration-200`
+
+const classes = `${base} ${variants[variant]}`
+
 const isArray = Array.isArray(title);
 ---
 
@@ -24,9 +34,7 @@ const isArray = Array.isArray(title);
   <Image
     src={img}
     alt="Hero background"
-    class="w-full object-cover object-[60%_0%] rounded-b-[20px] lg:rounded-b-[30px]
-           h-[90svh] mx-auto max-w-500 sm:object-[0%_30%] min-h-162.5 
-           lg:h-[90vh] lg:max-h-225 transition-all duration-200"
+    class={classes}
     loading="eager"
     widths={[400, 800, 1200, 1920]}
     sizes="100vw"
@@ -39,8 +47,8 @@ const isArray = Array.isArray(title);
                   md:rounded-[30px] backdrop-blur-xl
                   lg:max-w-190 flex flex-col gap-4 cursor-default"
       >
-      <h1 class="tracking-tighter text-[24px] sm:text-4xl md:text-5xl font-bold 
-            leading-6 sm:leading-8 md:leading-12">
+      <h1 class="tracking-tighter text-[24px] sm:text-4xl lg:text-5xl font-bold 
+            leading-6 sm:leading-8 lg:leading-12">
         {isArray ? (
           <>{title[0]}<br/>{title[1]}</>
         ) : (
