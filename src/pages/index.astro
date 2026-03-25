@@ -14,22 +14,20 @@ import FAQ from '@components/ui/FAQ.astro';
 	pageTitle="Обработка погонажных изделий различных пород древесины под ключ"
   pageDescription="Шлифовка древесины на проф-оборудовании, защита натуральными составами — масло, лазурь, краска"
 >
-	<main class="w-full">
-		<Hero 
-			title={["Монтаж и обработка планкена", "в Нижнем Новгороде"]}
-			excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
-          натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
-			imgClass="home"
-			wrapperClass="home"
-			img={heroImg}
-		/>
-		<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
-			<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
-				<AboutBlock/>
-				<CatalogBlock/>
-				<ServiceBlock/>
-				<FAQ/>
-			</div>
+	<Hero 
+		title={["Монтаж и обработка планкена", "в Нижнем Новгороде"]}
+		excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
+				натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
+		imgClass="home"
+		wrapperClass="home"
+		img={heroImg}
+	/>
+	<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+		<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
+			<AboutBlock/>
+			<CatalogBlock/>
+			<ServiceBlock/>
+			<FAQ/>
 		</div>
-	</main>
+	</div>
 </Layout>
