@@ -1,13 +1,33 @@
 ---
 interface Props {
-  title: string
+  title: string | string[];
+  page?: "default" | "about";
 }
 
-const { title } = Astro.props
+const { title, page = "default" } = Astro.props
+
+const pages = {
+  default: "text-center lg:text-left text-[24px] md:text-4xl",
+  about: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col"
+}
+
+const base = `font-inter 
+              font-bold tracking-tighter cursor-default`
+const classes = `${base} ${pages[page]}`
+
+const isArray = Array.isArray(title);
 ---
 <h2 
-  class="text-[24px] md:text-4xl lg:text-left font-inter 
-          font-bold text-center tracking-tighter cursor-default"
+  class={classes}
 >
-  {title}
+  {isArray ? (
+    <>
+      <span>{title[0]}</span>
+      <span class={page == "about" ? "w-full" : ""}>
+        {title[1]}
+      </span>
+    </>
+  ) : (
+    title
+  )}
 </h2>

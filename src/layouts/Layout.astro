@@ -13,6 +13,8 @@ const { pageTitle, pageDescription, ogImage } = Astro.props;
   ogImage={ogImage}
 >
 	<Header/>
-  <slot />
+	<main class="w-full">
+    <slot />
+	</main>
   <Footer/>
 </BaseLayout>
