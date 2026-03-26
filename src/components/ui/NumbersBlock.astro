@@ -1,0 +1,65 @@
+---
+import NumbersCard from '@components/ui/NumbersCard.astro';
+
+const numbers = [
+	{number: 10, sign: "+", text: "лет опыта"},
+	{number: 100, sign: ">", text: "объектов"},
+	{number: 15, sign: "+", text: "материалов"},
+	{number: 100, sign: "%", text: "качество"},
+]
+---
+<div 
+  id="numbers-section" 
+  class="grid grid-cols-2 md:grid-cols-4 w-full gap-2 
+        md:gap-8 place-items-center">
+  {numbers.map(({number, sign, text}) => (
+    <NumbersCard number={number} sign={sign} text={text}/>
+  ))}
+</div>
+<script is:inline>
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  const animateCount = (el) => {
+    const target = Number(el.dataset.target || 0);
+    const duration = 1800;
+    let startTime = null;
+
+    const animate = (time) => {
+      if (startTime === null) startTime = time;
+      const progress = Math.min((time - startTime) / duration, 1);
+      const value = target * easeOutCubic(progress);
+
+      el.textContent = String(Math.floor(value));
+
+      if (progress < 1) requestAnimationFrame(animate);
+      else el.textContent = String(target);
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+  const section = document.querySelector('#numbers-section');
+  if (section) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        section.querySelectorAll('[data-countup]').forEach((el) => {
+          if (!el.dataset.animated) {
+            el.dataset.animated = 'true';
+            animateCount(el);
+          }
+        });
+
+        obs.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.3,
+    });
+
+    observer.observe(section);
+  }
+</script>
+
+
+
