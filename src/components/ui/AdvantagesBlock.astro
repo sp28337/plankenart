@@ -1,0 +1,38 @@
+---
+import AdvantagesCard from "@components/ui/AdvantagesCard.astro"
+import H2 from "@components/ui/H2.astro"
+
+const advantagers = [
+  {
+    title: "Стиль",
+    text: "Мы посещаем различные семинары, за счет чего знаем все современные тенденци",
+  },
+  {
+    title: "Профессиональное оборудование",
+    text: "Применяем современное оборудование для получения идеальных результатов.",
+  },
+  {
+    title: "Натуральные масла",
+    text: "Используем натуральные масла, которые сохраняют и подчёркивают природную красоту древесины.",
+  },
+  {
+    title: "Немецкое качество",
+    text: "Мы сотрудничаем с официальным дилером масел OSMO в Нижнем Новгороде",
+  },
+]
+---
+<section class="flex flex-col items-center w-full gap-6 md:gap-10 lg:gap-14">
+  <H2 title="Наши преимущества"/>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
+              w-full place-items-center gap-2 cursor-default">
+    {
+      advantagers.map(({title, text}) => (
+        <AdvantagesCard 
+          title={title}
+          content={text}
+          size="auto"
+        />
+      ))
+    }
+  </div>
+</section>
