@@ -22,16 +22,17 @@ const directions = {
   reversed: "md:flex-row-reverse"
 }
 
-const base = "flex flex-col gap-8 justify-between items-center w-full px-2"
+const base = "flex flex-col gap-8 justify-between items-center w-full"
 const classes = `${base} ${directions[direction]}`
 ---
 <div class={classes}>
-  <div class="md:max-w-130 flex flex-col gap-4 md:gap-6 lg:gap-10 w-full md:justify-center">
+  <div class="flex flex-col gap-4 md:gap-6 lg:gap-10 w-full 
+              md:justify-center px-2 md:px-0">
     <H2 title={title} page="about"/>
     <p class="opacity-70 text-[clamp(16px,2vw,20px)]">{content}</p>
   </div>
   <div class="w-full border border-dashed border-border p-1 lg:p-2 rounded-[15px] 
-              lg:rounded-[25px] flex max-w-155">
+              lg:rounded-[25px] flex md:max-w-155">
     <Image
       src={img}
       alt="Hero background"

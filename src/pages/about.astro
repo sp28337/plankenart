@@ -7,8 +7,7 @@ import about1 from '@assets/about1.png';
 import about2 from '@assets/about2.png';
 import FAQ from '@components/ui/FAQ.astro';
 import AboutContentBlock from '@components/ui/AboutContentBlock.astro';
-
-
+import NumbersBlock from '@components/ui/NumbersBlock.astro';
 
 const content = {
 	block1: {
@@ -22,7 +21,6 @@ const content = {
 		img: about2
 	}
 }
-
 ---
 
 <Layout
@@ -40,6 +38,9 @@ const content = {
 				content={content.block1.p}
 				img={content.block1.img}
 			/>
+
+			<NumbersBlock/>
+
 			<AboutContentBlock
 				title={content.block2.h2}
 				content={content.block2.p}
@@ -50,3 +51,4 @@ const content = {
 		</div>
 	</div>
 </Layout>
+
