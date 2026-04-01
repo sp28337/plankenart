@@ -11,30 +11,14 @@ import {
   getAllMaterials,
   MATERIAL_TYPE_LABELS,
   WOOD_TYPE_LABELS,
+  WOOD_SLUG_EN,
+  TYPE_SLUG_EN,
 } from "../../lib/materials";
 
 const allMaterials = await getAllMaterials();
 
 const woodTypes     = [...new Set(allMaterials.map(m => m.data.woodType).filter(w => w !== "разные-породы"))];
 const materialTypes = [...new Set(allMaterials.map(m => m.data.materialType))];
-
-const WOOD_SLUG_EN: Record<string, string> = {
-  "лиственница":   "larch",
-  "термоясень":    "thermoash",
-  "сосна":         "pine",
-  "ель":           "spruce",
-  "разные-породы": "mixed",
-};
-
-const TYPE_SLUG_EN: Record<string, string> = {
-  "планкен-прямой":       "planken-straight",
-  "планкен-скошенный":        "planken-angled",
-  "палубная-доска":       "deck-board",
-  "террасная-доска":      "terrace-board",
-  "имитация-бруса":       "timber-imitation",
-  "вагонка-штиль":        "lining-shtil",
-  "декоративные-изделия": "decorative",
-};
 ---
 
 <Layout pageTitle="Каталог материалов" pageDescription="">

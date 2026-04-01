@@ -23,6 +23,24 @@ export const WOOD_TYPE_LABELS: Record<string, string> = {
   "разные-породы": "Разные породы",
 };
  
+export const WOOD_SLUG_EN: Record<string, string> = {
+  "лиственница":   "larch",
+  "термоясень":    "thermoash",
+  "сосна":         "pine",
+  "ель":           "spruce",
+  "разные-породы": "mixed",
+};
+
+export const TYPE_SLUG_EN: Record<string, string> = {
+  "планкен-прямой":       "planken-straight",
+  "планкен-скошенный":    "planken-angled",
+  "палубная-доска":       "deck-board",
+  "террасная-доска":      "terrace-board",
+  "имитация-бруса":       "timber-imitation",
+  "вагонка-штиль":        "lining-shtil",
+  "декоративные-изделия": "decorative",
+};
+
 export const WOOD_TYPE_DESCRIPTIONS: Record<string, string> = {
   "лиственница":
     "Наиболее прочная хвойная порода России. Природная биостойкость без химической обработки, плотность 500–650 кг/м³.",
