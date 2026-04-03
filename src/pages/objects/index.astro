@@ -1,31 +1,30 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Hero from "@components/Hero.astro"
+import Hero from "@components/Hero.astro";
 import catalogImg from '@assets/catalog.png';
+import ObjectsFilter from "@components/ui/ObjectsFilter.astro";
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
-import CatalogFilter from "@components/ui/CatalogFilter.astro";
 ---
 
 <Layout 
-  pageTitle="Каталог материалов" 
-  pageDescription="Список материалов с которыми работаем"
+  pageTitle="Объекты реализованные командой ПланкенАрт"
+  pageDescription="Полный список проектов, реализованных командой ПланкенАрт"
 >
   <FilterOverlay/>
   <Hero
-    title="Каталог материалов" 
-    excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
-          натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
+    title="Объекты ПланкенАрт"
+    excerpt="Реализованные проекты по монтажу и обработке планкена, террасной доски и других материалов."
     img={catalogImg}
     wrapperClass="catalog"
   />
-  <CatalogFilter/>
+  <ObjectsFilter/>
 </Layout>
 
 <script>
   const DURATION = 70;
-  const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
-  const overlay  = document.getElementById("filter-overlay")!;
-  let openCount  = 0;
+  const EASING = `cubic-bezier(0.22, 1, 0.36, 1)`;
+  const overlay = document.getElementById("filter-overlay")!;
+  let openCount = 0;
   const registry: Array<() => void> = [];
 
   function showOverlay() {
@@ -41,19 +40,19 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
   }
 
   function initDropdown(
-    btnId:     string,
-    panelId:   string,
-    inputId:   string,
-    labelId:   string,
+    btnId: string,
+    panelId: string,
+    inputId: string,
+    labelId: string,
     chevronId: string,
-    group:     string,
+    group: string,
   ) {
-    const btn     = document.getElementById(btnId)!;
-    const panel   = document.getElementById(panelId)!;
-    const input   = document.getElementById(inputId) as HTMLInputElement;
+    const btn = document.getElementById(btnId)!;
+    const panel = document.getElementById(panelId)!;
+    const input = document.getElementById(inputId) as HTMLInputElement;
     const labelEl = document.getElementById(labelId)!;
     const chevron = document.getElementById(chevronId)!;
-    const items   = Array.from(panel.querySelectorAll<HTMLElement>(`[data-group="${group}"]`));
+    const items = Array.from(panel.querySelectorAll<HTMLElement>(`[data-group="${group}"]`));
     const defaultLabel = labelEl.textContent!.trim();
 
     let closeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -138,22 +137,28 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
     };
   }
 
-  const woodDD = initDropdown("wood-btn", "wood-panel", "filter-wood", "wood-label", "wood-chevron", "wood");
-  const typeDD = initDropdown("type-btn", "type-panel", "filter-type", "type-label", "type-chevron", "type");
+  const objectDD = initDropdown("object-btn", "object-panel", "filter-object", "object-label", "object-chevron", "object");
+  const woodDD   = initDropdown("wood-btn",   "wood-panel",   "filter-wood",   "wood-label",   "wood-chevron",   "wood");
+  const typeDD   = initDropdown("type-btn",   "type-panel",   "filter-type",   "type-label",   "type-chevron",   "type");
 
-  const inputWood = document.getElementById("filter-wood") as HTMLInputElement;
-  const inputType = document.getElementById("filter-type") as HTMLInputElement;
-  const grid      = document.getElementById("grid")!;
-  const emptyEl   = document.getElementById("empty")!;
-  const cards     = Array.from(grid.querySelectorAll<HTMLElement>(".material-card"));
+  const inputObject = document.getElementById("filter-object") as HTMLInputElement;
+  const inputWood   = document.getElementById("filter-wood")   as HTMLInputElement;
+  const inputType   = document.getElementById("filter-type")   as HTMLInputElement;
+  const grid    = document.getElementById("grid")!;
+  const emptyEl = document.getElementById("empty")!;
+  const cards   = Array.from(grid.querySelectorAll<HTMLElement>(".object-card"));
 
   function applyFilters() {
-    const wood = inputWood.value;
-    const type = inputType.value;
-    let visible = 0;
+    const object = inputObject.value;
+    const wood   = inputWood.value;
+    const type   = inputType.value;
+    let visible  = 0;
 
     cards.forEach(card => {
-      const ok = (!wood || card.dataset.wood === wood) && (!type || card.dataset.type === type);
+      const ok =
+        (!object || card.dataset.object === object) &&
+        (!wood   || card.dataset.wood?.split(" ").includes(wood)) &&
+        (!type   || card.dataset.type?.split(" ").includes(type));
       card.style.display = ok ? "" : "none";
       card.toggleAttribute("aria-hidden", !ok);
       if (ok) visible++;
@@ -163,25 +168,33 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
     grid.classList.toggle("hidden", visible === 0);
 
     const params = new URLSearchParams();
-    if (wood) params.set("wood", wood);
-    if (type) params.set("type", type);
+    if (object) params.set("object", object);
+    if (wood)   params.set("wood",   wood);
+    if (type)   params.set("type",   type);
     history.replaceState(null, "", params.toString() ? `?${params}` : location.pathname);
   }
 
-  inputWood.addEventListener("change", applyFilters);
-  inputType.addEventListener("change", applyFilters);
+  inputObject.addEventListener("change", applyFilters);
+  inputWood.addEventListener("change",   applyFilters);
+  inputType.addEventListener("change",   applyFilters);
 
   document.getElementById("btn-empty-reset")?.addEventListener("click", () => {
+    objectDD.setLabel("", "");
     woodDD.setLabel("", "");
     typeDD.setLabel("", "");
     applyFilters();
   });
 
   (function restoreFromUrl() {
-    const params   = new URLSearchParams(location.search);
-    const woodSlug = params.get("wood") ?? "";
-    const typeSlug = params.get("type") ?? "";
+    const params      = new URLSearchParams(location.search);
+    const objectSlug  = params.get("object") ?? "";
+    const woodSlug    = params.get("wood")   ?? "";
+    const typeSlug    = params.get("type")   ?? "";
 
+    if (objectSlug) {
+      const item = document.querySelector<HTMLElement>(`[data-group="object"][data-slug="${objectSlug}"]`);
+      if (item) objectDD.setLabel(objectSlug, item.textContent!.trim());
+    }
     if (woodSlug) {
       const item = document.querySelector<HTMLElement>(`[data-group="wood"][data-slug="${woodSlug}"]`);
       if (item) woodDD.setLabel(woodSlug, item.textContent!.trim());
@@ -190,6 +203,6 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
       const item = document.querySelector<HTMLElement>(`[data-group="type"][data-slug="${typeSlug}"]`);
       if (item) typeDD.setLabel(typeSlug, item.textContent!.trim());
     }
-    if (woodSlug || typeSlug) applyFilters();
+    if (objectSlug || woodSlug || typeSlug) applyFilters();
   })();
 </script>

@@ -6,13 +6,16 @@ import Tag from '@components/ui/Tag.astro';
 import MaterialCard from '@components/ui/MaterialCard.astro';
 import {
   getRelatedMaterials,
-  getMaterialTypeLabel, getWoodTypeLabel,
 } from '../../lib/materials';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  material: CollectionEntry<"materials">
+}
 
 export async function getStaticPaths() {
-  const materials = await getCollection('materials');
-  return materials.map(material => ({
+  const allMaterials = await getCollection('materials');
+  return allMaterials.map(material => ({
     params: { slug: material.id },
     props: { material },
   }));
@@ -20,7 +23,11 @@ export async function getStaticPaths() {
 
 const { material } = Astro.props;
 const { Content } = await render(material);
-const related = await getRelatedMaterials(material.id, material.data.materialType, 3);
+
+const woodType = await getEntry(material.data.woodType)
+const materialType = await getEntry(material.data.materialType)
+
+const related = await getRelatedMaterials(material.id, materialType.data.title, 3);
 ---
 
 <Layout
@@ -41,25 +48,14 @@ const related = await getRelatedMaterials(material.id, material.data.materialTyp
   
           <!-- tag-list -->
           <div class="flex flex-wrap gap-2 mb-5 h-fit">
-              <!-- {
-                tags.map(tag => (
-                  <li class="w-fit h-fit">
-                    <Tag
-                      href={`/catalog?wood=${tag.id}`}
-                      tag={tag.data.type}
-                    />
-                  </li>
-                ))
-              } -->
-              
             <Tag 
-              href=`/catalog?type=${material.data.materialType}` 
-              tag={getMaterialTypeLabel(material.data.materialType)}
+              href=`/catalog?type=${materialType.id}` 
+              tag={materialType.data.title}
             />
-            {material.data.woodType !== 'разные-породы' && (
+            {woodType.data.title !== 'разные-породы' && (
               <Tag 
-                href={`/catalog?wood=${material.data.woodType}`}
-                tag={getWoodTypeLabel(material.data.woodType)}
+                href={`/catalog?wood=${woodType.id}`}
+                tag={woodType.data.title}
               />
             )}
           </div>

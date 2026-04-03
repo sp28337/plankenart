@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+
+interface Props {
+  object: CollectionEntry<'objects'>;
+}
+
+const { object } = Astro.props;
+const objectType = await getEntry(object.data.objectType);
+const woodTypes = await Promise.all(object.data.woodTypes.map(ref => getEntry(ref)));
+const materialTypes = await Promise.all(object.data.materialTypes.map(ref => getEntry(ref)));
+---
+
+<a
+  href={`/objects/${object.id}`}
+  class="object-card group flex flex-col rounded-2xl
+     
+         transition-all duration-300 no-underline"
+  data-object={objectType.id}
+  data-wood={woodTypes.map(w => w.id).join(' ')}
+  data-type={materialTypes.map(m => m.id).join(' ')}
+>
+  <li class="">
+    <div class="p-1 md:p-1.5 border border-dashed transition-all 
+                duration-300 border-border rounded-2xl group-hover:border-solid
+                overflow-hidden">
+      <Image
+        src={object.data.heroImage}
+        alt={object.data.imageAlt ?? object.data.title}
+        class="w-full h-32 xs:h-40 object-cover transition-all duration-300 rounded-2xl group-hover:scale-102"
+        loading="lazy"
+        decoding="async"
+        widths={[300, 500]}
+        sizes="(max-width: 480px) 300px, 500px"
+      />
+    </div>
+    <h3 class="text-[14px] text-center font-semibold truncate group-hover:underline transition-all duration-300">{object.data.title}</h3>
+  </li>
+</a>

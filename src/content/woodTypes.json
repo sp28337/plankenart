@@ -1,0 +1,7 @@
+[
+  { "id": "larch", "title": "Лиственница" },
+  { "id": "thermoash", "title": "Термоясень" },
+  { "id": "pine", "title": "Сосна" },
+  { "id": "spruce", "title": "Ель" },
+  { "id": "mixed", "title": "Разные породы" }
+]

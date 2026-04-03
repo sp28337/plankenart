@@ -55,7 +55,7 @@ const isArray = Array.isArray(title);
     >
       <div class=`${wrapperBase} ${wrapperClasses[wrapperClass]}`
       >
-        <h1 class="tracking-tighter text-[24px] sm:text-4xl lg:text-5xl font-bold 
+        <h1 class="tracking-tighter text-[clamp(1.5rem,4.5vw,3.2rem)] font-bold 
               leading-6 sm:leading-8 lg:leading-12">
           {isArray ? (
             <>{title[0]}<br/>{title[1]}</>
@@ -63,7 +63,7 @@ const isArray = Array.isArray(title);
             title
           )}
         </h1>
-        <span class="text-sm font-normal md:text-lg leading-4 md:leading-6 text-white/80">
+        <span class="text-sm font-normal md:text-lg leading-4 md:leading-6 text-white/80 max-w-70%">
           {excerpt}
         </span>
       </div>

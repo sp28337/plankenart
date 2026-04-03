@@ -1,0 +1,83 @@
+---
+import { getCollection } from "astro:content";
+import Fence from "@assets/svg/fence.svg"
+import X from "@assets/svg/x.svg"
+import ChevronDown from "@assets/svg/chevron-down.svg"
+
+const materialTypes = await getCollection("materialTypes");
+---
+<div class="relative flex h-full w-full" id="type-dropdown">
+  <span id="material-listbox-label" class="sr-only">
+    Фильтр по виду материала
+  </span>
+  <button
+    type="button"
+    id="type-btn"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="material-panel"
+    aria-labelledby="material-listbox-label material-btn"
+    class="w-full flex items-center gap-2.5 py-1.5 px-5.5 bg-nav rounded-xl md:rounded-[14px] lg:rounded-[17px]
+            cursor-pointer transition-colors duration-300 hover:bg-amber-fade
+            font-semibold tracking-tight text-sm"
+  >
+    <Fence class="w-4.5 h-4.5 shrink-0 pointer-events-none" />
+    <span id="type-label" class="flex-1 text-left truncate">
+      Вид материала
+    </span>
+    <ChevronDown
+      id="type-chevron"
+      class="w-4 h-4 shrink-0 pointer-events-none transition-transform duration-200"
+    />
+  </button>
+  <ul
+    id="type-panel"
+    role="listbox"
+    aria-hidden="true"
+    class="absolute top-[calc(100%+0.6rem)] sm:top-[calc(100%+0.5rem)] md:top-[calc(100%+0.8rem)] left-0 w-full z-50
+            opacity-0 pointer-events-none transition-opacity duration-200 bg-bg-primary"
+  >
+    <div class="flex flex-col gap-1 font-semibold">
+
+      {materialTypes.map(t => (
+        <li class="overflow-hidden">
+          <button type="button"
+            id={`material-option-${t.id}`}
+            role="option"
+            aria-selected="false"
+            data-value={t.data.title}
+            data-slug={t.id}
+            data-group="type"
+            class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+                    text-xs md:text-sm tracking-tight transform-gpu will-change-transform truncate
+                    transition-colors duration-300 hover:bg-amber-fade bg-nav flex items-center gap-3"
+            style="transform:translateY(-110%)">
+            <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
+            {t.data.title}
+          </button>
+        </li>
+      ))}
+      <li class="overflow-hidden">
+        
+        <button 
+          id="material-option-reset"
+          role="option"
+          aria-selected="false"
+          type="button" 
+          data-value="" 
+          data-slug="" 
+          data-group="type"
+          class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+                  text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                  transition-colors duration-300 hover:bg-amber-fade bg-nav flex items-center gap-2.5"
+          style="transform:translateY(-110%)">
+          <X class="w-4.5 h-4.5 shrink-0 pointer-events-none" />                
+          <span>
+            Сбросить фильтр
+          </span>
+        </button>
+      </li>
+    </div>
+  </ul>
+  <input type="hidden" id="filter-type" name="material" value="" />
+</div>
