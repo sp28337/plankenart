@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import Scan from "@assets/svg/scan.svg"
+import X from "@assets/svg/x.svg"
+import ChevronDown from "@assets/svg/chevron-down.svg"
+
+const objectTypes = await getCollection("objectTypes");
+---
+
+<div class="relative flex h-full w-full" id="object-dropdown">
+
+  <span id="object-listbox-label" class="sr-only">Фильтр по виду объекта</span>
+
+  <button
+    type="button"
+    id="object-btn"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="object-panel"
+    aria-labelledby="object-listbox-label object-btn"
+    class="w-full flex items-center gap-2.5 py-1.5 px-5.5 bg-nav rounded-xl md:rounded-[14px] lg:rounded-[17px]
+           cursor-pointer transition-colors duration-300 hover:bg-amber-fade
+           font-semibold tracking-tight text-sm"
+  >
+    <Scan class="w-4.5 h-4.5 shrink-0 pointer-events-none" aria-hidden="true" />
+    <span id="object-label" class="flex-1 text-left truncate">
+      Вид объекта
+    </span>
+    <ChevronDown
+      id="object-chevron"
+      class="w-4 h-4 shrink-0 pointer-events-none transition-transform duration-200"
+      aria-hidden="true"
+    />
+  </button>
+
+  <ul
+    id="object-panel"
+    role="listbox"
+    aria-labelledby="object-listbox-label"
+    aria-hidden="true"
+    class="absolute top-[calc(100%+5.1rem)] sm:top-[calc(100%+0.5rem)] md:top-[calc(100%+0.8rem)] left-0 w-full z-99
+           opacity-0 pointer-events-none transition-opacity duration-200 bg-bg-primary
+           flex flex-col gap-1 font-semibold list-none m-0 p-0"
+  >
+    {objectTypes.map(o => (
+      <li class="overflow-hidden" role="presentation">
+        <button
+          type="button"
+          id={`object-option-${o.id}`}
+          role="option"
+          aria-selected="false"
+          data-value={o.data.title}
+          data-slug={o.id}
+          data-group="object"
+          class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+                 text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                 transition-colors duration-300 hover:bg-amber-fade bg-nav flex items-center gap-3"
+          style="transform:translateY(-110%)"
+        >
+          <Scan class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
+          {o.data.title}
+        </button>
+      </li>
+    ))}
+
+    <li class="overflow-hidden" role="presentation">
+      <button
+        type="button"
+        id="object-option-reset"
+        role="option"
+        aria-selected="false"
+        data-value=""
+        data-slug=""
+        data-group="object"
+        class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+               text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+               transition-colors duration-300 hover:bg-amber-fade bg-nav flex items-center gap-2.5"
+        style="transform:translateY(-110%)"
+      >
+        <X class="w-4.5 h-4.5 shrink-0 pointer-events-none" aria-hidden="true" />
+        <span>Сбросить фильтр</span>
+      </button>
+    </li>
+  </ul>
+
+  <input type="hidden" id="filter-object" name="object" value="" />
+</div>

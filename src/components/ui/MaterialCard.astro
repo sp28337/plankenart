@@ -3,31 +3,28 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Fence from "@assets/svg/fence.svg"
 import Trees from "@assets/svg/trees.svg"
-import {
-  MATERIAL_TYPE_LABELS,
-  WOOD_TYPE_LABELS,
-} from "../../lib/materials";
+import { getEntry } from 'astro:content';
 
 interface Props {
   material: CollectionEntry<'materials'>;
 }
 
 const { material } = Astro.props;
-const { data } = material;
+const woodType = await getEntry(material.data.woodType)
+const materialType = await getEntry(material.data.materialType)
 ---
 
-<a
-  href={`/catalog/${material.id}`}
-  class="material-card material-catalog-gradient group flex flex-col rounded-[15px] md:rounded-[20px]
-         overflow-hidden shadow-xl/2 hover:shadow-xl/5
-         transition-all duration-700 no-underline"
-  data-wood={data.woodType}
-  data-type={data.materialType}
+<li
+  class="material-card material-catalog-gradient group flex flex-col 
+         overflow-hidden shadow-xl/2 hover:shadow-xl/5 rounded-[15px] 
+         transition-all duration-700 no-underline relative md:rounded-[20px]"
+  data-wood={woodType.id}
+  data-type={materialType.id}
 >
   <div class="flex items-center justify-center">
     <Image
-      src={data.coverImage}
-      alt={data.coverImageAlt ?? data.title}
+      src={material.data.coverImage}
+      alt={material.data.imageAlt ?? material.data.title}
       class="w-35 h-12.5 xs:w-50 xs:h-25 object-contain right-1 sm:right-2
               transition-all duration-300"
       loading="lazy"
@@ -35,19 +32,28 @@ const { data } = material;
     />
   </div>
 
+  <a 
+    href={`/catalog/${material.id}`}
+    class="absolute inset-0 z-10 rounded-[15px] md:rounded-[20px] outline-none"
+    aria-label={material.data.title}
+  >
+  </a>
+
+  <h3 class="sr-only">
+    {material.data.title}
+  </h3>
+
   <div class="px-2 xs:px-3 py-2 xs:py-2.5">
     
     <div class="flex items-center gap-1.5 text-[12px] font-semibold">
       <Trees class="w-4 h-4 shrink-0 pointer-events-none" />
-      {data.woodType !== "разные-породы"
-        ? (WOOD_TYPE_LABELS[data.woodType] ?? data.woodType)
-        : "Разные породы"}
+      {woodType.data.title}
     </div>
 
     <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
       <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
-      {MATERIAL_TYPE_LABELS[data.materialType] ?? data.materialType}
+      {materialType.data.title}
     </div>
 
   </div>
-</a>
+</li>

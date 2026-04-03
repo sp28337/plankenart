@@ -1,14 +1,15 @@
 ---
 interface Props {
   title: string | string[];
-  page?: "default" | "about";
+  page?: "default" | "about" | "object";
 }
 
 const { title, page = "default" } = Astro.props
 
 const pages = {
   default: "text-center lg:text-left text-[24px] md:text-4xl",
-  about: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col"
+  about: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col",
+  object: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col text-center",
 }
 
 const base = `font-inter 
