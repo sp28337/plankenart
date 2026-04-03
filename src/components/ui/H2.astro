@@ -7,12 +7,12 @@ interface Props {
 const { title, page = "default" } = Astro.props
 
 const pages = {
-  default: "text-center lg:text-left text-[24px] md:text-4xl",
-  about: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col",
-  object: "leading-8 text-[clamp(1.3rem,3.5vw,2rem)] w-full flex flex-col text-center",
+  default: "text-center lg:text-left ",
+  about: "leading-8 w-full flex flex-col",
+  object: "leading-8 w-full flex flex-col text-center",
 }
 
-const base = `font-inter 
+const base = `font-inter text-[clamp(1.8rem,3.5vw,2.4rem)]
               font-bold tracking-tighter cursor-default`
 const classes = `${base} ${pages[page]}`
 

@@ -20,21 +20,21 @@ const {
 
 
 const imgClasses = {
-  default: "h-[50svh] lg:h-[90svh] lg:max-h-225",
-  home: "h-[100vh] lg:max-h-225 min-h-162.5 mx-auto max-w-500",
+  default: "h-[80vh] min-h-[400px] mx-auto max-w-500 lg:max-h-270",
+  home: "",
   short: "",
 }
 const imgBase = `w-full object-cover rounded-b-[20px] lg:rounded-b-[30px]`
 
 const wrapperClasses = {
-  default: "w-content gap-4",
-  catalog: "gap-4 lg:max-w-190 w-full",
-  home: "gap-4 lg:max-w-190 w-full",
+  default: "",
+  catalog: "",
+  home: "",
   short: "",
 }
 const wrapperBase = `h-auto p-4 md:p-6 bg-nav rounded-[20px] 
-                  md:rounded-[30px] backdrop-blur-xl
-                  flex flex-col cursor-default`
+                  md:rounded-[30px] backdrop-blur-xl lg:max-w-190
+                  flex flex-col cursor-default w-full gap-4`
 
 
 const isArray = Array.isArray(title);
@@ -43,7 +43,7 @@ const isArray = Array.isArray(title);
 <div class="w-full relative">
   <Image
     src={img}
-    alt="Hero background"
+    alt="Фоновое фото главной страницы с примером готового объекта"
     class=`${imgBase} ${imgClasses[imgClass]}`
     loading="eager"
     widths={[400, 800, 1200, 1920]}
@@ -67,23 +67,20 @@ const isArray = Array.isArray(title);
           {excerpt}
         </span>
       </div>
-      {
-        imgClass == "home" &&
-        <a
-          href="https://t.me/Spedd87"
-          aria-label="Связаться со специалистом через телеграм"
-          class:list={[
-            "w-full lg:max-w-190 xl:w-auto flex justify-center items-center transition-colors duration-300 gap-4", 
-            "rounded-[20px] h-12.5 font-medium bg-html hover:bg-btn text-foreground group", 
-            "px-7.5 py-2.5 backdrop-blur-xl active:scale-105",
-          ]}
-        >
-          <span>Написать специалисту</span>
-          <Svg viewBox="tg" size="l">
-            <Telegram/>
-          </Svg>
-        </a>
-      }
+      <a
+        href="https://t.me/Spedd87"
+        aria-label="Связаться со специалистом через телеграм"
+        class:list={[
+          "w-full lg:max-w-190 xl:w-auto flex justify-center items-center transition-colors duration-300 gap-4", 
+          "rounded-[20px] h-12.5 font-medium bg-html hover:bg-btn text-foreground group", 
+          "px-7.5 py-2.5 backdrop-blur-xl active:scale-105",
+        ]}
+      >
+        <span>Написать специалисту</span>
+        <Svg viewBox="tg" size="l">
+          <Telegram/>
+        </Svg>
+      </a>
     </div>
   </div>
 </div>

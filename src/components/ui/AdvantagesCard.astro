@@ -23,14 +23,11 @@ const sizes = {
 
 const classes = `${base} ${sizes[size]}`;
 ---
-<div 
-  role="listitem"
-  class={classes}
->
+<li class={classes}>
   <h3 class="text-lg font-semibold tracking-tighter leading-5">
     {title}
   </h3>
   <p class="opacity-70 text-md tracking-tight leading-5 sm:leading-6">
     {content}
   </p>
-</div>
+</li>

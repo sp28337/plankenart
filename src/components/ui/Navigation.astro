@@ -2,7 +2,7 @@
 const links = [
   { href: "/about",    label: "О нас"    },
   { href: "/#services", label: "Услуги"   },
-  { href: "/catalog",  label: "Каталог"  },
+  { href: "/materials",  label: "Материалы"  },
   { href: "/objects",  label: "Объекты"  },
   { href: "/contacts", label: "Контакты" },
 ];
@@ -19,7 +19,7 @@ const current = Astro.url.pathname;
   <ul class="flex p-0.75 items-center justify-between gap-0.75 my-auto h-full">
     {links.map(({ href, label }) => (
       <li class:list={[
-        "py-2 px-6 h-full rounded-[18px] flex items-center hover:bg-html/80 ",
+        "py-2 px-5 h-full rounded-[18px] flex items-center hover:bg-html/80 ",
         "transition-all duration-150 active:scale-105 hover:text-foreground",
         current.startsWith(href)
           ? "bg-btn/80"

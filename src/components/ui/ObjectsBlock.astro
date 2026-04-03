@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import ObjectCard from "@components/ui/ObjectCard.astro";
+import H2 from "./H2.astro";
+import Button from "./Button.astro";
+
+const allObjects = await getCollection("objects");
+---
+<section
+  id="services"
+  class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center">
+  <H2 title="Объекты"/>
+  <div class="flex flex-col gap-6 justify-center items-center w-full">
+    <ul
+      id="grid"
+      class="grid gap-2 
+              grid-cols-1 grid-rows-4
+              sm:grid-cols-2 sm:grid-rows-2
+              lg:grid-cols-4 lg:grid-rows-1 w-full"
+    >
+      {allObjects.map(o => <ObjectCard object={o} />)}
+    </ul>
+    <Button href="/objects" title="Посмотреть все" variant="catalog"/>
+  </div>
+</section>

@@ -35,10 +35,7 @@ const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-
 
 const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
 ---
-<div 
-  role="listitem"
-  class={base}
->
+<li class={base}>
   <h3 class="text-lg font-semibold tracking-tighter leading-5 max-w-50">
     {title}
   </h3>
@@ -52,9 +49,9 @@ const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
   </span>
   <Image
     src={img}
-    alt={title}
+    alt=""
     class={imgStyles}
     loading="eager"
     widths={[150]}
   />
-</div>
+</li>

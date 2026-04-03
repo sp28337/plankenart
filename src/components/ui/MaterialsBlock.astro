@@ -13,34 +13,34 @@ import H2 from "./H2.astro"
 
 const row_1 = [
     { 
-    href: "/catalog?type=planken-straight", 
+    href: "/materials?type=planken-straight", 
     img: plankenPL, 
     title: "Планкен прямой"
   },
   { 
-    href: "/catalog?type=planken-angled", 
+    href: "/materials?type=planken-angled", 
     img: plankenKL, 
     title: "Планкен скошенный"
   },
   { 
-    href: "/catalog?type=deck-board", 
+    href: "/materials?type=deck-board", 
     img: palubnayaL, 
     title: "Палубная доска"
   },
 ]
 const row_2 = [
   { 
-    href: "/catalog?type=terrace-board", 
+    href: "/materials?type=terrace-board", 
     img: terrasnayaT, 
     title: "Террасная доска"
   },
   { 
-    href: "/catalog?type=lining-shtil", 
+    href: "/materials?type=lining-shtil", 
     img: shtilS, 
     title: "Вагонка штиль"
   },
   { 
-    href: "/catalog?type=timber-imitation", 
+    href: "/materials?type=timber-imitation", 
     img: brusL, 
     title: "Имитация бруса"
   },
@@ -50,8 +50,8 @@ const row_2 = [
   aria-labelledby="catalog-heading"
   class="flex flex-col gap-6 md:gap-10 lg:gap-14 justify-between items-center max-w-7xl w-full"
 >
-  <H2 title="Каталог"/>
-  <ul role="list" class="flex flex-col gap-2 w-full">
+  <H2 title="Материалы"/>
+  <ul class="flex flex-col gap-2 w-full">
     <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
       <div class="flex flex-col gap-2 lg:flex-row w-full">
         {row_1.map(({ href, img, title }) => (
@@ -75,11 +75,11 @@ const row_2 = [
     <div class="flex flex-col gap-2 sm:flex-row justify-center">
       <MaterialCardSmall
         variant="decor"
-        route="/catalog?type=decorative"
+        route="/materials?type=decorative"
         img={decor}
         title="Декоративные изделия"
       />
-      <Button href="/catalog" title="перейти в каталог" variant="catalog"/>
+      <Button href="/materials" title="перейти в каталог" variant="catalog"/>
     </div>
   </ul>
 </section>

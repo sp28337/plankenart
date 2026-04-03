@@ -3,11 +3,12 @@ import '../styles/global.css';
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import AboutBlock from '@components/ui/AboutBlock.astro';
-import CatalogBlock from '@components/ui/CatalogBlock.astro';
+import MaterialsBlock from '@components/ui/MaterialsBlock.astro';
 import ServiceBlock from '@components/Services.astro';
 import heroImg from '@assets/gril-zone.jpg';
 import FAQ from '@components/ui/FAQ.astro';
 import NumbersBlock from '@components/ui/NumbersBlock.astro';
+import ObjectsBlock from '@components/ui/ObjectsBlock.astro';
 ---
 
 <Layout
@@ -18,16 +19,15 @@ import NumbersBlock from '@components/ui/NumbersBlock.astro';
 		title={["Монтаж и обработка планкена ", "в Нижнем Новгороде"]}
 		excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
 				натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
-		imgClass="home"
-		wrapperClass="home"
 		img={heroImg}
 	/>
 	<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
 		<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
 			<AboutBlock/>
 			<NumbersBlock/>
-			<CatalogBlock/>
+			<MaterialsBlock/>
 			<ServiceBlock/>
+			<ObjectsBlock/>
 			<FAQ/>
 		</div>
 	</div>

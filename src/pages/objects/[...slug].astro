@@ -35,8 +35,6 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
       title={object.data.title}
       excerpt={object.data.excerpt}
       img={object.data.heroImage}
-      imgClass="home"
-      wrapperClass="home"
     />
     <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
@@ -54,7 +52,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
             </div>
 
             <section class="flex flex-col gap-6">
-              <H2 title="О проекте" page="object"/>
+              <H2 title="История объекта" page="object"/>
               <div class="flex flex-col gap-2 w-full">
                 {object.data.description.split('\n\n').map(p =>
                   p.trim() && <p>{p.trim()}</p>

@@ -1,24 +1,42 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Hero from "@components/Hero.astro";
 import catalogImg from '@assets/objects.png';
+import ObjectCard from "@components/ui/ObjectCard.astro";
 import ObjectsFilter from "@components/ui/ObjectsFilter.astro";
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
+import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
+
+const allObjects = await getCollection("objects");
 ---
 
 <Layout 
   pageTitle="Объекты реализованные командой ПланкенАрт"
-  pageDescription="Полный список проектов, реализованных командой ПланкенАрт"
+  pageDescription="Полный список объектов, реализованных командой ПланкенАрт"
 >
   <FilterOverlay/>
   <Hero
     title="Объекты ПланкенАрт"
-    excerpt="Реализованные проекты по монтажу и обработке планкена, террасной доски и других материалов."
+    excerpt="Галерея проектов, реализованных нашей командой."
     img={catalogImg}
-    imgClass="home"
-    wrapperClass="home"
   />
-  <ObjectsFilter/>
+  <div class="px-2 lg:px-4 text-foreground mt-4 mb-8">
+    <ObjectsFilter/>
+    <div class="mx-auto max-w-7xl mt-2.5">
+      <ul
+        id="grid"
+        class="grid gap-2 
+                grid-cols-1 
+                xs:grid-cols-2 
+                sm:grid-cols-3 
+                "
+      >
+        {allObjects.map(o => <ObjectCard object={o} />)}
+      </ul>
+      <ElementsNotFound/>
+    </div>
+  </div>
 </Layout>
 
 <script>
