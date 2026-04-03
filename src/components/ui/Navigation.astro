@@ -12,22 +12,26 @@ const current = Astro.url.pathname;
 
 <nav
   aria-label="Основная навигация"
-  class="px-5 font-inter font-semibold w-112.5 
-  tracking-tight flex items-center justify-between h-12.5 gap-2.5
+  class="font-inter font-semibold  
+  tracking-tight h-12.5 
   bg-nav backdrop-blur-xl rounded-[20px] translate-y-5 shadow-xl/7"
 >
-  {links.map(({ href, label }) => (
-    <a
-      href={href}
-      aria-current={current.startsWith(href) ? "page" : undefined}
-      class:list={[
-        "hover:underline transition-all duration-300",
+  <ul class="flex p-0.75 items-center justify-between gap-0.75 my-auto h-full">
+    {links.map(({ href, label }) => (
+      <li class:list={[
+        "py-2 px-6 h-full rounded-[18px] flex items-center hover:bg-html/80 ",
+        "transition-all duration-150 active:scale-105 hover:text-foreground",
         current.startsWith(href)
-          ? "underline"
+          ? "bg-btn/80"
           : ""
-      ]}
-    >
-      {label}
-    </a>
-  ))}
+      ]}>
+        <a
+          href={href}
+          aria-current={current.startsWith(href) ? "page" : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
 </nav>

@@ -14,7 +14,7 @@ const current = Astro.url.pathname;
 <div
   id="mobile-menu-overlay"
   class="fixed inset-0 z-100 opacity-0 
-         pointer-events-none transition-opacity duration-500
+         pointer-events-none transition-opacity duration-300
          backdrop-blur-[10px] bg-black/70 lg:hidden"
   aria-hidden="true"
 ></div>
@@ -25,31 +25,37 @@ const current = Astro.url.pathname;
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
-  class="fixed top-19 right-0 z-101 lg:hidden
-         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-500"
+  class="fixed top-20 right-0 z-101 lg:hidden
+         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-200"
 >
   <nav 
     aria-label="Меню навигации" 
-    class="flex flex-col px-2 font-inter font-semibold gap-1"
   >
-    {links.map(({ href, label }) => (
-      <div class="menu-item-wrap">
-        <a
-          href={href}
-          aria-current={current.startsWith(href) ? "page" : undefined}
-          class:list={[
-            "menu-link flex items-center justify-center tracking-tight w-41 h-7.5",
-            "transform-gpu will-change-transform rounded-xl",
-            "transition-colors hover:bg-amber-fade duration-300 bg-nav",
-            current.startsWith(href)
-            ? "underline"
+    <ul class="flex flex-col px-2 font-inter font-semibold gap-1">
+      {links.map(({ href, label }) => (
+        <li class:list={[
+          "overflow-hidden bg-nav p-0.75 w-41 h-12 rounded-[18px] flex justify-center",
+          current.startsWith(href)
+            ? "bg-btn/80"
             : ""
-          ]}
-        >
-          {label}
-        </a>
-      </div>
-    ))}
+        ]}>
+          <a
+            href={href}
+            aria-current={current.startsWith(href) ? "page" : undefined}
+            class:list={[
+              "menu-link flex items-center justify-center tracking-tight w-full",
+              "rounded-[17px] text-xl",
+              "transition-colors hover:bg-html/80 duration-200 hover:text-foreground",
+              current.startsWith(href)
+              ? "bg-btn/80"
+              : ""
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
   </nav>
 </div>
 
@@ -59,7 +65,7 @@ const current = Astro.url.pathname;
   const overlay = document.getElementById("mobile-menu-overlay")!;
   const links   = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
 
-  const DURATION = 100;
+  const DURATION = 70;
   const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
 
   let closeTimer: ReturnType<typeof setTimeout> | null = null;

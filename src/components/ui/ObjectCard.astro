@@ -29,7 +29,9 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
       <Image
         src={object.data.heroImage}
         alt={object.data.imageAlt ?? object.data.title}
-        class="w-full h-32 xs:h-40 object-cover transition-all duration-300 rounded-2xl group-hover:scale-102"
+        class="w-full h-32 xs:h-40 object-cover transition-all 
+               duration-300 rounded-2xl group-hover:scale-102
+               active:scale-105"
         loading="lazy"
         decoding="async"
         widths={[300, 500]}

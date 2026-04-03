@@ -21,10 +21,10 @@ const {
 
 const imgClasses = {
   default: "h-[50svh] lg:h-[90svh] lg:max-h-225",
-  home: "h-[90svh] lg:max-h-225 min-h-162.5 object-[60%_0%] sm:object-[0%_30%] mx-auto max-w-500",
+  home: "h-[100vh] lg:max-h-225 min-h-162.5 mx-auto max-w-500",
   short: "",
 }
-const imgBase = `w-full object-cover rounded-b-[20px] lg:rounded-b-[30px] transition-all duration-300`
+const imgBase = `w-full object-cover rounded-b-[20px] lg:rounded-b-[30px]`
 
 const wrapperClasses = {
   default: "w-content gap-4",
@@ -75,7 +75,7 @@ const isArray = Array.isArray(title);
           class:list={[
             "w-full lg:max-w-190 xl:w-auto flex justify-center items-center transition-colors duration-300 gap-4", 
             "rounded-[20px] h-12.5 font-medium bg-html hover:bg-btn text-foreground group", 
-            "px-7.5 py-2.5 backdrop-blur-xl",
+            "px-7.5 py-2.5 backdrop-blur-xl active:scale-105",
           ]}
         >
           <span>Написать специалисту</span>

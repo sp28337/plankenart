@@ -18,7 +18,8 @@ const tgHref = "https://t.me/Spedd87";
     variant === "desktop"
     ? "bg-none translate-y-5"
     : "bg-nav translate-y-3.5 p-2",
-    "flex items-center backdrop-blur-xl lg:backdrop-blur-none h-14 rounded-[23px] gap-2.5"
+    "flex items-center backdrop-blur-xl lg:backdrop-blur-none ",
+    "h-fit rounded-[23px] gap-2.5",
   ]}
 >
 
@@ -31,7 +32,7 @@ const tgHref = "https://t.me/Spedd87";
       ? "hover:bg-html backdrop-blur-xl shadow-xl/7" 
       : "hover:bg-html",
       "flex justify-center items-center bg-btn rounded-full", 
-      "group w-11 h-11 transition-colors duration-300",
+      "group w-11 h-11 transition-colors duration-150 active:scale-105",
     ]}
   >
     <Svg size="xl">
@@ -44,8 +45,8 @@ const tgHref = "https://t.me/Spedd87";
     href={phoneHref}
     aria-label={`Позвонить: ${phone}`}
     class:list={[
-      "flex justify-center items-center transition-colors duration-300", 
-      "rounded-[20px] font-bold bg-btn text-foreground group",
+      "flex justify-center items-center transition-colors duration-150", 
+      "rounded-[20px] font-bold bg-btn text-foreground group active:scale-105",
       variant === "desktop" 
       ? "w-auto h-12.5 gap-4 px-6.25 hover:bg-html backdrop-blur-xl shadow-xl/7" 
       : "w-11 h-11 hover:bg-html"
@@ -65,8 +66,8 @@ const tgHref = "https://t.me/Spedd87";
     aria-controls="mobile-menu"
     class:list={[
       variant === "desktop" && "hidden",
-      "flex justify-center items-center w-10",
-      "h-10 rounded-full cursor-pointer group"
+      "flex justify-center items-center w-10 active:scale-120",
+      "h-10 rounded-full cursor-pointer group transition-all duration-150"
     ]}
   >
     <Svg viewBox="burger" size="m" hover="burger">

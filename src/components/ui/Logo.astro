@@ -10,8 +10,11 @@ const { variant = "mobile" } = Astro.props;
 <a 
   href="/" 
   class:list={[
-    variant === "desktop" ? "px-3 py-5" : "px-2 py-3",
-    "flex justify-center items-center bg-white rounded-b-3xl shadow-xl/3",
+    variant === "desktop" 
+    ? "px-3 pt-5 pb-3 rounded-b-3xl" 
+    : "px-2 pt-3 pb-3 rounded-b-2xl",
+    "flex justify-center items-end -mt-3 lg:-mt-5 bg-white  shadow-xl/3",
+    "active:translate-y-3 lg:active:translate-y-5 transition-all duration-200 h-[130%]",
   ]}
 >
   <Picture
