@@ -3,11 +3,8 @@ import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import H2 from '@components/ui/H2.astro';
 import Tag from '@components/ui/Tag.astro';
-import MaterialCard from '@components/ui/MaterialCard.astro';
-import {
-  getRelatedMaterials,
-} from '../../lib/materials';
-import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import ObjectCard from '@components/ui/ObjectCard.astro';
+import { getCollection, getEntry, getEntries, render, type CollectionEntry } from 'astro:content';
 
 interface Props {
   material: CollectionEntry<"materials">
@@ -26,8 +23,7 @@ const { Content } = await render(material);
 
 const woodType = await getEntry(material.data.woodType)
 const materialType = await getEntry(material.data.materialType)
-
-const related = await getRelatedMaterials(material.id, materialType.data.title, 3);
+const relatedObjects = await getEntries(material.data.relatedObjects)
 ---
 
 <Layout
@@ -109,13 +105,15 @@ const related = await getRelatedMaterials(material.id, materialType.data.title, 
                   <p class="m-0 ">{material.data.application}</p>
                 </div>
               </section>
-              <hr class=" border-line">
-              {related.length > 0 && (
+              {relatedObjects.length > 0 && (
                 <section class="flex flex-col gap-8">
-                  <H2 title="Другие варианты:"/>
-                  <div class="grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-2 md:gap-5">
-                    {related.map(rel => <MaterialCard material={rel}/>)}
-                  </div>
+                  <H2 title="Где использовали:"/>
+                  <ul class="grid gap-2 md:gap-5
+                             grid-cols-1 
+                             xs:grid-cols-2 
+                             sm:grid-cols-3 ">
+                    {relatedObjects.map(rel => <ObjectCard object={rel}/>)}
+                  </ul>
                 </section>
               )}
             </div>

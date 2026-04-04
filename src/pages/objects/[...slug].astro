@@ -3,7 +3,7 @@ import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import H2 from '@components/ui/H2.astro';
 import Tag from '@components/ui/Tag.astro';
-import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, getEntries, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import DiscountSlider from '@components/ui/DiscountSlider.astro';
 interface Props {
@@ -22,8 +22,8 @@ const { object } = Astro.props;
 const { Content } = await render(object);
 
 const objectType    = await getEntry(object.data.objectType);
-const woodTypes     = await Promise.all(object.data.woodTypes.map(ref => getEntry(ref)));
-const materialTypes = await Promise.all(object.data.materialTypes.map(ref => getEntry(ref)));
+const materialTypes = await getEntries(object.data.materialTypes);
+const woodTypes = await getEntries(object.data.woodTypes);
 ---
 
 <Layout

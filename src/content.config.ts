@@ -5,23 +5,20 @@ import { z } from "astro/zod";
 const materials = defineCollection({
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/materials" }),
   schema: ({ image }) => z.object({
-    // SEO
     metaTitle:       z.string().max(60),
     metaDescription: z.string().max(160),
 
-    // Контент
     title:       z.string(),
     excerpt:     z.string(),
     description: z.string(),
     advantages:  z.array(z.string()),
     application: z.string(),
 
-    // Таксономия (питает фильтр)
+    relatedObjects: z.array(reference("objects")),
     materialType: reference("materialTypes"),
     woodType: reference("woodTypes"),
     tags: z.array(z.string()),
 
-    // UI
     sortOrder: z.number().default(99),
     imageAlt: z.string().optional(),
     coverImage: image(),
