@@ -1,0 +1,135 @@
+---
+import H2 from './H2.astro';
+
+const discounts = [
+        "При заказе от 100 м² — скидка 10%",
+        "10% скидка на масло при заказе услуг по обработке древесины",
+        "При заказе от 300 м² — скидка 15%",
+      ];
+const interval = 5000;
+---
+
+<section class="w-full flex flex-col items-center">
+  <H2 title="Скидки и акции" />
+
+  <ul class="discount-slider relative w-full flex items-center justify-center mt-6 md:mt-10 h-20 leading-6 lg:leading-12">
+    {discounts.map((discount, i) => (
+      <li class="ml1 absolute inset-0 w-full flex items-center justify-center" data-index={i}>
+        <div class="text-wrapper font-inter font-bold text-text-gradient-top
+                    text-center text-[clamp(1.6rem,3.6vw,2.65rem)]"
+             >
+          <span class="letters">{discount}</span>
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  <div class="flex items-center justify-center gap-2 mt-8">
+    {discounts.map((_, i) => (
+      <div class="discount-dot relative h-1.25 rounded-full bg-foreground/20 overflow-hidden"
+           style={`width:${i === 0 ? '28px' : '5px'}`}>
+        <div class="discount-dot-fill absolute inset-0 rounded-full bg-foreground origin-left"
+             style="transform:scaleX(0)" />
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .ml1 {
+    opacity: 0;
+  }
+
+  .ml1 .letter {
+    display: inline-block;
+    line-height: 1em;
+  }
+
+  .discount-dot {
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fill-progress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .discount-dot-fill.is-filling {
+    animation: fill-progress var(--fill-duration, 5000ms) linear forwards;
+  }
+</style>
+
+<script is:inline define:vars={{ interval }}>
+  const animeScript = document.createElement('script');
+  animeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js';
+  animeScript.onload = boot;
+  document.head.appendChild(animeScript);
+
+  function boot() {
+    document.querySelectorAll('.discount-slider').forEach(slider => {
+      const section = slider.closest('section');
+      const items   = Array.from(slider.querySelectorAll('.ml1'));
+      const dots    = Array.from(section.querySelectorAll('.discount-dot'));
+      const fills   = Array.from(section.querySelectorAll('.discount-dot-fill'));
+      const total   = items.length;
+      let current   = 0;
+
+      fills.forEach(f => f.style.setProperty('--fill-duration', `${interval}ms`));
+
+      items.forEach(item => {
+        const el = item.querySelector('.letters');
+        el.innerHTML = el.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+      });
+
+      function updateDots(i) {
+        dots.forEach((d, di) => {
+          d.style.width = di === i ? '28px' : '5px';
+        });
+        fills.forEach((f, fi) => {
+          f.classList.remove('is-filling');
+          void f.offsetWidth;
+          if (fi === i) f.classList.add('is-filling');
+        });
+      }
+
+      function enter(i) {
+        const item = items[i];
+
+        anime.set(item, { opacity: 1 });
+        anime.set(item.querySelectorAll('.letter'), { scale: 0.3, opacity: 0 });
+
+        anime.timeline()
+          .add({
+            targets: item.querySelectorAll('.letter'),
+            scale:   [0.3, 1],
+            opacity: [0, 1],
+            translateZ: 0,
+            easing: 'easeOutExpo',
+            duration: 300,
+            delay: (el, i) => 40 * (i + 1),
+          })
+
+        updateDots(i);
+      }
+
+      function exit(i, onComplete) {
+        anime({
+          targets:  items[i],
+          opacity:  0,
+          duration: 1000,
+          easing:   'easeInExpo',
+          complete: onComplete,
+        });
+      }
+
+      function advance() {
+        const prev = current;
+        current = (current + 1) % total;
+        exit(prev, () => enter(current));
+      }
+
+      enter(0);
+      setInterval(advance, interval);
+    });
+  }
+</script>

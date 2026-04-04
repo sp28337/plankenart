@@ -5,7 +5,7 @@ import H2 from '@components/ui/H2.astro';
 import Tag from '@components/ui/Tag.astro';
 import { getCollection, getEntry, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-
+import DiscountSlider from '@components/ui/DiscountSlider.astro';
 interface Props {
   object: CollectionEntry<'objects'>;
 }
@@ -53,7 +53,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
 
             <section class="flex flex-col gap-6">
               <H2 title="История объекта" page="object"/>
-              <div class="flex flex-col gap-2 w-full">
+              <div class="flex flex-col gap-2 w-full text-center">
                 {object.data.description.split('\n\n').map(p =>
                   p.trim() && <p>{p.trim()}</p>
                 )}
@@ -92,6 +92,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
 
           </div>
         </div>
+        <DiscountSlider/>
       </div>
     </div>
   </article>
