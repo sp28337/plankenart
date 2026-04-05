@@ -20,7 +20,7 @@ const {
 
 
 const imgClasses = {
-  default: "h-[80vh] min-h-[400px] mx-auto max-w-500 lg:max-h-270",
+  default: "h-screen 2xs:h-[80vh] min-h-[400px] mx-auto max-w-500 lg:max-h-270",
   home: "",
   short: "",
 }
@@ -55,7 +55,7 @@ const isArray = Array.isArray(title);
     >
       <div class=`${wrapperBase} ${wrapperClasses[wrapperClass]}`
       >
-        <h1 class="tracking-tighter text-[clamp(1.5rem,4.5vw,3.2rem)] font-bold 
+        <h1 class="tracking-tighter text-[clamp(1.7rem,4.5vw,3.2rem)] font-bold 
               leading-6 sm:leading-8 lg:leading-12">
           {isArray ? (
             <>{title[0]}<br/>{title[1]}</>
