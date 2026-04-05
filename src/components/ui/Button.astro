@@ -3,7 +3,7 @@ import Svg from "../svg/Svg.astro"
 import Arrow from "../svg/arrow.astro";
 
 interface Props {
-  variant?: "default" | "catalog"
+  variant?: "default" | "catalog" | "404"
   href: string;
   title: string;
 }
@@ -15,6 +15,7 @@ const {
 
 const variants = {
   default: "",
+  "404": "max-w-105",
   catalog: "lg:max-w-105",
 }
 
