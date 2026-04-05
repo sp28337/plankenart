@@ -8,14 +8,14 @@ const numbers = [
 	{number: 100, sign: "%", text: "качество"},
 ]
 ---
-<div 
+<dl 
   id="numbers-section" 
   class="grid grid-cols-2 md:grid-cols-4 w-full gap-2 
         md:gap-8 place-items-center reveal">
   {numbers.map(({number, sign, text}) => (
     <NumbersCard number={number} sign={sign} text={text}/>
   ))}
-</div>
+</dl>
 <script is:inline>
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 

@@ -27,7 +27,10 @@ const base = `transition-all duration-300 relative flex px-2 sm:px-0 w-full just
               font-semibold lg:px-2 group reveal`;
 const classes = `${base} ${variants[variant]}`;
 ---
-<li class={classes}>
+<a 
+  class={classes}
+  href={route} 
+>
   <div class="min-w-40 truncate">
     <h3 class="text-foreground shrink-0 text-sm group-hover:text-amber-fade 
                group-hover:underline transition-all duration-300"
@@ -35,13 +38,7 @@ const classes = `${base} ${variants[variant]}`;
       {title}
     </h3>
   </div>
-
-  <a 
-    href={route} 
-    class="after:absolute after:inset-0"
-    aria-label={title}
-  >
-  </a>
+  
   <Image
     src={img}
     alt=""
@@ -50,4 +47,4 @@ const classes = `${base} ${variants[variant]}`;
     loading="eager"
     widths={[150]}
   />
-</li>
+</a>

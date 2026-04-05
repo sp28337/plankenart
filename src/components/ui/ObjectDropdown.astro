@@ -33,7 +33,7 @@ const objectTypes = await getCollection("objectTypes");
     />
   </button>
 
-  <ul
+  <div
     id="object-panel"
     role="listbox"
     aria-labelledby="object-listbox-label"
@@ -43,7 +43,7 @@ const objectTypes = await getCollection("objectTypes");
            flex flex-col gap-1 font-semibold list-none m-0 p-0"
   >
     {objectTypes.map(o => (
-      <li class="overflow-hidden" role="presentation">
+      <div class="overflow-hidden" role="presentation">
         <button
           type="button"
           id={`object-option-${o.id}`}
@@ -60,10 +60,10 @@ const objectTypes = await getCollection("objectTypes");
           <Scan class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
           {o.data.title}
         </button>
-      </li>
+      </div>
     ))}
 
-    <li class="overflow-hidden" role="presentation">
+    <div class="overflow-hidden" role="presentation">
       <button
         type="button"
         id="object-option-reset"
@@ -80,8 +80,8 @@ const objectTypes = await getCollection("objectTypes");
         <X class="w-4.5 h-4.5 shrink-0 pointer-events-none" aria-hidden="true" />
         <span>Сбросить фильтр</span>
       </button>
-    </li>
-  </ul>
+    </div>
+  </div>
 
   <input type="hidden" id="filter-object" name="object" value="" />
 </div>

@@ -23,8 +23,8 @@ const advantagers = [
 ---
 <section class="flex flex-col items-center w-full gap-6 md:gap-10 lg:gap-14">
   <H2 title="Наши преимущества"/>
-  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
-              w-full place-items-center gap-2 cursor-default">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
+              w-full gap-2 cursor-default">
     {
       advantagers.map(({title, text}) => (
         <AdvantagesCard 
@@ -34,5 +34,5 @@ const advantagers = [
         />
       ))
     }
-  </ul>
+  </div>
 </section>

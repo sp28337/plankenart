@@ -13,7 +13,7 @@ const { number, sign, text } = Astro.props
          border-dashed border-border rounded-2xl md:rounded-3xl w-full font-bold
          tracking-tighter h-[clamp(160px,15vh,180px)] sm:h-[clamp(180px,20vh,280px)]"
 >
-  <div class="">
+  <dt class="">
     <span
       class:list={[
         "text-gradient text-[clamp(3rem,3.5vw,4rem)] flex items-center",
@@ -26,11 +26,11 @@ const { number, sign, text } = Astro.props
     >
       0
     </span>
-  </div>
+  </dt>
 
-  <span class="text-gradient text-center text-[clamp(1rem,1.5vw,2rem)]">
+  <dd class="text-gradient text-center text-[clamp(1rem,1.5vw,2rem)]">
     {text}
-  </span>
+  </dd>
 </div>
 
 

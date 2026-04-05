@@ -47,11 +47,11 @@ const row_2 = [
 ]
 ---
 <section 
-  aria-labelledby="catalog-heading"
+  aria-labelledby="materials-heading"
   class="flex flex-col gap-6 md:gap-10 lg:gap-14 justify-between items-center max-w-7xl w-full"
 >
-  <H2 title="Материалы"/>
-  <ul class="flex flex-col gap-2 w-full">
+  <H2 id="materials-heading" title="Материалы"/>
+  <div class="flex flex-col gap-2 w-full">
     <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
       <div class="flex flex-col gap-2 lg:flex-row w-full">
         {row_1.map(({ href, img, title }) => (
@@ -81,5 +81,5 @@ const row_2 = [
       />
       <Button href="/materials" title="перейти в каталог" variant="catalog"/>
     </div>
-  </ul>
+  </div>
 </section>

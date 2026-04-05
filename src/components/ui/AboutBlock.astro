@@ -3,54 +3,57 @@ import Button from "@components/ui/Button.astro"
 import AdvantagesCard from "@components/ui/AdvantagesCard.astro"
 import H2 from "@components/ui/H2.astro"
 ---
-<section 
+<section
   aria-labelledby="about-heading"
   class="flex flex-row gap-10 justify-between items-center max-w-7xl w-full"
 >
   <div class="flex flex-col gap-6 md:gap-10 lg:gap-14 lg:max-w-125">
-    <H2 title="О нас"/>
+    <H2 id="about-heading" title="О нас" />
+
     <div class="flex flex-col gap-4 lg:gap-8 cursor-default reveal">
       <p class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5 lg:leading-none">
-        Наша компания специализируется на обработке 
+        Наша компания специализируется на обработке
         погонажных изделий различных пород древесины
       </p>
-      
       <p class="text-[14px] md:text-lg opacity-70">
-        Мы шлифуем древесину на профессиональном оборудовании и покрываем её 
-        натуральными составами, такими как масла, лазурь и краска. 
+        Мы шлифуем древесину на профессиональном оборудовании и покрываем её
+        натуральными составами, такими как масла, лазурь и краска.
         На рынке более 10 лет, и за это время мы точно научились подготавливать материалы так,
         чтобы масло ложилось ровно, а готовое изделие выглядело аккуратно и дорого.
       </p>
     </div>
-    <Button href="/about" title="подробнее"/>
+
+    <Button href="/about" title="подробнее" />
   </div>
-  <div class="sr-only">
-    <H2 title="Наши преимущества"/>
-  </div>
-  <ul class="hidden lg:flex gap-2 items-center justify-center cursor-default">
+
+  <div
+    role="region"
+    aria-label="Наши преимущества"
+    class="hidden lg:flex gap-2 items-center justify-center cursor-default"
+  >
     <div class="flex flex-col gap-2 items-end w-fill mt-8">
       <AdvantagesCard
         title="Гарантия качества"
         content="Cотрудничаем с официальным дилером масел OSMO в Нижнем Новгороде."
         size="s"
       />
-      <AdvantagesCard 
+      <AdvantagesCard
         title="Натуральные масла для защиты древесины"
         content="Работаем с качественными натуральными маслами для дерева, которые глубоко проникают в структуру, защищают от влаги и подчеркивают природную текстуру древесины."
         size="xl"
       />
     </div>
     <div class="flex flex-col gap-2 items-start w-fill">
-      <AdvantagesCard 
+      <AdvantagesCard
         title="Высокоточная шлифовка"
         content="Используем профессиональное оборудование для шлифовки. Обеспечиваем идеально ровное покрытие без дефектов и перепадов."
         size="l"
       />
-      <AdvantagesCard 
+      <AdvantagesCard
         title="Современный дизайн"
         content="Следим за трендами отделки и предлагаем актуальные решения для вашего проекта"
         size="m"
       />
     </div>
-  </ul>
+  </div>
 </section>

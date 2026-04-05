@@ -23,7 +23,7 @@ const allObjects = await getCollection("objects");
   <div class="px-2 lg:px-4 text-foreground mt-4 mb-8">
     <ObjectsFilter/>
     <div class="mx-auto max-w-7xl mt-2.5">
-      <ul
+      <div
         id="grid"
         class="grid gap-2 
                 grid-cols-1 
@@ -32,7 +32,7 @@ const allObjects = await getCollection("objects");
                 "
       >
         {allObjects.map(o => <ObjectCard object={o} />)}
-      </ul>
+      </div>
       <ElementsNotFound/>
     </div>
   </div>

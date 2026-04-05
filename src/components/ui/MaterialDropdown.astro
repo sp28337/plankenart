@@ -30,7 +30,7 @@ const materialTypes = await getCollection("materialTypes");
       class="w-4 h-4 shrink-0 pointer-events-none transition-transform duration-200"
     />
   </button>
-  <ul
+  <div
     id="type-panel"
     role="listbox"
     aria-hidden="true"
@@ -40,7 +40,7 @@ const materialTypes = await getCollection("materialTypes");
     <div class="flex flex-col gap-1 font-semibold">
 
       {materialTypes.map(t => (
-        <li class="overflow-hidden">
+        <div class="overflow-hidden">
           <button type="button"
             id={`material-option-${t.id}`}
             role="option"
@@ -55,9 +55,9 @@ const materialTypes = await getCollection("materialTypes");
             <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
             {t.data.title}
           </button>
-        </li>
+        </div>
       ))}
-      <li class="overflow-hidden">
+      <div class="overflow-hidden">
         
         <button 
           id="material-option-reset"
@@ -76,8 +76,8 @@ const materialTypes = await getCollection("materialTypes");
             Сбросить фильтр
           </span>
         </button>
-      </li>
+      </div>
     </div>
-  </ul>
+  </div>
   <input type="hidden" id="filter-type" name="material" value="" />
 </div>

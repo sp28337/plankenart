@@ -4,21 +4,24 @@ import parketCentrLogo from "@assets/parket-centr-logo.png";
 import { Image } from "astro:assets"
 import H2 from "./H2.astro";
 ---
-<section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center">
-  <H2 title="Партнёры" />
+<section 
+  aria-labelledby="partners-heading"
+  class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+>
+  <H2 id="partners-heading" title="Партнёры" />
   <div
     class="flex flex-col sm:flex-row items-center justify-around w-full gap-10 reveal"
   >
     <Image
       src={osmoLogo}
-      alt=""
+      alt="Логотип компании OSMO"
       class="w-50"
       loading="eager"
       widths={[200]}
     />
     <Image
       src={parketCentrLogo}
-      alt=""
+      alt="Логотип компании Паркет Центр"
       class=""
       loading="eager"
       widths={[200]}

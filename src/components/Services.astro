@@ -5,14 +5,14 @@ import mirka from "@assets/services/mirka.png"
 import oil from "@assets/services/oil.png"
 import color from "@assets/services/colors.png"
 import drel from "@assets/services/drel.png"
-import clipboard from "@assets/services/clipboard.png"
 import blueprint from "@assets/services/blueprint.png"
 ---
 <section
   id="services"
+  aria-labelledby="services-heading"
   class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center">
-  <H2 title="Услуги"/>
-  <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-8">
+  <H2 id="services-heading" title="Услуги"/>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-8">
     <ServiceCard
       imgVariant="1"
       img={mirka}
@@ -57,7 +57,6 @@ import blueprint from "@assets/services/blueprint.png"
           />
         </div>
       </div>
-
     </div>
-  </ol>
+  </div>
 </section>
