@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
-import heroImg from '@assets/rest-place.png';
+import heroImg from '@assets/rest-place-improved.png';
 import about1 from '@assets/about1.png';
 import about2 from '@assets/about2.png';
 import FAQ from '@components/ui/FAQ.astro';
@@ -10,6 +10,7 @@ import AboutContentBlock from '@components/ui/AboutContentBlock.astro';
 import NumbersBlock from '@components/ui/NumbersBlock.astro';
 import AdvantagesBlock from '@components/ui/AdvantagesBlock.astro';
 import DiscountSlider from '@components/ui/DiscountSlider.astro';
+import CollaborationsBlock from '@components/ui/CollaborationsBlock.astro';
 
 const content = {
 	block1: {
@@ -53,6 +54,7 @@ const content = {
 			<AdvantagesBlock/>
 			<FAQ/>
 			<DiscountSlider/>
+			<CollaborationsBlock/>
 		</div>
 	</div>
 </Layout>
