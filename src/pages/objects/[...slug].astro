@@ -41,7 +41,7 @@ const woodTypes = await getEntries(object.data.woodTypes);
         <div class="w-full">
           <div class="flex flex-col gap-8">
 
-            <div class="flex flex-wrap justify-center gap-2 h-fit">
+            <div class="flex flex-wrap justify-center gap-2 h-fit reveal">
               <Tag href={`/objects?object=${objectType.id}`} tag={objectType.data.title} />
               {woodTypes.map(w => (
                 <Tag href={`/objects?wood=${w.id}`} tag={w.data.title} />
@@ -51,9 +51,10 @@ const woodTypes = await getEntries(object.data.woodTypes);
               ))}
             </div>
 
-            <section class="flex flex-col gap-6">
+
+            <section class="flex flex-col gap-6 reveal">
               <H2 title="История объекта" page="object"/>
-              <div class="flex flex-col gap-2 w-full text-center">
+              <div class="flex flex-col gap-2 w-full">
                 {object.data.description.split('\n\n').map(p =>
                   p.trim() && <p>{p.trim()}</p>
                 )}
@@ -63,23 +64,24 @@ const woodTypes = await getEntries(object.data.woodTypes);
               </div>
             </section>
 
+
             {object.data.images.length > 0 && (
-              <section class="flex flex-col gap-6 sm:gap-10">
+              <section class="flex flex-col gap-6 sm:gap-10 w-full reveal">
                 <H2 title="Фотографии проекта" page="object"/>
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6" id="lightbox-gallery">
                   {object.data.images.map((img, i) => (
                     <li
                       class="rounded-2xl lg:rounded-3xl overflow-hidden border border-dashed
-                             border-border p-2 group hover:border-solid transition-all duration-300
-                             cursor-zoom-in"
+                            border-border p-2 group hover:border-solid transition-all duration-300
+                            cursor-zoom-in"
                       data-lightbox-index={i}
                     >
                       <Image
                         src={img}
                         alt={`${object.data.title} — фото ${i + 1}`}
                         class="w-full aspect-3/2 object-cover transition-all duration-200 
-                               group-hover:scale-101 rounded-2xl lg:rounded-3xl pointer-events-none
-                               active:scale-115"
+                              group-hover:scale-101 rounded-2xl lg:rounded-3xl pointer-events-none
+                              active:scale-115"
                         loading="lazy"
                         widths={[300, 500, 900]}
                         sizes="(max-width: 480px) 300px, 500px"
@@ -92,7 +94,9 @@ const woodTypes = await getEntries(object.data.woodTypes);
 
           </div>
         </div>
-        <DiscountSlider/>
+        <div class="reveal w-full flex flex-col items-center">
+          <DiscountSlider/>
+        </div>
       </div>
     </div>
   </article>
@@ -287,4 +291,19 @@ const woodTypes = await getEntries(object.data.woodTypes);
     else if (touchDeltaX > 50) prev();
     touchDeltaX = 0;
   });
+
+  // reveal animation
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 </script>

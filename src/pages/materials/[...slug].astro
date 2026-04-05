@@ -43,7 +43,7 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
         <div class="w-full">
   
           <!-- tag-list -->
-          <div class="flex flex-wrap justify-center gap-2 mb-5 h-fit">
+          <div class="flex flex-wrap justify-center gap-2 mb-5 h-fit reveal">
             <Tag 
               href=`/materials?type=${materialType.id}` 
               tag={materialType.data.title}
@@ -63,7 +63,7 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
             <div class="flex flex-col gap-8">
   
               <!-- sect: О материале -->
-              <section class="flex flex-col gap-4 items-center cursor-default">
+              <section class="flex flex-col gap-4 items-center cursor-default reveal">
                 <H2 title="О материале"/>
                 <div class="flex flex-col gap-2 w-full">
                   {material.data.description.split('\n\n').map((p) =>
@@ -77,7 +77,7 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
   
               <div class="flex flex-col md:flex-row gap-4 cursor-default">
                 <!-- sect: Особенности -->
-                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%]">
+                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%] reveal">
                   <H2 title="Особенности"/>
                   <ul class="list-none flex flex-col w-full">
                     {material.data.advantages.map((adv) => (
@@ -101,7 +101,7 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
                 </section>
     
                 <!-- sect: Применение -->
-                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%]">
+                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%] reveal">
                   <H2 title="Где применяют"/>
                   <ul class="list-none flex flex-col w-full">
                     {material.data.application.map((app) => (
@@ -128,7 +128,7 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
                 </section>
               </div>
               {relatedObjects.length > 0 && (
-                <section class="flex flex-col gap-8 items-center">
+                <section class="flex flex-col gap-8 items-center reveal">
                   <H2 title="Объекты"/>
                   <ul class="grid gap-2 md:gap-5
                              grid-cols-1 
@@ -147,3 +147,19 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
     </div>
   </article>
 </Layout>
+<script>
+  // reveal animation
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08 }
+  );
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
