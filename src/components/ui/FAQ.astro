@@ -25,9 +25,9 @@ const faqs = [
 ];
 ---
 
-<section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center reveal">
+<section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center">
   <H2 title="Частые вопросы"/>
-  <div class="w-full flex flex-col gap-2 md:gap-6 ">
+  <ul class="w-full flex flex-col gap-2 md:gap-6 reveal">
     {faqs.map((faq, i) => (
       <li class="list-none">
         <details class="group" name="faq">
@@ -61,7 +61,5 @@ const faqs = [
       </li>
       <hr class="border-line/30 group-open:hidden"/>
     ))}
-    
-  </div>
   </ul>
 </section>

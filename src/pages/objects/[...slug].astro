@@ -52,13 +52,13 @@ const woodTypes = await getEntries(object.data.woodTypes);
             </div>
 
 
-            <section class="flex flex-col gap-6 reveal">
+            <section class="flex flex-col gap-6">
               <H2 title="История объекта" page="object"/>
-              <div class="flex flex-col gap-2 w-full">
+              <div class="flex flex-col gap-2 w-full reveal">
                 {object.data.description.split('\n\n').map(p =>
                   p.trim() && <p>{p.trim()}</p>
                 )}
-                <div class="text-foreground flex flex-col gap-2">
+                <div class="text-foreground flex flex-col gap-2 reveal">
                   <Content />
                 </div>
               </div>
@@ -66,14 +66,14 @@ const woodTypes = await getEntries(object.data.woodTypes);
 
 
             {object.data.images.length > 0 && (
-              <section class="flex flex-col gap-6 sm:gap-10 w-full reveal">
+              <section class="flex flex-col gap-6 sm:gap-10 w-full">
                 <H2 title="Фотографии проекта" page="object"/>
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6" id="lightbox-gallery">
                   {object.data.images.map((img, i) => (
                     <li
                       class="rounded-2xl lg:rounded-3xl overflow-hidden border border-dashed
                             border-border p-2 group hover:border-solid transition-all duration-300
-                            cursor-zoom-in"
+                            cursor-zoom-in reveal"
                       data-lightbox-index={i}
                     >
                       <Image
@@ -94,7 +94,7 @@ const woodTypes = await getEntries(object.data.woodTypes);
 
           </div>
         </div>
-        <div class="reveal w-full flex flex-col items-center">
+        <div class="w-full flex flex-col items-center">
           <DiscountSlider/>
         </div>
       </div>
@@ -291,19 +291,4 @@ const woodTypes = await getEntries(object.data.woodTypes);
     else if (touchDeltaX > 50) prev();
     touchDeltaX = 0;
   });
-
-  // reveal animation
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.08 }
-  );
-
-  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 </script>

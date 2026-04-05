@@ -9,10 +9,11 @@ const discounts = [
 const interval = 5000;
 ---
 
-<section class="w-full flex flex-col items-center cursor-default reveal">
+<section class="w-full flex flex-col items-center cursor-default">
   <H2 title="Скидки и акции" />
 
-  <ul class="discount-slider relative w-full flex items-center justify-center mt-6 md:mt-10 h-20 leading-6 lg:leading-12">
+  <ul class="discount-slider relative w-full flex items-center justify-center 
+             mt-6 md:mt-10 h-20 leading-6 lg:leading-12 reveal">
     {discounts.map((discount, i) => (
       <li class="ml1 absolute inset-0 w-full flex items-center justify-center" data-index={i}>
         <div class="text-wrapper font-inter font-bold text-text-gradient-top
@@ -24,7 +25,7 @@ const interval = 5000;
     ))}
   </ul>
 
-  <div class="flex items-center justify-center gap-2 mt-8">
+  <div class="flex items-center justify-center gap-2 mt-8 reveal">
     {discounts.map((_, i) => (
       <div class="discount-dot relative h-1.25 rounded-full bg-foreground/10 overflow-hidden"
            style={`width:${i === 0 ? '28px' : '5px'}`}>

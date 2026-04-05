@@ -15,7 +15,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
 
 <li
   class="object-card group flex flex-col rounded-2xl
-         relative w-full
+         relative w-full reveal
          transition-all duration-300 no-underline"
   data-object={objectType.id}
   data-wood={woodTypes.map(w => w.id).join(' ')}
