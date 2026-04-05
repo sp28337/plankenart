@@ -12,7 +12,7 @@ const materials = defineCollection({
     excerpt:     z.string(),
     description: z.string(),
     advantages:  z.array(z.string()),
-    application: z.string(),
+    application: z.array(z.string()),
 
     relatedObjects: z.array(reference("objects")),
     materialType: reference("materialTypes"),
