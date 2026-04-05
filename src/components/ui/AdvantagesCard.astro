@@ -1,6 +1,5 @@
 ---
 interface Props {
-  heading?: "default" | "h4"
   title: string;
   content: string;
   size: "s" | "m" | "l" | "xl" | "auto";
@@ -8,7 +7,6 @@ interface Props {
 const { 
   title, 
   content,
-  heading = "default",
   size,
   } = Astro.props;
 
@@ -26,17 +24,9 @@ const sizes = {
 const classes = `${base} ${sizes[size]}`;
 ---
 <li class={classes}>
-  {
-    heading == "default"
-    ? 
-    <h3 class="text-lg font-semibold tracking-tighter leading-5">
-      {title}
-    </h3>
-    :
-    <h4 class="text-lg font-semibold tracking-tighter leading-5">
-      {title}
-    </h4>
-  }
+  <h3 class="text-lg font-semibold tracking-tighter leading-5">
+    {title}
+  </h3>
   <p class="opacity-70 text-md tracking-tight leading-5 sm:leading-6">
     {content}
   </p>

@@ -10,10 +10,10 @@ import H2 from "@components/ui/H2.astro"
   <div class="flex flex-col gap-6 md:gap-10 lg:gap-14 lg:max-w-125">
     <H2 title="О нас"/>
     <div class="flex flex-col gap-4 lg:gap-8 cursor-default">
-      <h3 class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5 lg:leading-none">
+      <p class="text-[20px] md:text-2xl font-bold tracking-tighter leading-5 lg:leading-none">
         Наша компания специализируется на обработке 
         погонажных изделий различных пород древесины
-      </h3>
+      </p>
       
       <p class="text-[14px] md:text-lg opacity-70">
         Мы шлифуем древесину на профессиональном оборудовании и покрываем её 
@@ -24,17 +24,17 @@ import H2 from "@components/ui/H2.astro"
     </div>
     <Button href="/about" title="подробнее"/>
   </div>
-  <h3 class="sr-only">Наши преимущества</h3>
+  <div class="sr-only">
+    <H2 title="Наши преимущества"/>
+  </div>
   <ul class="hidden lg:flex gap-2 items-center justify-center cursor-default">
     <div class="flex flex-col gap-2 items-end w-fill mt-8">
       <AdvantagesCard
-        heading="h4" 
         title="Гарантия качества"
         content="Cотрудничаем с официальным дилером масел OSMO в Нижнем Новгороде."
         size="s"
       />
       <AdvantagesCard 
-        heading="h4" 
         title="Натуральные масла для защиты древесины"
         content="Работаем с качественными натуральными маслами для дерева, которые глубоко проникают в структуру, защищают от влаги и подчеркивают природную текстуру древесины."
         size="xl"
@@ -42,13 +42,11 @@ import H2 from "@components/ui/H2.astro"
     </div>
     <div class="flex flex-col gap-2 items-start w-fill">
       <AdvantagesCard 
-        heading="h4" 
         title="Высокоточная шлифовка"
         content="Используем профессиональное оборудование для шлифовки. Обеспечиваем идеально ровное покрытие без дефектов и перепадов."
         size="l"
       />
       <AdvantagesCard 
-        heading="h4" 
         title="Современный дизайн"
         content="Следим за трендами отделки и предлагаем актуальные решения для вашего проекта"
         size="m"

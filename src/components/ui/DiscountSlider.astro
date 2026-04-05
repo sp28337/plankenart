@@ -26,9 +26,9 @@ const interval = 5000;
 
   <div class="flex items-center justify-center gap-2 mt-8">
     {discounts.map((_, i) => (
-      <div class="discount-dot relative h-1.25 rounded-full bg-foreground/20 overflow-hidden"
+      <div class="discount-dot relative h-1.25 rounded-full bg-foreground/10 overflow-hidden"
            style={`width:${i === 0 ? '28px' : '5px'}`}>
-        <div class="discount-dot-fill absolute inset-0 rounded-full bg-foreground origin-left"
+        <div class="discount-dot-fill absolute inset-0 rounded-full bg-foreground/10 origin-left"
              style="transform:scaleX(0)" />
       </div>
     ))}
