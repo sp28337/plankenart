@@ -4,16 +4,19 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-
-const { pageTitle, pageDescription, ogImage } = Astro.props;
+const { 
+  pageTitle,
+  pageDescription,
+  ogImg,
+} = Astro.props;
 ---
 <BaseLayout
   pageTitle={pageTitle}
   pageDescription={pageDescription}
-  ogImage={ogImage}
+  ogImg={ogImg}
 >
 	<Header/>
-	<main class="w-full">
+	<main class="w-full" id="top">
     <slot />
 	</main>
   <Footer/>

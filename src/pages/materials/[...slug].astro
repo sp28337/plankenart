@@ -29,13 +29,14 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
 <Layout
   pageTitle={material.data.metaTitle}
   pageDescription={material.data.metaDescription}
-  ogImage={material.data.coverImage}
+  ogImg={material.data.coverImage.src}
 >
   <article>
     <Hero
       title={material.data.title}
       excerpt={material.data.excerpt}
       img={material.data.heroImage}
+      imgMobile={material.data.heroImageMobile}
     />
     <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">

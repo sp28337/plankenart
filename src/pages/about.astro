@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import heroImg from '@assets/rest-place-improved.png';
+import heroImgMobile from '@assets/objects/banya-norvezhskiy-zamok/38.jpg';
 import about1 from '@assets/about1.png';
 import about2 from '@assets/about2.png';
 import FAQ from '@components/ui/FAQ.astro';
@@ -29,11 +30,13 @@ const content = {
 <Layout
 	pageTitle="О компании ПланкенАрт — 10 лет обработки древесины в Нижнем Новгороде"
   pageDescription="ПланкенАрт — профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Более 10 лет опыта, работа с премиум-сегментом и B2B. Официальный партнёр OSMO в Нижнем Новгороде."
+	ogImg={heroImg.src}
 >
 	<Hero 
 		title="О компании ПланкенАрт"
 		excerpt="Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO"
 		img={heroImg}
+		imgMobile={heroImgMobile}
 	/>
 	<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
 		<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">

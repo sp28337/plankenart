@@ -1,7 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Hero from "@components/Hero.astro"
-import catalogImg from '@assets/objects/banya-norvezhskiy-zamok/10.jpg';
+import heroImg from '@assets/objects/banya-norvezhskiy-zamok/10.jpg';
+import heroImgMobile from '@assets/objects/banya-norvezhskiy-zamok/15.jpg';
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
 import CatalogFilter from "@components/ui/CatalogFilter.astro";
 ---
@@ -9,13 +10,15 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
 <Layout 
   pageTitle="Каталог материалов" 
   pageDescription="Список материалов с которыми работаем"
+  ogImg={heroImg.src}
 >
   <FilterOverlay/>
   <Hero
     title="Каталог материалов" 
     excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
           натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
-    img={catalogImg}
+    img={heroImg}
+    imgMobile={heroImgMobile}
   />
   <CatalogFilter/>
 </Layout>

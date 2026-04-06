@@ -29,12 +29,14 @@ const woodTypes = await getEntries(object.data.woodTypes);
 <Layout
   pageTitle={object.data.metaTitle}
   pageDescription={object.data.metaDescription}
+  ogImg={object.data.heroImage.src}
 >
   <article>
     <Hero
       title={object.data.title}
       excerpt={object.data.excerpt}
       img={object.data.heroImage}
+      imgMobile={object.data.heroImageMobile}
     />
     <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">

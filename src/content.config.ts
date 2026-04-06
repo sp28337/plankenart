@@ -22,7 +22,8 @@ const materials = defineCollection({
     sortOrder: z.number().default(99),
     imageAlt: z.string().optional(),
     coverImage: image(),
-    heroImage: image()
+    heroImage: image(),
+    heroImageMobile: image(),
   }),
 });
 
@@ -40,6 +41,7 @@ const objects = defineCollection({
     sortOrder: z.number().default(99),
     imageAlt: z.string().optional(),
     heroImage: image(),
+    heroImageMobile: image(),
     images: z.array(image()),
   }),
 });

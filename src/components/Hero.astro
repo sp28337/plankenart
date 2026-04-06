@@ -9,6 +9,7 @@ export interface Props {
   title: string | [string, string];
   excerpt?: string;
   img: ImageMetadata;
+  imgMobile: ImageMetadata;
 }
 const {
   imgClass = "default",
@@ -16,6 +17,7 @@ const {
   title,
   excerpt,
   img,
+  imgMobile,
 } = Astro.props;
 
 
@@ -39,13 +41,21 @@ const wrapperClasses = {
 const isArray = Array.isArray(title);
 ---
 
-<div class="w-full relative" id="top">
+<div class="w-full relative">
   <Image
     src={img}
     alt="Фоновое фото главной страницы с примером готового объекта"
-    class=`${imgBase} ${imgClasses[imgClass]}`
+    class=`${imgBase} ${imgClasses[imgClass]} hidden sm:block`
     loading="eager"
-    widths={[400, 800, 1200, 1920]}
+    widths={[ 800, 1200, 1920 ]}
+    sizes="100vw"
+  />
+  <Image
+    src={imgMobile}
+    alt="Фоновое фото главной страницы с примером готового объекта"
+    class=`${imgBase} ${imgClasses[imgClass]} sm:hidden`
+    loading="eager"
+    widths={[ 320, 400, 600, 800, 1200, 1920 ]}
     sizes="100vw"
   />
   <div class="absolute bottom-2 lg:bottom-4 px-2 lg:px-4 w-full">
