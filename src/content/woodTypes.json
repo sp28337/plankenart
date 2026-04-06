@@ -3,5 +3,6 @@
   { "id": "thermoash", "title": "Термоясень" },
   { "id": "pine", "title": "Сосна" },
   { "id": "spruce", "title": "Ель" },
+  { "id": "caragach", "title": "Карагач" },
   { "id": "mixed", "title": "Разные породы" }
 ]
