@@ -1,8 +1,8 @@
 [
   { "id": "larch", "title": "Лиственница" },
-  { "id": "thermolarch", "title": "Термолиственница" },
   { "id": "thermoash", "title": "Термоясень" },
   { "id": "thermograb", "title": "Термограб" },
+  { "id": "thermopine", "title": "Термососна" },
   { "id": "pine", "title": "Сосна" },
   { "id": "spruce", "title": "Ель" },
   { "id": "caragach", "title": "Карагач" },

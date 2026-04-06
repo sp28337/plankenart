@@ -35,6 +35,8 @@ const objects = defineCollection({
     title:       z.string(),
     excerpt:     z.string(),
     description: z.string(),
+    technicalFeatures: z.array(z.string()).optional(),
+    conclusion: z.string().optional(),
     objectType:  reference("objectTypes"),
     woodTypes: z.array(reference("woodTypes")),
     materialTypes: z.array(reference("materialTypes")),
