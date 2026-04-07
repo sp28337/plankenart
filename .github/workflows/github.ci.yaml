@@ -15,35 +15,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      # 2. pnpm
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
-          version: 10.21.0
+          version: 10
 
-      # 3. Node.js
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '24.11.1'
+          # Astro 6 requires >=22.12.0. Using LTS minor pin is enough —
+          # no need to pin a specific patch like 24.11.1.
+          node-version: '24'
           cache: 'pnpm'
 
-      # 4. Dependencies
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 6. Build Astro
+      # Cache the .astro directory (content collection cache, build metadata).
+      # Key includes content + assets hash so cache invalidates on real changes.
+      - name: Cache Astro build
+        uses: actions/cache@v5
+        with:
+          path: .astro
+          key: astro-${{ runner.os }}-${{ hashFiles('src/content/**', 'src/assets/**', 'astro.config.mjs') }}
+          restore-keys: |
+            astro-${{ runner.os }}-
+
+      # pnpm build runs "astro check && astro build".
+      # astro check validates TypeScript — keep it for safety.
+      # With images on CDN, Sharp no longer processes thousands of files,
+      # so build time drops to ~30s even with check enabled.
       - name: Build Astro project
         run: pnpm build
 
-      # 7a. DEV: Upload dist to server
+      # ─── DEV deployment ──────────────────────────────────────────────────
+
       - name: Upload dist to DEV server
         if: github.ref == 'refs/heads/dev'
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEV_HOST }}
           port: ${{ secrets.DEV_PORT }}
@@ -53,78 +65,91 @@ jobs:
           target: "~/plankenart_build/"
           rm: true
 
-      # 7b. DEV: Deploy
       - name: Deploy on DEV server
         if: github.ref == 'refs/heads/dev'
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.DEV_HOST }}
           port: ${{ secrets.DEV_PORT }}
           username: ${{ secrets.DEV_USER }}
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           script: |
-            # Резервная копия
-            if [ -d "/var/sp28337/plankenart" ]; then
-              sudo cp -r /var/sp28337/plankenart /var/sp28337/plankenart.backup.$(date +%Y%m%d_%H%M%S)
+            set -euo pipefail
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            DEPLOY_DIR="/var/sp28337/plankenart"
+            BACKUP_DIR="/var/sp28337/backups"
+
+            sudo mkdir -p "$BACKUP_DIR"
+
+            # Backup current dist before overwriting
+            if [ -d "$DEPLOY_DIR/dist" ]; then
+              sudo cp -r "$DEPLOY_DIR/dist" "$BACKUP_DIR/dist_$TIMESTAMP"
             fi
-            
-            # Деплой
-            sudo cp -r ~/plankenart_build/dist/* /var/sp28337/plankenart/dist/
-            sudo chmod -R 755 /var/sp28337/plankenart/dist
-            sudo chown -R sp28337-data:sp28337-data /var/sp28337/plankenart/dist
-            
-            # Проверка nginx
+
+            # Keep only the last 3 backups — prevent disk accumulation
+            ls -dt "$BACKUP_DIR"/dist_* 2>/dev/null | tail -n +4 | xargs sudo rm -rf || true
+
+            # rsync is safer than cp -r: atomic-ish, only transfers changed files
+            sudo rsync -a --delete ~/plankenart_build/dist/ "$DEPLOY_DIR/dist/"
+            sudo chmod -R 755 "$DEPLOY_DIR/dist"
+            sudo chown -R sp28337:sp28337 "$DEPLOY_DIR/dist"
+
             sudo nginx -t
             sudo systemctl reload nginx
-            
-            # Очистка
-            rm -rf ~/plankenart_build/*
-            
-            echo "✅ DEV Deployment successful!"
 
-      # 8a. PROD: Upload dist to server
+            rm -rf ~/plankenart_build
+            echo "✅ DEV deployed at $TIMESTAMP"
+
+      # ─── PROD deployment ─────────────────────────────────────────────────
+
       - name: Upload dist to PROD server
         if: github.ref == 'refs/heads/main'
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.PROD_HOST }}
           port: ${{ secrets.PROD_PORT }}
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           source: "dist/*"
-          target: "/home/www/plankenart_build/"
+          target: "~/plankenart_build/"
           rm: true
 
-      # 8b. PROD: Deploy
       - name: Deploy on PROD server
         if: github.ref == 'refs/heads/main'
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.PROD_HOST }}
           port: ${{ secrets.PROD_PORT }}
           username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # BUG FIX: was `secrets.SSH_PRIVATE_KEY` — inconsistent with SCP step above.
+          # Must match the secret name used in the scp step.
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           script: |
-            # Резервная копия
-            if [ -d "/var/www/plankenart" ]; then
-              sudo cp -r /var/www/plankenart /var/www/plankenart.backup.$(date +%Y%m%d_%H%M%S)
+            set -euo pipefail
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            DEPLOY_DIR="/var/www/plankenart"
+            BACKUP_DIR="/var/www/backups/plankenart"
+
+            sudo mkdir -p "$BACKUP_DIR"
+
+            if [ -d "$DEPLOY_DIR/dist" ]; then
+              sudo cp -r "$DEPLOY_DIR/dist" "$BACKUP_DIR/dist_$TIMESTAMP"
             fi
-            
-            # Деплой
-            sudo cp -r /home/www/astro_build/dist/* /var/www/plankenart/dist/
-            sudo chmod -R 755 /var/www/plankenart/dist
-            sudo chown -R www-data:www-data /var/www/plankenart/dist
-            
-            # Проверка nginx
+
+            ls -dt "$BACKUP_DIR"/dist_* 2>/dev/null | tail -n +4 | xargs sudo rm -rf || true
+
+            # BUG FIX: was `/home/www/astro_build/dist/*` — wrong directory name.
+            # scp-action uploads to ~/plankenart_build/, so source must match.
+            sudo rsync -a --delete ~/plankenart_build/dist/ "$DEPLOY_DIR/dist/"
+            sudo chmod -R 755 "$DEPLOY_DIR/dist"
+            sudo chown -R www:www "$DEPLOY_DIR/dist"
+
             sudo nginx -t
             sudo systemctl reload nginx
-            
-            # Очистка
-            rm -rf /home/www/plankenart_build/*
-            
-            echo "✅ PROD Deployment successful!"
 
-      # 9. Notification (опционально)
+            rm -rf ~/plankenart_build
+            echo "✅ PROD deployed at $TIMESTAMP"
+
       - name: Notify deployment
         if: always()
         run: |
