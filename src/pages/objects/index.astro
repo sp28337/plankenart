@@ -42,8 +42,8 @@ const allObjects = await getCollection("objects");
 </Layout>
 
 <script>
-  const DURATION = 70;
-  const EASING = `cubic-bezier(0.22, 1, 0.36, 1)`;
+  const DURATION = 30;
+  const EASING   = `cubic-bezier(0.50, 1, 0.90, 1)`;
   const overlay = document.getElementById("filter-overlay")!;
   let openCount = 0;
   const registry: Array<() => void> = [];
@@ -159,12 +159,12 @@ const allObjects = await getCollection("objects");
   }
 
   const objectDD = initDropdown("object-btn", "object-panel", "filter-object", "object-label", "object-chevron", "object");
-  const woodDD   = initDropdown("wood-btn",   "wood-panel",   "filter-wood",   "wood-label",   "wood-chevron",   "wood");
-  const typeDD   = initDropdown("type-btn",   "type-panel",   "filter-type",   "type-label",   "type-chevron",   "type");
+  const woodDD   = initDropdown("wood-btn", "wood-panel", "filter-wood", "wood-label", "wood-chevron", "wood");
+  const materialDD   = initDropdown("material-btn", "material-panel", "filter-material", "material-label", "material-chevron", "material");
 
   const inputObject = document.getElementById("filter-object") as HTMLInputElement;
   const inputWood   = document.getElementById("filter-wood")   as HTMLInputElement;
-  const inputType   = document.getElementById("filter-type")   as HTMLInputElement;
+  const inputMaterial   = document.getElementById("filter-material")   as HTMLInputElement;
   const grid    = document.getElementById("grid")!;
   const emptyEl = document.getElementById("empty")!;
   const cards   = Array.from(grid.querySelectorAll<HTMLElement>(".object-card"));
@@ -172,14 +172,14 @@ const allObjects = await getCollection("objects");
   function applyFilters() {
     const object = inputObject.value;
     const wood   = inputWood.value;
-    const type   = inputType.value;
+    const material   = inputMaterial.value;
     let visible  = 0;
 
     cards.forEach(card => {
       const ok =
         (!object || card.dataset.object === object) &&
         (!wood   || card.dataset.wood?.split(" ").includes(wood)) &&
-        (!type   || card.dataset.type?.split(" ").includes(type));
+        (!material   || card.dataset.material?.split(" ").includes(material));
       card.style.display = ok ? "" : "none";
       card.toggleAttribute("aria-hidden", !ok);
       if (ok) visible++;
@@ -191,18 +191,18 @@ const allObjects = await getCollection("objects");
     const params = new URLSearchParams();
     if (object) params.set("object", object);
     if (wood)   params.set("wood",   wood);
-    if (type)   params.set("type",   type);
+    if (material)   params.set("material",   material);
     history.replaceState(null, "", params.toString() ? `?${params}` : location.pathname);
   }
 
   inputObject.addEventListener("change", applyFilters);
   inputWood.addEventListener("change",   applyFilters);
-  inputType.addEventListener("change",   applyFilters);
+  inputMaterial.addEventListener("change",   applyFilters);
 
   document.getElementById("btn-empty-reset")?.addEventListener("click", () => {
     objectDD.setLabel("", "");
     woodDD.setLabel("", "");
-    typeDD.setLabel("", "");
+    materialDD.setLabel("", "");
     applyFilters();
   });
 
@@ -210,7 +210,7 @@ const allObjects = await getCollection("objects");
     const params      = new URLSearchParams(location.search);
     const objectSlug  = params.get("object") ?? "";
     const woodSlug    = params.get("wood")   ?? "";
-    const typeSlug    = params.get("type")   ?? "";
+    const materialSlug    = params.get("material")   ?? "";
 
     if (objectSlug) {
       const item = document.querySelector<HTMLElement>(`[data-group="object"][data-slug="${objectSlug}"]`);
@@ -220,10 +220,10 @@ const allObjects = await getCollection("objects");
       const item = document.querySelector<HTMLElement>(`[data-group="wood"][data-slug="${woodSlug}"]`);
       if (item) woodDD.setLabel(woodSlug, item.textContent!.trim());
     }
-    if (typeSlug) {
-      const item = document.querySelector<HTMLElement>(`[data-group="type"][data-slug="${typeSlug}"]`);
-      if (item) typeDD.setLabel(typeSlug, item.textContent!.trim());
+    if (materialSlug) {
+      const item = document.querySelector<HTMLElement>(`[data-group="material"][data-slug="${materialSlug}"]`);
+      if (item) materialDD.setLabel(materialSlug, item.textContent!.trim());
     }
-    if (objectSlug || woodSlug || typeSlug) applyFilters();
+    if (objectSlug || woodSlug || materialSlug) applyFilters();
   })();
 </script>

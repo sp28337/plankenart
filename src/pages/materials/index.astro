@@ -4,7 +4,12 @@ import Hero from "@components/Hero.astro"
 import heroImg from '@assets/objects/banya-norvezhskiy-zamok/10.jpg';
 import heroImgMobile from '@assets/objects/banya-norvezhskiy-zamok/15.jpg';
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
-import CatalogFilter from "@components/ui/CatalogFilter.astro";
+import MaterialsFilter from "@components/ui/MaterialsFilter.astro";
+import { getCollection } from "astro:content";
+import MaterialCard from "@components/ui/MaterialCard.astro";
+import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
+
+const allMaterials = await getCollection("materials");
 ---
 
 <Layout 
@@ -20,12 +25,32 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
     img={heroImg}
     imgMobile={heroImgMobile}
   />
-  <CatalogFilter/>
+  <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+
+    <MaterialsFilter/>
+
+    <div class="mx-auto max-w-7xl p-1 md:p-1.5 border border-dashed reveal
+              border-border rounded-[20px] lg:rounded-[25px] mt-2.5">
+      <div
+        id="grid"
+        class="grid gap-2
+                grid-cols-2
+                sm:grid-cols-3
+                md:grid-cols-4
+                lg:grid-cols-5"
+      >
+        {allMaterials.map((m) => (
+          <MaterialCard material={m}/>
+        ))}
+      </div>
+      <ElementsNotFound/>
+    </div>
+  </div>
 </Layout>
 
 <script>
-  const DURATION = 70;
-  const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
+  const DURATION = 30;
+  const EASING   = `cubic-bezier(0.50, 1, 0.90, 1)`;
   const overlay  = document.getElementById("filter-overlay")!;
   let openCount  = 0;
   const registry: Array<() => void> = [];
@@ -141,21 +166,21 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
   }
 
   const woodDD = initDropdown("wood-btn", "wood-panel", "filter-wood", "wood-label", "wood-chevron", "wood");
-  const typeDD = initDropdown("type-btn", "type-panel", "filter-type", "type-label", "type-chevron", "type");
+  const materialDD = initDropdown("material-btn", "material-panel", "filter-material", "material-label", "material-chevron", "material");
 
   const inputWood = document.getElementById("filter-wood") as HTMLInputElement;
-  const inputType = document.getElementById("filter-type") as HTMLInputElement;
+  const inputMaterial = document.getElementById("filter-material") as HTMLInputElement;
   const grid      = document.getElementById("grid")!;
   const emptyEl   = document.getElementById("empty")!;
   const cards     = Array.from(grid.querySelectorAll<HTMLElement>(".material-card"));
 
   function applyFilters() {
     const wood = inputWood.value;
-    const type = inputType.value;
+    const material = inputMaterial.value;
     let visible = 0;
 
     cards.forEach(card => {
-      const ok = (!wood || card.dataset.wood === wood) && (!type || card.dataset.type === type);
+      const ok = (!wood || card.dataset.wood === wood) && (!material || card.dataset.material === material);
       card.style.display = ok ? "" : "none";
       card.toggleAttribute("aria-hidden", !ok);
       if (ok) visible++;
@@ -166,32 +191,32 @@ import CatalogFilter from "@components/ui/CatalogFilter.astro";
 
     const params = new URLSearchParams();
     if (wood) params.set("wood", wood);
-    if (type) params.set("type", type);
+    if (material) params.set("material", material);
     history.replaceState(null, "", params.toString() ? `?${params}` : location.pathname);
   }
 
   inputWood.addEventListener("change", applyFilters);
-  inputType.addEventListener("change", applyFilters);
+  inputMaterial.addEventListener("change", applyFilters);
 
   document.getElementById("btn-empty-reset")?.addEventListener("click", () => {
     woodDD.setLabel("", "");
-    typeDD.setLabel("", "");
+    materialDD.setLabel("", "");
     applyFilters();
   });
 
   (function restoreFromUrl() {
     const params   = new URLSearchParams(location.search);
     const woodSlug = params.get("wood") ?? "";
-    const typeSlug = params.get("type") ?? "";
+    const materialSlug = params.get("material") ?? "";
 
     if (woodSlug) {
       const item = document.querySelector<HTMLElement>(`[data-group="wood"][data-slug="${woodSlug}"]`);
       if (item) woodDD.setLabel(woodSlug, item.textContent!.trim());
     }
-    if (typeSlug) {
-      const item = document.querySelector<HTMLElement>(`[data-group="type"][data-slug="${typeSlug}"]`);
-      if (item) typeDD.setLabel(typeSlug, item.textContent!.trim());
+    if (materialSlug) {
+      const item = document.querySelector<HTMLElement>(`[data-group="material"][data-slug="${materialSlug}"]`);
+      if (item) materialDD.setLabel(materialSlug, item.textContent!.trim());
     }
-    if (woodSlug || typeSlug) applyFilters();
+    if (woodSlug || materialSlug) applyFilters();
   })();
 </script>

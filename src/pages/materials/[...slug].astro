@@ -131,12 +131,12 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
               {relatedObjects.length > 0 && (
                 <section class="flex flex-col gap-8 items-center">
                   <H2 title="Объекты"/>
-                  <ul class="grid gap-2 md:gap-5
+                  <div class="grid gap-2 md:gap-5
                              grid-cols-1 
                              xs:grid-cols-2 
-                             sm:grid-cols-3 ">
+                             sm:grid-cols-3 w-full">
                     {relatedObjects.map(rel => <ObjectCard object={rel}/>)}
-                  </ul>
+                  </div>
                 </section>
               )}
             </div>
