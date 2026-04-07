@@ -2,7 +2,6 @@
 import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets';
 
-
 export interface Props {
   variant?: "decor";
   route: string;
@@ -22,29 +21,30 @@ const variants = {
   decor: "lg:max-w-[420px]"
 }
 
-const base = `transition-all duration-300 relative flex px-2 sm:px-0 w-full justify-evenly 
+const base = `transition-all duration-300 relative flex px-2 sm:px-0 w-full justify-evenly
               shadow-xl/2 h-12.5 items-center material-gradient rounded-[17px] active:scale-103
               font-semibold lg:px-2 group reveal`;
 const classes = `${base} ${variants[variant]}`;
 ---
-<a 
+<a
   class={classes}
-  href={route} 
+  href={route}
 >
   <div class="min-w-40 truncate">
-    <h3 class="text-foreground shrink-0 text-sm group-hover:text-amber-fade 
-               group-hover:underline transition-all duration-300"
-    >
+    <h3 class="text-foreground shrink-0 text-sm transition-all duration-300
+               group-hover:text-amber-fade group-hover:underline">
       {title}
     </h3>
   </div>
-  
+
   <Image
     src={img}
     alt=""
-    class="w-35 h-12.5 md:w-37.5 md:h-15 object-contain right-1 sm:right-2 
+    class="w-35 h-12.5 md:w-37.5 md:h-15 object-contain right-1 sm:right-2
            transition-all duration-300"
     loading="eager"
-    widths={[150]}
+    widths={[140, 150, 200]}
+    sizes="(max-width: 640px) 140px, 150px"
+    aria-hidden="true"
   />
 </a>

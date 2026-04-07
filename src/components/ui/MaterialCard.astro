@@ -15,40 +15,38 @@ const materialType = await getEntry(material.data.materialType)
 ---
 
 <li
-  class="material-card material-catalog-gradient group flex flex-col 
-         overflow-hidden shadow-xl/2 hover:shadow-xl/5 rounded-[15px] 
+  class="material-card material-catalog-gradient group flex flex-col
+         overflow-hidden shadow-xl/2 rounded-[15px]
          transition-all duration-300 no-underline md:rounded-[20px]"
   data-wood={woodType.id}
   data-type={materialType.id}
 >
-  <a href={`/materials/${material.id}`}>
+  <a href={`/materials/${material.id}`} class="flex flex-col h-full">
     <div class="flex items-center justify-center">
       <Image
         src={material.data.coverImage}
-        alt=""
+        alt={material.data.imageAlt ?? material.data.title}
         class="w-35 h-12.5 xs:w-50 xs:h-25 object-contain right-1 sm:right-2
                 transition-all duration-300"
         loading="lazy"
         decoding="async"
+        widths={[140, 200]}
+        sizes="(max-width: 480px) 140px, 200px"
       />
     </div>
 
-    <h3 class="sr-only">
-      {material.data.title}
-    </h3>
-
     <div class="px-2 xs:px-3 py-2 xs:py-2.5">
-      
+      <h3 class="sr-only">{material.data.title}</h3>
+
       <div class="flex items-center gap-1.5 text-[12px] font-semibold">
-        <Trees class="w-4 h-4 shrink-0 pointer-events-none" />
-        {woodType.data.title}
+        <Trees class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
+        <span>{woodType.data.title}</span>
       </div>
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
-        <Fence class="w-4 h-4 shrink-0 pointer-events-none" />
-        {materialType.data.title}
+        <Fence class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
+        <span>{materialType.data.title}</span>
       </div>
-
     </div>
   </a>
 </li>
