@@ -1,0 +1,105 @@
+---
+
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro";
+import H2 from "@components/ui/H2.astro";
+import ObjectCard from "@components/ui/ObjectCard.astro";
+import Heading from "@components/ui/Heading.astro";
+import { tagsDictionary } from "../../lib/mappers";
+import { tagsTitleDictionary } from "../../lib/titleMappers";
+
+export async function getStaticPaths() {
+  // const allMaterials = await getCollection("materials");
+  const [allMaterials, allObjects] = await Promise.all([
+    getCollection("materials"),
+    getCollection("objects")
+  ]);
+
+  const allItems = [...allMaterials, ...allObjects];
+  const uniqueTags = [...new Set(allItems.map((item) => item.data.tags).flat())];
+
+  return uniqueTags.map((tag) => {
+    const filteredItems = allItems.filter((item) =>
+      item.data.tags.includes(tag)
+    );
+    const url = tagsDictionary[tag]
+    const materials = filteredItems.filter(item => item.collection === 'materials');
+    const objects = filteredItems.filter(item => item.collection === 'objects');
+
+    return {
+      params: { tag: url },
+      props: { 
+        items: filteredItems,
+        materials, 
+        objects},
+    };
+    
+  });
+}
+
+const { tag } = Astro.params;
+const { materials, objects } = Astro.props;
+---
+
+<Layout 
+  pageTitle={tagsTitleDictionary[tag]}
+> 
+
+    <div class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
+                
+                lg:rounded-b-[30px] bg-nav/20 ">
+        <Heading
+          styles="capitalize mx-auto text-gradient"
+          title={tagsTitleDictionary[tag]}
+          variant="h1"
+        />
+        <p class="text-foreground/30 text-center reveal">
+          <b>Все страницы по тегу: </b><i>{tagsTitleDictionary[tag]}</i>
+        </p>
+    </div>
+    <div class="px-2 lg:px-4 min-h-[70svh]">
+
+      <div class="my-10 max-w-7xl flex flex-col items-center mx-auto
+                    text-foreground gap-10 md:gap-18 lg:gap-22"
+      >
+        {
+          materials.length > 0 &&
+          
+          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+            <H2 title="Материалы"/>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+              { 
+                materials.map((material) =>
+                <li>
+                  <MaterialCardSmall 
+                    route={`/materials/${material.id}/`}
+                    title={material.data.title}
+                    img={material.data.coverImage}
+                    variant="tags"
+                  />
+                </li>) 
+              }
+            </ul>
+          </section>
+        }
+        {
+          objects.length > 0 &&
+  
+          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+            <H2 title="Объекты"/>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full">
+              { 
+                objects.map((object) => 
+                <li>
+                  <ObjectCard 
+                    object={object}
+                  />
+                </li>) 
+              }
+            </ul>
+          </section>
+        }
+      </div>
+    </div>
+</Layout>

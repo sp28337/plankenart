@@ -5,6 +5,8 @@ import H2 from '@components/ui/H2.astro';
 import Tag from '@components/ui/Tag.astro';
 import ObjectCard from '@components/ui/ObjectCard.astro';
 import { getCollection, getEntry, getEntries, render, type CollectionEntry } from 'astro:content';
+import Heading from '@components/ui/Heading.astro';
+import { tagsDictionary } from '../../lib/mappers';
 
 interface Props {
   material: CollectionEntry<"materials">
@@ -21,8 +23,6 @@ export async function getStaticPaths() {
 const { material } = Astro.props;
 const { Content } = await render(material);
 
-const woodType = await getEntry(material.data.woodType)
-const materialType = await getEntry(material.data.materialType)
 const relatedObjects = await getEntries(material.data.relatedObjects)
 ---
 
@@ -42,20 +42,20 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
   
         <div class="w-full">
-  
-          <!-- tag-list -->
-          <div class="flex flex-wrap justify-center gap-2 mb-5 h-fit reveal">
-            <Tag 
-              href=`/materials?type=${materialType.id}` 
-              tag={materialType.data.title}
+          <section class="flex flex-col justify-center items-center gap-2 my-10">
+            <Heading
+              styles="text-gradient"
+              title="Теги"
+              variant="h3"
             />
-            {woodType.data.title !== 'разные-породы' && (
-              <Tag 
-                href={`/materials?wood=${woodType.id}`}
-                tag={woodType.data.title}
-              />
-            )}
-          </div>
+            <ul class="flex flex-wrap justify-center gap-2 mb-5 h-fit reveal">
+              {material.data.tags.map(tag => (
+                <li class="flex">
+                  <Tag href={`/tags/${tagsDictionary[tag]}`} tag={tag} variant="alternative" />
+                </li>
+              ))}
+            </ul>
+          </section>
   
           <!-- mat-layout -->
           <div class="block gap-12 items-start">

@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Heading from "@components/ui/Heading.astro";
+import Tag from "@components/ui/Tag.astro";
+import { tagsDictionary } from "../../lib/mappers";
+
+const allMaterials = await getCollection("materials");
+const allObjects = await getCollection("objects");
+
+const allItems = [...allMaterials, ...allObjects];
+const uniqueTags = [...new Set(allItems.map((item) => item.data.tags).flat())];
+
+const pageTitle = "Tag Index";
+---
+<Layout 
+  pageTitle={pageTitle}
+  pageDescription=""
+>
+  <div class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
+              
+              lg:rounded-b-[30px] bg-nav/20 ">
+      <Heading
+        styles="capitalize mx-auto text-gradient"
+        title="Теги"
+        variant="h1"
+      />
+      <p class="text-foreground/30 text-center reveal">
+        <b>Выберите инересующюу тему</b>
+      </p>
+  </div>
+  <div class="px-2 lg:px-4 min-h-[70svh]">
+    <div class="my-10 max-w-7xl flex flex-col items-center mx-auto
+                text-foreground gap-10 md:gap-18 lg:gap-22">
+      <div class="flex flex-wrap justify-center gap-2 h-fit reveal">
+        {uniqueTags.map((tag) => (
+          <Tag 
+            href={`/tags/${tagsDictionary[tag]}`} 
+            tag={tag}
+            variant="alternative" 
+          />
+        ))}
+      </div>
+  </div>
+</Layout>

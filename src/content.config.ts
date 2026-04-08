@@ -37,9 +37,14 @@ const objects = defineCollection({
     description: z.string(),
     technicalFeatures: z.array(z.string()).optional(),
     conclusion: z.string().optional(),
+    
+    tags: z.array(z.string()),
+
     objectType:  reference("objectTypes"),
     woodTypes: z.array(reference("woodTypes")),
     materialTypes: z.array(reference("materialTypes")),
+    materials: z.array(reference("materials")),
+
     sortOrder: z.number().default(99),
     imageAlt: z.string().optional(),
     heroImage: image(),

@@ -6,6 +6,9 @@ import Tag from '@components/ui/Tag.astro';
 import { getCollection, getEntry, getEntries, render, type CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import DiscountSlider from '@components/ui/DiscountSlider.astro';
+import MaterialCardSmall from '@components/ui/MaterialCardSmall.astro';
+import Heading from '@components/ui/Heading.astro';
+import { tagsDictionary } from '../../lib/mappers';
 interface Props {
   object: CollectionEntry<'objects'>;
 }
@@ -21,9 +24,9 @@ export async function getStaticPaths() {
 const { object } = Astro.props;
 const { Content } = await render(object);
 
-const objectType    = await getEntry(object.data.objectType);
-const materialTypes = await getEntries(object.data.materialTypes);
-const woodTypes = await getEntries(object.data.woodTypes);
+
+const materials = await getEntries(object.data.materials);
+
 ---
 
 <Layout
@@ -41,20 +44,23 @@ const woodTypes = await getEntries(object.data.woodTypes);
     <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
         <div class="w-full">
-          <div class="flex flex-col gap-8">
-
-            <div class="flex flex-wrap justify-center gap-2 h-fit reveal">
-              <Tag href={`/objects?object=${objectType.id}`} tag={objectType.data.title} />
-              {woodTypes.map(w => (
-                <Tag href={`/objects?wood=${w.id}`} tag={w.data.title} />
+          <section class="flex flex-col justify-center items-center gap-2 my-10">
+            <Heading
+              styles="text-gradient"
+              title="Теги"
+              variant="h3"
+            />
+            <ul class="flex flex-wrap justify-center gap-2 h-fit reveal">
+              {object.data.tags.map(tag => (
+                <li class="flex">
+                  <Tag href={`/tags/${tagsDictionary[tag]}`} tag={tag} variant="alternative" />
+                </li>
               ))}
-              {materialTypes.map(m => (
-                <Tag href={`/objects?type=${m.id}`} tag={m.data.title} />
-              ))}
-            </div>
-
-
-            <section class="flex flex-col gap-6 cursor-default">
+            </ul>
+          </section>
+          
+          <div class="flex flex-col gap-10 md:gap-18 lg:gap-22">
+            <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 cursor-default">
               <H2 title="История объекта" page="object"/>
               <div class="flex flex-col gap-2 w-full reveal">
                 {object.data.description.split('\n\n').map(p =>
@@ -71,8 +77,10 @@ const woodTypes = await getEntries(object.data.woodTypes);
 
             { 
               object.data.technicalFeatures &&
-              <section class="flex flex-col gap-4 items-center">
-                <H2 title="Технические особенности"/>
+              <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 items-center">
+                <H2 
+                  title="Технические особенности"
+                />
                 <ul class="list-none flex flex-col w-full">
                   {object.data.technicalFeatures.map((feat) => (
                     <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
@@ -95,10 +103,33 @@ const woodTypes = await getEntries(object.data.woodTypes);
               </section>
             }
 
+            { 
+              materials &&
+              <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+                <H2 title="Материалы"/>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                  { 
+                    materials.map((material) =>
+                    <li>
+                      <MaterialCardSmall 
+                        route={`/materials/${material.id}/`}
+                        title={material.data.title}
+                        img={material.data.coverImage}
+                        variant="tags"
+                      />
+                    </li>) 
+                  }
+                </ul>
+              </section>
+            }
+
 
             {object.data.images.length > 0 && (
-              <section class="flex flex-col gap-6 sm:gap-10 w-full">
-                <H2 title="Фотографии проекта" page="object"/>
+              <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full">
+                <H2 
+                  title="Фотографии проекта" 
+                  page="object"
+                />
                 <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6" id="lightbox-gallery">
                   {object.data.images.map((img, i) => (
                     <li

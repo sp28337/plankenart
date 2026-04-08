@@ -1,0 +1,164 @@
+---
+interface Props {
+  title: string | string[];
+  styles: string;
+  variant: "h1" | "h2" | "h3";
+  id?: string;
+  page?: "default" | "about" | "object";
+}
+
+const { 
+  title,
+  styles,
+  variant,
+  id,
+  page = "default" 
+} = Astro.props
+
+
+const variants = {
+  h1: "text-[clamp(2.2rem,4.5vw,3.2rem)]",
+  h2: "text-[clamp(1.8rem,3.5vw,2.4rem)]",
+  h3: "",
+}
+
+const pages = {
+  default: "text-center lg:text-left ",
+  about: "leading-8 w-full flex flex-col",
+  object: "leading-8 w-full flex flex-col text-center",
+}
+
+const base = `font-inter font-bold tracking-tighter cursor-default reveal w-fit`
+const classes = `${base} ${styles} ${variants[variant]} ${pages[page]}`
+
+const isArray = Array.isArray(title);
+---
+{ 
+  id 
+  ? 
+    (
+      variant == "h1" &&
+      <h1 
+        id={id}
+        class={classes}
+      >
+        {isArray 
+        ? 
+        (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+      )}
+      </h1> 
+    )
+    
+    ||
+
+    (
+      variant == "h2" &&
+      <h2 
+        id={id}
+        class={classes}
+      >
+        {isArray 
+        ? 
+        (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+      )}
+      </h2> 
+    )
+
+    ||
+
+    (
+      variant == "h3" &&
+      <h3 
+        id={id}
+        class={classes}
+      >
+        {isArray 
+        ? 
+        (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+      )}
+      </h3> 
+    )
+
+  : 
+    (
+      variant == "h1" &&
+      <h1 
+      class={classes}
+      >
+        {isArray ? (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+        )}
+      </h1>
+    )
+
+    ||
+
+    (
+      variant == "h2" &&
+      <h2 
+      class={classes}
+      >
+        {isArray ? (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+        )}
+      </h2>
+    )
+
+    ||
+
+    (
+      variant == "h3" &&
+      <h3 
+      class={classes}
+      >
+        {isArray ? (
+          <>
+            <span>{title[0]}</span>
+            <span class={page == "about" ? "w-full" : ""}>
+              {title[1]}
+            </span>
+          </>
+        ) : (
+          title
+        )}
+      </h3>
+    )
+}

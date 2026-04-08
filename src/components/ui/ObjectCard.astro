@@ -12,8 +12,8 @@ const objectType = await getEntry(object.data.objectType);
 const woodTypes = await Promise.all(object.data.woodTypes.map(ref => getEntry(ref)));
 const materialTypes = await Promise.all(object.data.materialTypes.map(ref => getEntry(ref)));
 ---
-
-<article
+<a 
+  href={`/objects/${object.id}`}
   class="object-card group flex flex-col rounded-2xl
          relative w-full reveal
          transition-all duration-300 no-underline"
@@ -21,22 +21,20 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
   data-wood={woodTypes.map(w => w.id).join(' ')}
   data-type={materialTypes.map(m => m.id).join(' ')}
 >
-  <a href={`/objects/${object.id}`}>
-    <div class="p-1 md:p-1.5 border border-dashed transition-all 
-                duration-300 border-border rounded-2xl group-hover:border-solid
-                overflow-hidden w-full"
-    >
-      <Image
-        src={object.data.heroImage}
-        alt={object.data.imageAlt ?? object.data.title}
-        class="w-full aspect-3/2 object-cover transition-all 
-                duration-300 rounded-2xl active:scale-105"
-        loading="lazy"
-        decoding="async"
-        widths={[300, 500]}
-        sizes="(max-width: 480px) 300px, 500px"
-      />
-    </div>
-    <h3 class="text-[14px] text-center font-semibold truncate group-hover:underline transition-all duration-300">{object.data.title}</h3>
-  </a>
-</article>
+  <div class="p-1 md:p-1.5 border border-dashed transition-all 
+              duration-300 border-border rounded-2xl group-hover:border-solid
+              overflow-hidden w-full"
+  >
+    <Image
+      src={object.data.heroImage}
+      alt={object.data.imageAlt ?? object.data.title}
+      class="w-full aspect-3/2 object-cover transition-all 
+              duration-300 rounded-2xl active:scale-105"
+      loading="lazy"
+      decoding="async"
+      widths={[300, 500]}
+      sizes="(max-width: 480px) 300px, 500px"
+    />
+  </div>
+  <h3 class="text-[14px] text-center font-semibold truncate group-hover:underline transition-all duration-300">{object.data.title}</h3>
+</a>
