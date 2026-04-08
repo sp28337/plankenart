@@ -32,7 +32,7 @@ const pageTitle = "Tag Index";
   <div class="px-2 lg:px-4 min-h-[70svh]">
     <div class="my-10 max-w-7xl flex flex-col items-center mx-auto
                 text-foreground gap-10 md:gap-18 lg:gap-22">
-      <div class="flex flex-wrap justify-center gap-2 h-fit reveal">
+      <div class="flex flex-wrap gap-2 h-fit reveal">
         {uniqueTags.map((tag) => (
           <Tag 
             href={`/tags/${tagsDictionary[tag]}`} 

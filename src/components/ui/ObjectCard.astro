@@ -23,7 +23,19 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
 >
   <div class="p-1 md:p-1.5 border border-dashed transition-all 
               duration-300 border-border rounded-2xl group-hover:border-solid
-              overflow-hidden w-full"
+              overflow-hidden w-full
+              hover:opacity-50 
+              hover:after:content-['Подробнее'] 
+              hover:after:absolute 
+              hover:after:inset-0 
+              hover:after:flex 
+              hover:after:items-center 
+              hover:after:justify-center
+              hover:after:text-white
+              hover:after:text-3xl
+              hover:after:font-bold
+              hover:after:font-inter"
+              
   >
     <Image
       src={object.data.heroImage}
@@ -32,9 +44,11 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
               duration-300 rounded-2xl active:scale-105"
       loading="lazy"
       decoding="async"
-      widths={[300, 500]}
+      widths={[300, 500, 800]}
       sizes="(max-width: 480px) 300px, 500px"
     />
   </div>
-  <h3 class="text-[14px] text-center font-semibold truncate group-hover:underline transition-all duration-300">{object.data.title}</h3>
+  <h3 class="text-[clamp(1rem,1.9vw,1.2rem)] text-center font-semibold truncate text-foreground group-hover:text-line tracking-tighter transition-all duration-300  font-inter">
+    {object.data.title}
+  </h3>
 </a>

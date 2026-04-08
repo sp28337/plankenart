@@ -10,7 +10,6 @@ import { tagsDictionary } from "../../lib/mappers";
 import { tagsTitleDictionary } from "../../lib/titleMappers";
 
 export async function getStaticPaths() {
-  // const allMaterials = await getCollection("materials");
   const [allMaterials, allObjects] = await Promise.all([
     getCollection("materials"),
     getCollection("objects")
@@ -50,7 +49,7 @@ const { materials, objects } = Astro.props;
                 
                 lg:rounded-b-[30px] bg-nav/20 ">
         <Heading
-          styles="capitalize mx-auto text-gradient"
+          styles="mx-auto text-gradient"
           title={tagsTitleDictionary[tag]}
           variant="h1"
         />
