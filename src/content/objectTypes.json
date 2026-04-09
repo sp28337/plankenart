@@ -1,5 +1,6 @@
 [
   { "id": "bathhouse", "title": "Баня" },
+  { "id": "house", "title": "Дом" },
   { "id": "gazebo", "title": "Беседка" },
   { "id": "facade", "title": "Фасад" },
   { "id": "place-to-relax", "title": "Место для отдыха" },

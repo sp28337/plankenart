@@ -19,7 +19,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
          transition-all duration-300 no-underline"
   data-object={objectType.id}
   data-wood={woodTypes.map(w => w.id).join(' ')}
-  data-type={materialTypes.map(m => m.id).join(' ')}
+  data-material={materialTypes.map(m => m.id).join(' ')}
 >
   <div class="p-1 md:p-1.5 border border-dashed transition-all 
               duration-300 border-border rounded-2xl group-hover:border-solid
@@ -38,7 +38,7 @@ const materialTypes = await Promise.all(object.data.materialTypes.map(ref => get
               
   >
     <Image
-      src={object.data.heroImage}
+      src={object.data.coverImage}
       alt={object.data.imageAlt ?? object.data.title}
       class="w-full aspect-3/2 object-cover transition-all 
               duration-300 rounded-2xl active:scale-105"

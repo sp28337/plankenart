@@ -9,6 +9,7 @@ const materials = defineCollection({
     metaDescription: z.string().max(160),
 
     title:       z.string(),
+    name:        z.string(),
     excerpt:     z.string(),
     description: z.string(),
     advantages:  z.array(z.string()),
@@ -47,6 +48,7 @@ const objects = defineCollection({
 
     sortOrder: z.number().default(99),
     imageAlt: z.string().optional(),
+    coverImage: image(),
     heroImage: image(),
     heroImageMobile: image(),
     images: z.array(image()),
