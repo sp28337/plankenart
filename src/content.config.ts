@@ -16,8 +16,8 @@ const materials = defineCollection({
     application: z.array(z.string()),
 
     relatedObjects: z.array(reference("objects")),
-    materialType: reference("materialTypes"),
-    woodType: reference("woodTypes"),
+    materialType: z.string(),
+    woodType: z.string(),
     tags: z.array(z.string()),
 
     sortOrder: z.number().default(99),
@@ -41,9 +41,9 @@ const objects = defineCollection({
     
     tags: z.array(z.string()),
 
-    objectType:  reference("objectTypes"),
-    woodTypes: z.array(reference("woodTypes")),
-    materialTypes: z.array(reference("materialTypes")),
+    objectType: z.string(),
+    woodTypes: z.array(z.string()),
+    materialTypes: z.array(z.string()),
     materials: z.array(reference("materials")),
 
     sortOrder: z.number().default(99),
@@ -55,34 +55,7 @@ const objects = defineCollection({
   }),
 });
 
-const woodTypes = defineCollection({
-  loader: file("src/content/woodTypes.json"),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-  }),
-});
-
-const objectTypes = defineCollection({
-  loader: file("src/content/objectTypes.json"),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-  }),
-});
-
-const materialTypes = defineCollection({
-  loader: file("src/content/materialTypes.json"),
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-  }),
-});
-
 export const collections = { 
   materials,
   objects,
-  woodTypes,
-  objectTypes,
-  materialTypes,
 };

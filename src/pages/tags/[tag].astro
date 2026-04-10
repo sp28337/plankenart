@@ -1,5 +1,4 @@
 ---
-
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro";
@@ -12,93 +11,91 @@ import { tagsTitleDictionary } from "../../lib/titleMappers";
 export async function getStaticPaths() {
   const [allMaterials, allObjects] = await Promise.all([
     getCollection("materials"),
-    getCollection("objects")
+    getCollection("objects"),
   ]);
 
-  const allItems = [...allMaterials, ...allObjects];
-  const uniqueTags = [...new Set(allItems.map((item) => item.data.tags).flat())];
+  const tags = [...new Set([...allMaterials, ...allObjects].flatMap((item) => item.data.tags ?? []))];
+  const materialTypes = [...new Set(allMaterials.map((item) => item.data.materialType))];
+  const objectTypes = [...new Set(allObjects.map((item) => item.data.objectType))];
+  const woodTypes = [...new Set(allMaterials.map((item) => item.data.woodType))];
+
+  const uniqueTags = [...new Set([...tags, ...materialTypes, ...objectTypes, ...woodTypes])]
+    .filter((tag) => tagsDictionary[tag] !== undefined);
 
   return uniqueTags.map((tag) => {
-    const filteredItems = allItems.filter((item) =>
-      item.data.tags.includes(tag)
+    const materials = allMaterials.filter((item) =>
+      item.data.tags.includes(tag) ||
+      item.data.woodType === tag ||
+      item.data.materialType === tag
     );
-    const url = tagsDictionary[tag]
-    const materials = filteredItems.filter(item => item.collection === 'materials');
-    const objects = filteredItems.filter(item => item.collection === 'objects');
+
+    const objects = allObjects.filter((item) =>
+      item.data.tags.includes(tag) ||
+      item.data.objectType === tag ||
+      item.data.woodTypes.includes(tag)    
+    );
+
+    const url = tagsDictionary[tag];
 
     return {
       params: { tag: url },
-      props: { 
-        items: filteredItems,
-        materials, 
-        objects},
+      props: { materials, objects },
     };
-    
   });
 }
 
 const { tag } = Astro.params;
 const { materials, objects } = Astro.props;
+const pageTitle = tagsTitleDictionary[tag] ?? tag;
 ---
 
-<Layout 
-  pageTitle={tagsTitleDictionary[tag]}
-> 
-
-    <div class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
-                
-                lg:rounded-b-[30px] bg-nav/20 ">
-        <Heading
-          styles="mx-auto text-gradient"
-          title={tagsTitleDictionary[tag]}
-          variant="h1"
-        />
-        <p class="text-foreground/30 text-center reveal">
-          <b>Все страницы по тегу: </b><i>{tagsTitleDictionary[tag]}</i>
-        </p>
+<Layout
+  pageTitle={pageTitle}
+  pageDescription={`Все материалы и объекты по теме: ${pageTitle}`}
+>
+  <div class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
+              lg:rounded-b-[30px] bg-nav/20">
+    <Heading
+      styles="mx-auto text-gradient"
+      title={pageTitle}
+      variant="h1"
+    />
+    <p class="text-foreground/30 text-center reveal">
+      <b>Все страницы по тегу: </b><i>{pageTitle}</i>
+    </p>
+  </div>
+  <div class="px-2 lg:px-4 min-h-[70svh]">
+    <div class="my-10 max-w-7xl flex flex-col items-center mx-auto
+                text-foreground gap-10 md:gap-18 lg:gap-22">
+      {materials.length > 0 && (
+        <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+          <H2 title="Материалы" />
+          <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+            {materials.map((material) => (
+              <li>
+                <MaterialCardSmall
+                  route={`/materials/${material.id}/`}
+                  title={material.data.title}
+                  img={material.data.coverImage}
+                  variant="tags"
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {objects.length > 0 && (
+        <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+          <H2 title="Объекты" />
+          <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full">
+            {objects.map((object) => (
+              <li>
+                <ObjectCard object={object} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
-    <div class="px-2 lg:px-4 min-h-[70svh]">
-
-      <div class="my-10 max-w-7xl flex flex-col items-center mx-auto
-                    text-foreground gap-10 md:gap-18 lg:gap-22"
-      >
-        {
-          materials.length > 0 &&
-          
-          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
-            <H2 title="Материалы"/>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
-              { 
-                materials.map((material) =>
-                <li>
-                  <MaterialCardSmall 
-                    route={`/materials/${material.id}/`}
-                    title={material.data.title}
-                    img={material.data.coverImage}
-                    variant="tags"
-                  />
-                </li>) 
-              }
-            </ul>
-          </section>
-        }
-        {
-          objects.length > 0 &&
-  
-          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
-            <H2 title="Объекты"/>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full">
-              { 
-                objects.map((object) => 
-                <li>
-                  <ObjectCard 
-                    object={object}
-                  />
-                </li>) 
-              }
-            </ul>
-          </section>
-        }
-      </div>
-    </div>
+  </div>
 </Layout>

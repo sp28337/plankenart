@@ -1,12 +1,9 @@
 export const tagsTitleDictionary: Record<string, string> = {
-  'decorative-products': 'Декоративные изделия',
   'architraves': 'Наличники',
   'corners': 'Уголки', 
   'skirting-board': 'Плинтус',
   
   // Типы отделки
-  'finishing': 'Отделка',
-  'imitation-beam': 'Имитация бруса',
   'interior-finishing': 'Внутренняя отделка',
   'exterior-finishing': 'Наружная отделка',
   
@@ -14,17 +11,15 @@ export const tagsTitleDictionary: Record<string, string> = {
   'spruce': 'Ель',
   'larch': 'Лиственница',
   'pine': 'Сосна',
+  'caragach': 'Карагач',
   'thermo-ash': 'Термоясень',
-  'dark-wood': 'Тёмное дерево',
   'thermo-pine': 'Термососна',
   'thermo-grab': 'Термограб',
-  
-  // Террасные покрытия
-  'deck-board': 'Палубная доска',
-  'terrace': 'Терраса',
-  'flooring': 'Настил',
+  'mixed': 'Разные породы',
+  'dark-wood': 'Тёмное дерево',
   
   // Объекты
+  'terrace': 'Терраса',
   'bathhouse': 'Баня',
   'pool': 'Бассейн',
   'rest-zone': 'Зона отдыха',
@@ -32,19 +27,23 @@ export const tagsTitleDictionary: Record<string, string> = {
   'sauna': 'Сауна',
   'gazebo': 'Беседка',
   'canopy': 'Навес',
+  'house': 'Дом',
+  'facade': 'Фасад',
   
   // Фасадные решения
-  'facade': 'Фасад',
-  'planken-beveled': 'Планкен скошенный',
-  'planken-straight': 'Планкен прямой',
-  'terrace-board': 'Террасная доска',
   'double-fold': 'Двойной фальц',
-  
-  // Внутренняя отделка
-  'wagonka-shtil': 'Вагонка штиль',
   
   // Строительные конструкции
   'fachwerk': 'Фахверк',
   'norwegian-laft': 'Норвежский лафет',
+  
+  // Материалы
   'glued-beam': 'Клееный брус',
+  'planken-straight': 'Планкен прямой',
+  'planken-angled': 'Планкен скошенный',
+  'deck-board': 'Палубная доска',
+  'террасная доска': 'Террасная доска',
+  'timber-imitation': 'Имитация бруса',
+  'lining-shtil': 'Вагонка штиль',
+  'decorative': 'Декоративные изделия'
 };

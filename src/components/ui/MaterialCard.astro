@@ -4,22 +4,22 @@ import { Image } from 'astro:assets';
 import Fence from "@assets/svg/fence.svg"
 import Trees from "@assets/svg/trees.svg"
 import { getEntry } from 'astro:content';
+import { tagsDictionary } from '../../lib/mappers';
+import { tagsTitleDictionary } from '../../lib/titleMappers';
 
 interface Props {
   material: CollectionEntry<'materials'>;
 }
 
 const { material } = Astro.props;
-const woodType = await getEntry(material.data.woodType)
-const materialType = await getEntry(material.data.materialType)
 ---
 
-<article
+<div
   class="material-card material-catalog-gradient group flex flex-col
          overflow-hidden shadow-xl/2 rounded-[15px]
          transition-all duration-300 no-underline md:rounded-[20px]"
-  data-wood={woodType.id}
-  data-material={materialType.id}
+  data-wood={tagsDictionary[material.data.woodType]}
+  data-material={tagsDictionary[material.data.materialType]}
 >
   <a href={`/materials/${material.id}`} class="flex flex-col h-full">
     <div class="flex items-center justify-center">
@@ -40,13 +40,13 @@ const materialType = await getEntry(material.data.materialType)
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold">
         <Trees class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
-        <span>{woodType.data.title}</span>
+        <span>{tagsTitleDictionary[tagsDictionary[material.data.woodType]]}</span>
       </div>
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
         <Fence class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
-        <span>{materialType.data.title}</span>
+        <span>{tagsTitleDictionary[tagsDictionary[material.data.materialType]]}</span>
       </div>
     </div>
   </a>
-</article>
+</div>

@@ -1,25 +1,22 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
-import { getEntry } from 'astro:content';
+import { tagsDictionary } from '../../lib/mappers';
 
 interface Props {
   object: CollectionEntry<'objects'>;
 }
 
 const { object } = Astro.props;
-const objectType = await getEntry(object.data.objectType);
-const woodTypes = await Promise.all(object.data.woodTypes.map(ref => getEntry(ref)));
-const materialTypes = await Promise.all(object.data.materialTypes.map(ref => getEntry(ref)));
 ---
 <a 
   href={`/objects/${object.id}`}
   class="object-card group flex flex-col rounded-2xl
          relative w-full reveal
          transition-all duration-300 no-underline"
-  data-object={objectType.id}
-  data-wood={woodTypes.map(w => w.id).join(' ')}
-  data-material={materialTypes.map(m => m.id).join(' ')}
+  data-object={tagsDictionary[object.data.objectType]}
+  data-wood={object.data.woodTypes.map(t => tagsDictionary[t]).join(' ')}
+  data-material={object.data.materialTypes.map(m => tagsDictionary[m]).join(' ')}
 >
   <div class="p-1 md:p-1.5 border border-dashed transition-all 
               duration-300 border-border rounded-2xl group-hover:border-solid
