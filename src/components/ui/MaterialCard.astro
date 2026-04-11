@@ -15,13 +15,13 @@ const { material } = Astro.props;
 ---
 
 <div
-  class="material-card material-catalog-gradient group flex flex-col
+  class="material-card bg-nav/20 group flex flex-col hover:bg-nav/45
          overflow-hidden shadow-xl/2 rounded-[15px]
          transition-all duration-300 no-underline md:rounded-[20px]"
   data-wood={tagsDictionary[material.data.woodType]}
   data-material={tagsDictionary[material.data.materialType]}
 >
-  <a href={`/materials/${material.id}`} class="flex flex-col h-full">
+  <a href={`/materials/${material.id}`} class="flex flex-col h-full group">
     <div class="flex items-center justify-center">
       <Image
         src={material.data.coverImage}
@@ -39,13 +39,13 @@ const { material } = Astro.props;
       <h3 class="sr-only">{material.data.title}</h3>
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold">
-        <Trees class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
-        <span>{tagsTitleDictionary[tagsDictionary[material.data.woodType]]}</span>
+        <Trees class="w-4 h-4 shrink-0 pointer-events-none opacity-45" aria-hidden="true" />
+        <i >{tagsTitleDictionary[tagsDictionary[material.data.woodType]]}</i>
       </div>
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
-        <Fence class="w-4 h-4 shrink-0 pointer-events-none" aria-hidden="true" />
-        <span>{tagsTitleDictionary[tagsDictionary[material.data.materialType]]}</span>
+        <Fence class="w-4 h-4 shrink-0 pointer-events-none opacity-45" aria-hidden="true" />
+        <i>{tagsTitleDictionary[tagsDictionary[material.data.materialType]]}</i>
       </div>
     </div>
   </a>

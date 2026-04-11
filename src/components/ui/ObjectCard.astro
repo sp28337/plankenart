@@ -12,14 +12,14 @@ const { object } = Astro.props;
 <a 
   href={`/objects/${object.id}`}
   class="object-card group flex flex-col rounded-2xl
-         relative w-full reveal
+         relative w-full reveal 
          transition-all duration-300 no-underline"
   data-object={tagsDictionary[object.data.objectType]}
   data-wood={object.data.woodTypes.map(t => tagsDictionary[t]).join(' ')}
   data-material={object.data.materialTypes.map(m => tagsDictionary[m]).join(' ')}
 >
-  <div class="p-1 md:p-1.5 border border-dashed transition-all 
-              duration-300 border-border rounded-2xl group-hover:border-solid
+  <div class="p-1 md:p-1.5 border hover:border-border
+              duration-300 border-nav/20 rounded-2xl
               overflow-hidden w-full
               hover:opacity-50 
               hover:after:content-['Подробнее'] 

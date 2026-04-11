@@ -1,61 +1,79 @@
 ---
 import { Picture } from 'astro:assets';
 import logo from "@assets/logo.png";
-import Svg from "@components/svg/Svg.astro"
-import Telegram from "@components/svg/telegram.astro";
-import Phone from "@components/svg/phone.astro";
-import Vkontakte from "@components/svg/vkontakte.astro";
-import Location from "@components/svg/location.astro";
+
+const links = [
+  { href: "/about",     label: "О нас"    },
+  { href: "/#services", label: "Услуги"   },
+  { href: "/materials", label: "Материалы"},
+  { href: "/objects",   label: "Объекты"  },
+  { href: "/tags",      label: "Теги"     },
+];
 ---
 <footer class="bg-footer w-full h-fit relative z-97 
 pt-10 pb-4 sm:pb-6 px-2 lg:px-4">
-  <div class="max-w-7xl flex flex-col gap-4 sm:gap-6 mx-auto">
-    <div class="flex flex-col gap-8 pt-4 text-sm sm:flex-row sm:justify-between">
-      <div id="contacts" class="flex flex-col gap-2">
-        <a href="tel:+79525433716" class="flex gap-4 border border-dashed px-5 h-10
-        hover:border-solid hover:border-line items-center w-full rounded-2xl group 
-        transition-all duration-300">
-          <Svg variant="footer" viewBox="phone" size="m">
-            <Phone/>
-          </Svg>
-          <span>
-            +7 (952) 543 37 16
-          </span>
-        </a>
-        <a href="https://t.me/Spedd87" class="flex gap-4 border border-dashed h-10 w-full
-        hover:border-solid hover:border-line items-center rounded-2xl px-5 group
-        transition-all duration-300">
-          <Svg variant="footer" viewBox="tg" size="m">
-            <Telegram/>
-          </Svg>
-          <span>
-            Написать в Телеграм
-          </span>
-        </a>
-        <a href="https://vk.ru/id511687461" class="flex gap-4 border border-dashed px-5 
-        hover:border-solid hover:border-line items-center h-10 w-full rounded-2xl group
-        transition-all duration-300">
-          <Svg variant="footer" viewBox="vk" size="m">
-            <Vkontakte/>
-          </Svg>
-          <span>
-            группа Вконтакте
-          </span>
-        </a>
-        <a 
-          href="https://yandex.ru/maps/47/nizhny-novgorod/?indoorLevel=1&ll=44.002375%2C56.322055&mode=routes&rtext=~56.321766%2C43.997731&rtt=auto&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1Njk4MTE2NxJR0KDQvtGB0YHQuNGPLCDQndC40LbQvdC40Lkg0J3QvtCy0LPQvtGA0L7QtCwg0J7QutGC0Y_QsdGA0YzRgdC60LDRjyDRg9C70LjRhtCwLCAxIgoNrv0vQhV9SWFC&z=17" 
-          class="flex gap-4 border border-dashed hover:border-solid px-5
-          hover:border-line items-center h-10 w-full rounded-2xl group
-          transition-all duration-300"
-        >
-          <Svg variant="footer" viewBox="location" size="m">
-            <Location/>
-          </Svg>
-          <span>
-            Нижний Новгород, Октябрьская д 1
-          </span>
-        </a>
+  <div class="max-w-7xl flex flex-col gap-4 sm:gap-6 mx-auto px-4 2xl:px-0">
+    <div class="flex flex-col gap-8 pt-4 text-sm font-medium sm:flex-row sm:justify-between ">
+      <div class="flex flex-col gap-10 xs:flex-row sm:gap-30">
+        <section id="contacts" class="flex flex-col gap-3 cursor-default">
+          <h4 class="font-inter font-bold text-lg">
+            Навигация
+          </h4>
+          <ul class="flex flex-col gap-2">
+            {links.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class="flex gap-4 items-center w-full rounded-2xl group 
+          transition-all duration-300 opacity-70 hover:opacity-100"
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+  
+        </section>
+  
+        <section id="contacts" class="flex flex-col gap-3 cursor-default">
+          <h4 class="font-inter font-bold text-lg">
+            Контакты
+          </h4>
+          <div class="flex flex-col gap-2">
+            <a href="tel:+79525433716" class="flex gap-4 items-center w-full rounded-2xl group 
+            transition-all duration-300 opacity-70 hover:opacity-100">
+              <span>
+                +7 (952) 543 37 16
+              </span>
+            </a>
+            <a href="https://t.me/Spedd87" class="flex gap-4 w-full
+            items-center rounded-2xl group
+            transition-all duration-300 opacity-70 hover:opacity-100">
+              <span>
+                Написать в Телеграм
+              </span>
+            </a>
+            <a href="https://vk.ru/id511687461" class="flex gap-4 
+            items-center w-full rounded-2xl group
+            transition-all duration-300 opacity-70 hover:opacity-100">
+              <span>
+                Группа Вконтакте
+              </span>
+            </a>
+            <a 
+              href="https://yandex.ru/maps/47/nizhny-novgorod/?indoorLevel=1&ll=44.002375%2C56.322055&mode=routes&rtext=~56.321766%2C43.997731&rtt=auto&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1Njk4MTE2NxJR0KDQvtGB0YHQuNGPLCDQndC40LbQvdC40Lkg0J3QvtCy0LPQvtGA0L7QtCwg0J7QutGC0Y_QsdGA0YzRgdC60LDRjyDRg9C70LjRhtCwLCAxIgoNrv0vQhV9SWFC&z=17" 
+              class="flex gap-4
+              items-center w-full rounded-2xl group
+              transition-all duration-300 opacity-70 hover:opacity-100"
+            >
+              <span>
+                Нижний Новгород, Октябрьская д 1
+              </span>
+            </a>
+          </div>
+        </section>
       </div>
+
       <a 
         href="/#top"
         class="flex items-center justify-center lg:-translate-x-10 active:-translate-y-4 transition-all duration-200"

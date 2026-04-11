@@ -152,13 +152,13 @@ const allTags = [
 
             {
               usedOils.length > 0 && (
-                <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
-                  <H2 title="Использованные масла" />
+                <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14 cursor-default">
+                  <H2 title="Масло" />
 
                   <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
                     {usedOils.map(({ oil, colors, surface }) => (
                       <li class="flex flex-col gap-4 duration-500
-                                 border border-dashed border-border/50 rounded-[17px]
+                                 border  border-nav/20 hover:border-border/50 rounded-[17px]
                                  reveal p-2">
 
                         {/* поверхность */}
@@ -220,11 +220,11 @@ const allTags = [
                   title="Фотографии проекта" 
                   page="object"
                 />
-                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6" id="lightbox-gallery">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="lightbox-gallery">
                   {object.data.images.map((img, i) => (
                     <li
-                      class="rounded-2xl lg:rounded-3xl overflow-hidden border border-dashed
-                            border-border p-2 group hover:border-solid transition-all duration-300
+                      class="rounded-2xl lg:rounded-3xl overflow-hidden border 
+                            border-nav/20 p-2 group hover:border-border/50 transition-all duration-300
                             cursor-zoom-in reveal"
                       data-lightbox-index={i}
                     >
