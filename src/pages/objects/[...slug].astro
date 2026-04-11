@@ -100,7 +100,7 @@ const materials = await getEntries(object.data.materials);
               object.data.technicalFeatures &&
               <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 items-center">
                 <H2 title="Технические особенности"/>
-                <ul class="list-none flex flex-col w-full">
+                <ul class="list-none flex flex-col md:w-full w-[94%]">
                   {object.data.technicalFeatures.map((feat) => (
                     <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
                                 py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300">
