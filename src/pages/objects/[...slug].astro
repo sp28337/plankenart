@@ -15,18 +15,39 @@ interface Props {
 
 export async function getStaticPaths() {
   const allObjects = await getCollection('objects');
-  return allObjects.map(object => ({
-    params: { slug: object.id },
-    props: { object },
-  }));
+
+  return allObjects.map(object => {
+
+    return {
+      params: { slug: object.id },
+      props: { object },
+    }
+  });
 }
 
 const { object } = Astro.props;
 const { Content } = await render(object);
 
+const usedOils = object.data.usedOils
+  ? await Promise.all(
+      object.data.usedOils.map(async (item) => {
+        const oilEntry = await getEntries([item.oil]);
+        const oil = oilEntry[0];
+
+        const selectedColors = oil.data.colors.filter(color =>
+          item.code.includes(color.code)
+        );
+
+        return {
+          surface: item.surface,
+          oil,
+          colors: selectedColors,
+        };
+      })
+    )
+  : [];
 
 const materials = await getEntries(object.data.materials);
-
 ---
 
 <Layout
@@ -78,9 +99,7 @@ const materials = await getEntries(object.data.materials);
             { 
               object.data.technicalFeatures &&
               <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 items-center">
-                <H2 
-                  title="Технические особенности"
-                />
+                <H2 title="Технические особенности"/>
                 <ul class="list-none flex flex-col w-full">
                   {object.data.technicalFeatures.map((feat) => (
                     <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
@@ -123,8 +142,71 @@ const materials = await getEntries(object.data.materials);
               </section>
             }
 
+            {
+              usedOils.length > 0 && (
+                <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+                  <H2 title="Использованные масла" />
 
-            {object.data.images.length > 0 && (
+                  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                    {usedOils.map(({ oil, colors, surface }) => (
+                      <li class="flex flex-col gap-4 duration-500
+                                 border border-dashed border-border/50 rounded-[17px]
+                                 reveal p-2">
+
+                        {/* поверхность */}
+                        {surface && (
+                          <p class="text-sm opacity-70">{surface}</p>
+                        )}
+
+                        <div class="flex flex-col gap-4 w-full">
+                          <h3 class="text-lg font-semibold items-center tracking-tighter 
+                                     leading-5 flex flex-col p-2">
+                            {oil.data.title}
+                            <span class="font-normal text-foreground/50 text-sm">
+                              {oil.data.titleRu}
+                            </span>
+                          </h3>
+                          <Image
+                            src={oil.data.coverImage}
+                            alt={oil.data.title}
+                            class="w-46 h-46 object-cover rounded-xl mx-auto"
+                          />
+                          <div class="flex flex-col gap-2">
+                            {colors.map(color => (
+                              <div class="items-center flex gap-2 bg-nav/20 p-2 rounded-2xl">                 
+                                <div class="w-12 h-12 rounded-xl overflow-hidden"> 
+                                  <Image
+                                    src={color.image}
+                                    alt={`${color.name} (${color.code})`}
+                                    class="w-full h-full object-cover rounded-xl"
+                                  />
+                                </div>
+
+                                <div class="flex relative flex-col">
+                                  <span class="text-md top-2 font-inter font-bold">
+                                    {color.code}
+                                  </span>
+                                  
+                                  <i class="text-sm text-foreground/50 text-center">
+                                    {color.name}
+                                  </i>
+
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+
+            {
+              object.data.images.length > 0 && (
               <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full">
                 <H2 
                   title="Фотографии проекта" 
