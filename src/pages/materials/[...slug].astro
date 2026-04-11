@@ -24,6 +24,11 @@ const { material } = Astro.props;
 const { Content } = await render(material);
 
 const relatedObjects = await getEntries(material.data.relatedObjects)
+const allTags = [
+  ...material.data.tags,
+  material.data.materialType,
+  material.data.woodType,
+];
 ---
 
 <Layout
@@ -42,14 +47,14 @@ const relatedObjects = await getEntries(material.data.relatedObjects)
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
   
         <div class="w-full">
-          <section class="flex flex-col justify-center items-center gap-2 my-10">
+          <section class="flex flex-col justify-center items-center gap-2">
             <Heading
               styles="text-gradient"
               title="Теги"
               variant="h3"
             />
-            <ul class="flex flex-wrap justify-center gap-2 mb-5 h-fit reveal">
-              {material.data.tags.map(tag => (
+            <ul class="flex flex-wrap justify-center gap-2 mb-5 md:mb-10 lg:mb-14 h-fit reveal">
+              {allTags.map(tag => (
                 <li class="flex">
                   <Tag href={`/tags/${tagsDictionary[tag]}`} tag={tag} variant="alternative" />
                 </li>

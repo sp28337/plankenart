@@ -38,8 +38,7 @@ const objects = defineCollection({
     description:       z.string(),
     technicalFeatures: z.array(z.string()).optional(),
     conclusion:        z.string().optional(),
-    
-    tags: z.array(z.string()),
+    tags:              z.array(z.string()),
 
     objectType:    z.string(),
     woodTypes:     z.array(z.string()),

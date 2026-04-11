@@ -48,6 +48,14 @@ const usedOils = object.data.usedOils
   : [];
 
 const materials = await getEntries(object.data.materials);
+
+const allTags = [
+  ...object.data.tags,
+  ...object.data.materialTypes,
+  ...object.data.woodTypes,
+  object.data.objectType,
+];
+
 ---
 
 <Layout
@@ -65,14 +73,14 @@ const materials = await getEntries(object.data.materials);
     <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
       <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
         <div class="w-full">
-          <section class="flex flex-col justify-center items-center gap-2 my-10">
+          <section class="flex flex-col justify-center items-center gap-2">
             <Heading
               styles="text-gradient"
               title="Теги"
               variant="h3"
             />
-            <ul class="flex flex-wrap justify-center gap-2 h-fit reveal">
-              {object.data.tags.map(tag => (
+            <ul class="flex flex-wrap justify-center gap-2 h-fit mb-5 md:mb-10 lg:mb-14 reveal">
+              {allTags.map(tag => (
                 <li class="flex">
                   <Tag href={`/tags/${tagsDictionary[tag]}`} tag={tag} variant="alternative" />
                 </li>
