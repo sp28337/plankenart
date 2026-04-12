@@ -20,109 +20,183 @@ const uniqueWoodTypes = [
   ...new Set(allMaterials.map((item) => item.data.woodType)),
 ];
 // const allTags = [...uniqueTags, ...uniqueMaterialTypes, ...uniqueObjectTypes, ...uniqueWoodTypes];
+
+import Trees from "@assets/svg/trees.svg";
+import Fence from "@assets/svg/fence.svg";
+import Scan from "@assets/svg/scan.svg";
 ---
 
-<Layout pageTitle="Теги" pageDescription="Все теги сайта ПланкенАрт">
+<Layout
+  pageTitle="Теги"
+  pageDescription="Удобный каталог тегов сайта ПланкенАрт"
+>
+  <!-- Hero Section -->
   <div
-    class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
-              lg:rounded-b-[30px] bg-nav/20"
+    class="w-full relative overflow-hidden rounded-b-[25px] lg:rounded-b-[40px] pt-32 lg:pt-40 pb-16 lg:pb-20
+           bg-nav/5 border-b border-nav/10"
   >
-    <Heading
-      styles="capitalize mx-auto text-gradient"
-      title="Теги"
-      variant="h1"
-    />
-    <p class="text-foreground/30 text-center reveal">
-      <b>Выберите интересующую тему</b>
-    </p>
+    <div
+      class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,var(--color-html)_0%,transparent_70%)] opacity-40"
+    >
+    </div>
+    <div
+      class="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center reveal"
+    >
+      <Heading
+        styles="capitalize mx-auto text-gradient mb-6"
+        title="Теги"
+        variant="h1"
+      />
+      <p
+        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed"
+      >
+        Удобная навигация по нашим проектам и материалам. Выберите интересующую
+        тему: материалы, породы дерева или типы объектов.
+      </p>
+    </div>
   </div>
-  <div
-    class="px-2 lg:px-4 min-h-[70svh] grid grid-cols-1 sm:grid-cols-2
-               md:grid-cols-4 gap-6 md:gap-4 my-4 mx-auto max-w-7xl mt-2.5"
-  >
-    <section
-      class="max-w-7xl flex flex-col
-                text-foreground gap-2 lg:gap-4"
-    >
-      <Heading styles="capitalize mx-auto " title="Общие" variant="h3" />
-      <ul class="flex flex-wrap gap-2 h-fit reveal justify-center">
-        {
-          uniqueTags.map((tag) => (
-            <li>
-              <Tag
-                href={`/tags/${tagsDictionary[tag]}`}
-                tag={tag}
-                variant="alternative"
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <section
-      class="max-w-7xl flex flex-col
-                text-foreground gap-2 lg:gap-4"
-    >
-      <Heading styles="capitalize mx-auto " title="Материалы" variant="h3" />
-      <ul class="flex flex-wrap gap-2 h-fit reveal justify-center">
-        {
-          uniqueMaterialTypes.map((tag) => (
-            <li>
-              <Tag
-                href={`/tags/${tagsDictionary[tag]}`}
-                tag={tag}
-                variant="alternative"
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <section
-      class="max-w-7xl flex flex-col
-                text-foreground gap-2 lg:gap-4"
-    >
-      <Heading
-        styles="capitalize mx-auto "
-        title="Породы дерева"
-        variant="h3"
-      />
-      <ul class="flex flex-wrap gap-2 h-fit reveal justify-center">
-        {
-          uniqueWoodTypes.map((tag) => (
-            <li>
-              <Tag
-                href={`/tags/${tagsDictionary[tag]}`}
-                tag={tag}
-                variant="alternative"
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <section
-      class="max-w-7xl flex flex-col
-                text-foreground gap-2 lg:gap-4"
-    >
-      <Heading
-        styles="capitalize mx-auto "
-        title="Виды объектов"
-        variant="h3"
-      />
-      <ul class="flex flex-wrap gap-2 h-fit reveal justify-center">
-        {
-          uniqueObjectTypes.map((tag) => (
-            <li>
-              <Tag
-                href={`/tags/${tagsDictionary[tag]}`}
-                tag={tag}
-                variant="alternative"
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+
+  <!-- Main Grid -->
+  <div class="mx-auto max-w-7xl px-2 lg:px-4 min-h-[60svh] mt-8 lg:mt-12 mb-16">
+    <div class="columns-1 md:columns-2 gap-4 lg:gap-6 space-y-4 lg:space-y-6">
+      <!-- Общие теги -->
+      <section
+        class="break-inside-avoid flex flex-col text-foreground gap-5 lg:gap-7 border border-nav/20
+               rounded-[20px] p-6 lg:p-8 reveal transition-all duration-500 hover:shadow-lg hover:shadow-nav/10"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-[14px] bg-bg-primary border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground"
+          >
+            <svg
+              class="w-5 h-5 opacity-70"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"
+              ></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg
+            >
+          </div>
+          <Heading
+            styles="capitalize text-left m-0 text-foreground"
+            title="Общие темы"
+            variant="h3"
+          />
+        </div>
+        <ul class="flex flex-wrap gap-2 h-fit">
+          {
+            uniqueTags.map((tag) => (
+              <li>
+                <Tag
+                  href={`/tags/${tagsDictionary[tag]}`}
+                  tag={tag}
+                  variant="alternative"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- Виды объектов -->
+      <section
+        class="break-inside-avoid flex flex-col text-foreground gap-5 lg:gap-7 border border-nav/20
+               rounded-[20px] p-6 lg:p-8 reveal transition-all duration-500 hover:shadow-lg hover:shadow-nav/10"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-[14px] bg-bg-primary border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground"
+          >
+            <Scan class="w-5 h-5 opacity-70" />
+          </div>
+          <Heading
+            styles="capitalize text-left m-0 text-foreground"
+            title="Виды объектов"
+            variant="h3"
+          />
+        </div>
+        <ul class="flex flex-wrap gap-2 h-fit">
+          {
+            uniqueObjectTypes.map((tag) => (
+              <li>
+                <Tag
+                  href={`/tags/${tagsDictionary[tag]}`}
+                  tag={tag}
+                  variant="alternative"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- Материалы -->
+      <section
+        class="break-inside-avoid flex flex-col text-foreground gap-5 lg:gap-7 border border-nav/20
+               rounded-[20px] p-6 lg:p-8 reveal transition-all duration-500 hover:shadow-lg hover:shadow-nav/10"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-[14px] bg-bg-primary border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground"
+          >
+            <Fence class="w-5 h-5 opacity-70" />
+          </div>
+          <Heading
+            styles="capitalize text-left m-0 text-foreground"
+            title="Материалы"
+            variant="h3"
+          />
+        </div>
+        <ul class="flex flex-wrap gap-2 h-fit">
+          {
+            uniqueMaterialTypes.map((tag) => (
+              <li>
+                <Tag
+                  href={`/tags/${tagsDictionary[tag]}`}
+                  tag={tag}
+                  variant="alternative"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <!-- Породы дерева -->
+      <section
+        class="break-inside-avoid flex flex-col text-foreground gap-5 lg:gap-7 border border-nav/20
+               rounded-[20px] p-6 lg:p-8 reveal transition-all duration-500 hover:shadow-lg hover:shadow-nav/10"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-[14px] bg-bg-primary border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground"
+          >
+            <Trees class="w-5 h-5 opacity-70" />
+          </div>
+          <Heading
+            styles="capitalize text-left m-0 text-foreground"
+            title="Породы дерева"
+            variant="h3"
+          />
+        </div>
+        <ul class="flex flex-wrap gap-2 h-fit">
+          {
+            uniqueWoodTypes.map((tag) => (
+              <li>
+                <Tag
+                  href={`/tags/${tagsDictionary[tag]}`}
+                  tag={tag}
+                  variant="alternative"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
   </div>
 </Layout>
