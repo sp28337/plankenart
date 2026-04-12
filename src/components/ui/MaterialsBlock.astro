@@ -1,75 +1,72 @@
 ---
-import Button from "@components/ui/Button.astro"
-import plankenPL from "@assets/materials/planken-listvennitsa.png"
-import plankenKL from "@assets/materials/planken-kosoy-listvennitsa.png"
-import palubnayaL from "@assets/materials/palubnaya-listvennitsa.png"
-import brusL from "@assets/materials/brus-imitation-termoyasen.png"
-import shtilS from "@assets/materials/shtil-sosna.png"
-import terrasnayaT from "@assets/materials/terrasnaya-doska-termoyasen-722-186.png"
-import decor from "@assets/materials/decorativnie-izdeliya-1335-835.png"
-import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro"
+import Button from "@components/ui/Button.astro";
+import plankenPL from "@assets/materials/planken-listvennitsa.png";
+import plankenKL from "@assets/materials/planken-kosoy-listvennitsa.png";
+import palubnayaL from "@assets/materials/palubnaya-listvennitsa.png";
+import brusL from "@assets/materials/brus-imitation-termoyasen.png";
+import shtilS from "@assets/materials/shtil-sosna.png";
+import terrasnayaT from "@assets/materials/terrasnaya-doska-termoyasen-722-186.png";
+import decor from "@assets/materials/decorativnie-izdeliya-1335-835.png";
+import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro";
 
-import H2 from "./H2.astro"
+import H2 from "./H2.astro";
 
 const row_1 = [
-    { 
-    href: "/materials?material=planken-straight", 
-    img: plankenPL, 
-    title: "Планкен прямой"
+  {
+    href: "/materials?material=planken-straight",
+    img: plankenPL,
+    title: "Планкен прямой",
   },
-  { 
-    href: "/materials?material=planken-angled", 
-    img: plankenKL, 
-    title: "Планкен скошенный"
+  {
+    href: "/materials?material=planken-angled",
+    img: plankenKL,
+    title: "Планкен скошенный",
   },
-  { 
-    href: "/materials?material=deck-board", 
-    img: palubnayaL, 
-    title: "Палубная доска"
+  {
+    href: "/materials?material=deck-board",
+    img: palubnayaL,
+    title: "Палубная доска",
   },
-]
+];
 const row_2 = [
-  { 
-    href: "/materials?material=terrace-board", 
-    img: terrasnayaT, 
-    title: "Террасная доска"
+  {
+    href: "/materials?material=terrace-board",
+    img: terrasnayaT,
+    title: "Террасная доска",
   },
-  { 
-    href: "/materials?material=lining-shtil", 
-    img: shtilS, 
-    title: "Вагонка штиль"
+  {
+    href: "/materials?material=lining-shtil",
+    img: shtilS,
+    title: "Вагонка штиль",
   },
-  { 
-    href: "/materials?material=timber-imitation", 
-    img: brusL, 
-    title: "Имитация бруса"
+  {
+    href: "/materials?material=timber-imitation",
+    img: brusL,
+    title: "Имитация бруса",
   },
-]
+];
 ---
-<section 
+
+<section
   aria-labelledby="materials-heading"
   class="flex flex-col gap-6 md:gap-10 lg:gap-14 justify-between items-center max-w-7xl w-full"
 >
-  <H2 id="materials-heading" title="Материалы"/>
+  <H2 id="materials-heading" title="Материалы" />
   <div class="flex flex-col gap-2 w-full">
     <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
       <div class="flex flex-col gap-2 lg:flex-row w-full">
-        {row_1.map(({ href, img, title }) => (
-          <MaterialCardSmall
-            route={href}
-            img={img}
-            title={title}
-          />
-        ))}
+        {
+          row_1.map(({ href, img, title }) => (
+            <MaterialCardSmall route={href} img={img} title={title} />
+          ))
+        }
       </div>
       <div class="flex flex-col gap-2 lg:flex-row w-full">
-        {row_2.map(({ href, img, title }) => (
-          <MaterialCardSmall
-            route={href}
-            img={img}
-            title={title}
-          />
-        ))}
+        {
+          row_2.map(({ href, img, title }) => (
+            <MaterialCardSmall route={href} img={img} title={title} />
+          ))
+        }
       </div>
     </div>
     <div class="flex flex-col gap-2 sm:flex-row justify-center">
@@ -77,9 +74,9 @@ const row_2 = [
         variant="decor"
         route="/materials?type=decorative"
         img={decor}
-        title="Декоративные изделия"
+        title="Декор"
       />
-      <Button href="/materials" title="перейти в каталог" variant="catalog"/>
+      <Button href="/materials" title="перейти в каталог" variant="catalog" />
     </div>
   </div>
 </section>

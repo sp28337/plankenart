@@ -45,5 +45,5 @@ export const tagsDictionary: Record<string, string> = {
   'террасная доска': 'terrace-board',
   'имитация бруса': 'timber-imitation',
   'вагонка штиль': 'lining-shtil',
-  'декоративные изделия': 'decorative'
+  'декор': 'decorative'
 };

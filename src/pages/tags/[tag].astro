@@ -60,31 +60,75 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 const { materials, objects } = Astro.props;
 const pageTitle = tagsTitleDictionary[tag] ?? tag;
+
+import Fence from "@assets/svg/fence.svg";
+import Scan from "@assets/svg/scan.svg";
 ---
 
 <Layout
   pageTitle={pageTitle}
   pageDescription={`Все материалы и объекты по теме: ${pageTitle}`}
 >
+  <!-- Hero Section -->
   <div
-    class="w-full object-cover rounded-b-[20px] pt-28 lg:pt-36 pb-12
-              lg:rounded-b-[30px] bg-nav/20"
+    class="w-full relative overflow-hidden rounded-b-[25px] lg:rounded-b-[40px] pt-32 lg:pt-40 pb-16 lg:pb-20
+           bg-nav/20"
   >
-    <Heading styles="mx-auto text-gradient" title={pageTitle} variant="h1" />
-    <p class="text-foreground/30 text-center reveal">
-      <b>Все страницы по тегу: </b><i>{pageTitle}</i>
-    </p>
+    <div
+      class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,var(--color-html)_0%,transparent_70%)] opacity-40"
+    >
+    </div>
+    <div
+      class="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center reveal"
+    >
+      <Heading
+        styles="capitalize mx-auto text-gradient mb-4 lg:mb-6"
+        title={pageTitle}
+        variant="h1"
+      />
+      <p
+        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed cursor-default"
+      >
+        Все проекты компании, материалы и элементы каталога, связанные с тегом: <b
+          class="text-foreground">{pageTitle}</b
+        >
+      </p>
+    </div>
   </div>
+
   <div class="px-2 lg:px-4 min-h-[70svh]">
     <div
-      class="my-10 max-w-7xl flex flex-col items-center mx-auto
-                text-foreground gap-10 md:gap-18 lg:gap-22"
+      class="my-8 lg:my-12 max-w-7xl flex flex-col items-center mx-auto
+                text-foreground gap-8 md:gap-12 lg:gap-16"
     >
+      <div class="w-full flex justify-start reveal">
+        <a
+          href="/tags"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-nav/20 hover:bg-nav/40 text-foreground text-sm font-semibold rounded-[14px] transition-colors duration-300"
+        >
+          <svg
+            class="w-4 h-4 opacity-70"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
+          >
+          Все теги
+        </a>
+      </div>
+
       {
         materials.length > 0 && (
-          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
-            <H2 title="Материалы" />
-            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-500 hover:border-nav/30">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Fence class="w-5 h-5 opacity-70" />
+              </div>
+              <H2 title="Материалы" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 w-full">
               {materials.map((material) => (
                 <li>
                   <MaterialCardSmall
@@ -101,9 +145,14 @@ const pageTitle = tagsTitleDictionary[tag] ?? tag;
       }
       {
         objects.length > 0 && (
-          <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
-            <H2 title="Объекты" />
-            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 w-full">
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-500 hover:border-nav/30 mb-8 lg:mb-12">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Scan class="w-5 h-5 opacity-70" />
+              </div>
+              <H2 title="Объекты" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-full">
               {objects.map((object) => (
                 <li>
                   <ObjectCard object={object} />
