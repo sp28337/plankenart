@@ -39,7 +39,7 @@
   position: relative;
   background-image: linear-gradient(
     to bottom,
-    var(--color-material-gradient-top),
+    var(--color-amber-fade),
     var(--color-material-gradient-bottom)
   );
 
@@ -74,8 +74,8 @@
 @utility text-gradient {
   background-image: linear-gradient(
     to bottom,
-    var(--color-text-gradient-top) 50%,
-    var(--color-text-gradient-bottom)
+    var(--color-amber-fade) 50%,
+    var(--color-nav)
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

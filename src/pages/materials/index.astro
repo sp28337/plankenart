@@ -1,8 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Hero from "@components/Hero.astro"
-import heroImg from '@assets/objects/banya-norvezhskiy-zamok/10.jpg';
-import heroImgMobile from '@assets/objects/banya-norvezhskiy-zamok/15.jpg';
+import Hero from "@components/Hero.astro";
+import heroImg from "@assets/objects/banya-norvezhskiy-zamok/10.jpg";
+import heroImgMobile from "@assets/objects/banya-norvezhskiy-zamok/15.jpg";
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
 import MaterialsFilter from "@components/ui/MaterialsFilter.astro";
 import { getCollection } from "astro:content";
@@ -12,25 +12,26 @@ import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
 const allMaterials = await getCollection("materials");
 ---
 
-<Layout 
-  pageTitle="Каталог материалов" 
+<Layout
+  pageTitle="Каталог материалов"
   pageDescription="Список материалов с которыми работаем"
   ogImg={heroImg.src}
 >
-  <FilterOverlay/>
+  <FilterOverlay />
   <Hero
-    title="Каталог материалов" 
+    title="Каталог материалов"
     excerpt="Шлифовка древесины на профессиональном оборудовании и покрытие 
           натуральными маслами OSMO. Работаем по Нижнему Новгороду и области."
     img={heroImg}
     imgMobile={heroImgMobile}
   />
-  <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+  <div class="px-2 lg:px-4 text-foreground mt-8">
+    <MaterialsFilter />
 
-    <MaterialsFilter/>
-
-    <div class="mx-auto max-w-7xl p-1 md:p-1.5 border  reveal
-              border-nav/20 rounded-[20px] lg:rounded-[25px] mt-2.5">
+    <div
+      class="mx-auto max-w-7xl p-1 md:p-1.5 border reveal
+              border-nav/20 rounded-[20px] lg:rounded-[25px] mt-2.5"
+    >
       <div
         id="grid"
         class="grid gap-2
@@ -39,30 +40,52 @@ const allMaterials = await getCollection("materials");
                 md:grid-cols-4
                 lg:grid-cols-5"
       >
-        {allMaterials.map((m) => (
-          <MaterialCard material={m}/>
-        ))}
+        {allMaterials.map((m) => <MaterialCard material={m} />)}
       </div>
-      <ElementsNotFound/>
+      <ElementsNotFound />
     </div>
   </div>
 </Layout>
 
 <script>
-  import { setupOverlay, setupCatalogFilter } from '@scripts/dropdown';
+  import { setupOverlay, setupCatalogFilter } from "@scripts/dropdown";
 
-  const { initDropdown } = setupOverlay('filter-overlay');
+  const { initDropdown } = setupOverlay("filter-overlay");
 
-  const woodDD = initDropdown('wood-btn', 'wood-panel', 'filter-wood', 'wood-label', 'wood-chevron', 'wood');
-  const materialDD = initDropdown('material-btn', 'material-panel', 'filter-material', 'material-label', 'material-chevron', 'material');
+  const woodDD = initDropdown(
+    "wood-btn",
+    "wood-panel",
+    "filter-wood",
+    "wood-label",
+    "wood-chevron",
+    "wood",
+  );
+  const materialDD = initDropdown(
+    "material-btn",
+    "material-panel",
+    "filter-material",
+    "material-label",
+    "material-chevron",
+    "material",
+  );
 
   setupCatalogFilter({
-    gridId: 'grid',
-    emptyId: 'empty',
-    cardSelector: '.material-card',
+    gridId: "grid",
+    emptyId: "empty",
+    cardSelector: ".material-card",
     dropdowns: [
-      { handle: woodDD, inputId: 'filter-wood', paramKey: 'wood', dataAttr: 'wood' },
-      { handle: materialDD, inputId: 'filter-material', paramKey: 'material', dataAttr: 'material' },
+      {
+        handle: woodDD,
+        inputId: "filter-wood",
+        paramKey: "wood",
+        dataAttr: "wood",
+      },
+      {
+        handle: materialDD,
+        inputId: "filter-material",
+        paramKey: "material",
+        dataAttr: "material",
+      },
     ],
   });
 </script>

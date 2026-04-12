@@ -1,21 +1,27 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import Hero from '@components/Hero.astro';
-import H2 from '@components/ui/H2.astro';
-import Tag from '@components/ui/Tag.astro';
-import ObjectCard from '@components/ui/ObjectCard.astro';
-import { getCollection, getEntry, getEntries, render, type CollectionEntry } from 'astro:content';
-import Heading from '@components/ui/Heading.astro';
-import CheckIcon from '@components/svg/CheckIcon.astro';
-import { tagsDictionary } from '../../lib/mappers';
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/Hero.astro";
+import H2 from "@components/ui/H2.astro";
+import Tag from "@components/ui/Tag.astro";
+import ObjectCard from "@components/ui/ObjectCard.astro";
+import {
+  getCollection,
+  getEntry,
+  getEntries,
+  render,
+  type CollectionEntry,
+} from "astro:content";
+import Heading from "@components/ui/Heading.astro";
+import CheckIcon from "@components/svg/CheckIcon.astro";
+import { tagsDictionary } from "../../lib/mappers";
 
 interface Props {
-  material: CollectionEntry<"materials">
+  material: CollectionEntry<"materials">;
 }
 
 export async function getStaticPaths() {
-  const allMaterials = await getCollection('materials');
-  return allMaterials.map(material => ({
+  const allMaterials = await getCollection("materials");
+  return allMaterials.map((material) => ({
     params: { slug: material.id },
     props: { material },
   }));
@@ -24,7 +30,7 @@ export async function getStaticPaths() {
 const { material } = Astro.props;
 const { Content } = await render(material);
 
-const relatedObjects = await getEntries(material.data.relatedObjects)
+const relatedObjects = await getEntries(material.data.relatedObjects);
 const allTags = [
   ...material.data.tags,
   material.data.materialType,
@@ -44,102 +50,139 @@ const allTags = [
       img={material.data.heroImage}
       imgMobile={material.data.heroImageMobile}
     />
-    <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
-      <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
-  
+    <div class="px-2 lg:px-4 text-foreground mt-8">
+      <div
+        class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18"
+      >
         <div class="w-full">
           <section class="flex flex-col justify-center items-center gap-2">
-            <Heading
-              styles="text-gradient"
-              title="Теги"
-              variant="h3"
-            />
-            <ul class="flex flex-wrap justify-center gap-2 mb-5 md:mb-10 lg:mb-14 h-fit reveal">
-              {allTags.map(tag => (
-                <li class="flex">
-                  <Tag href={`/tags/${tagsDictionary[tag]}`} tag={tag} variant="alternative" />
-                </li>
-              ))}
+            <Heading styles="text-gradient" title="Теги" variant="h3" />
+            <ul
+              class="flex flex-wrap justify-center gap-2 mb-5 md:mb-10 lg:mb-14 h-fit reveal"
+            >
+              {
+                allTags.map((tag) => (
+                  <li class="flex">
+                    <Tag
+                      href={`/tags/${tagsDictionary[tag]}`}
+                      tag={tag}
+                      variant="alternative"
+                    />
+                  </li>
+                ))
+              }
             </ul>
           </section>
-  
+
           <!-- mat-layout -->
           <div class="block gap-12 items-start">
-  
             <!-- mat-main -->
             <div class="flex flex-col gap-8">
-  
               <!-- sect: О материале -->
               <section class="flex flex-col gap-4 items-center cursor-default">
-                <H2 title="О материале"/>
+                <H2 title="О материале" />
                 <div class="flex flex-col gap-2 w-full reveal">
-                  {material.data.description.split('\n\n').map((p) =>
-                    p.trim() && <p class="">{p.trim()}</p>
-                  )}
-                  <div class=" text-foreground flex flex-col gap-2 reveal">
+                  {
+                    material.data.description
+                      .split("\n\n")
+                      .map((p) => p.trim() && <p class="">{p.trim()}</p>)
+                  }
+                  <div class="text-foreground flex flex-col gap-2 reveal">
                     <Content />
                   </div>
                 </div>
               </section>
-  
+
               <div class="flex flex-col md:flex-row gap-4 cursor-default">
                 <!-- sect: Особенности -->
-                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%]">
-                  <H2 title="Особенности"/>
+                <section
+                  class="flex flex-col gap-4 flex-1 items-center md:w-[40%]"
+                >
+                  <H2 title="Особенности" />
                   <ul class="list-none flex flex-col w-[94%] md:w-full">
-                    {material.data.advantages.map((adv) => (
-                      <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
-                                 py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300">
-                        <CheckIcon />
-                        <p class="md:truncate hover:overflow-visible hover:whitespace-normal">{adv}</p>
-                      </li>
-                    ))}
+                    {
+                      material.data.advantages.map((adv) => (
+                        <li
+                          class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
+                                 py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300"
+                        >
+                          <CheckIcon />
+                          <p class="md:truncate hover:overflow-visible hover:whitespace-normal">
+                            {adv}
+                          </p>
+                        </li>
+                      ))
+                    }
                   </ul>
                 </section>
-    
+
                 <!-- sect: Применение -->
-                <section class="flex flex-col gap-4 flex-1 items-center md:w-[40%]">
-                  <H2 title="Где применяют"/>
+                <section
+                  class="flex flex-col gap-4 flex-1 items-center md:w-[40%]"
+                >
+                  <H2 title="Где применяют" />
                   <ul class="list-none flex flex-col w-[94%] md:w-full">
-                    {material.data.application.map((app) => (
-                      <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
-                                 py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300">
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          aria-hidden="true"
-                          class="shrink-0 text-line mt-[0.05rem]"
+                    {
+                      material.data.application.map((app) => (
+                        <li
+                          class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
+                                 py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300"
                         >
-                          <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
-                          <path d="M5.5 9.5L8 12L12.5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <p class="md:truncate hover:overflow-visible hover:whitespace-normal 
-                                  w-full">
-                          {app}
-                        </p>
-                      </li>
-                    ))}
+                          <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 18 18"
+                            fill="none"
+                            aria-hidden="true"
+                            class="shrink-0 text-line mt-[0.05rem]"
+                          >
+                            <circle
+                              cx="9"
+                              cy="9"
+                              r="8"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                            />
+                            <path
+                              d="M5.5 9.5L8 12L12.5 7"
+                              stroke="currentColor"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <p
+                            class="md:truncate hover:overflow-visible hover:whitespace-normal 
+                                  w-full"
+                          >
+                            {app}
+                          </p>
+                        </li>
+                      ))
+                    }
                   </ul>
                 </section>
               </div>
-              {relatedObjects.length > 0 && (
-                <section class="flex flex-col gap-8 items-center">
-                  <H2 title="Объекты"/>
-                  <div class="grid gap-2 md:gap-5
+              {
+                relatedObjects.length > 0 && (
+                  <section class="flex flex-col gap-8 items-center">
+                    <H2 title="Объекты" />
+                    <div
+                      class="grid gap-2 md:gap-5
                              grid-cols-1 
                              xs:grid-cols-2 
-                             sm:grid-cols-3 w-full">
-                    {relatedObjects.map(rel => <ObjectCard object={rel}/>)}
-                  </div>
-                </section>
-              )}
+                             sm:grid-cols-3 w-full"
+                    >
+                      {relatedObjects.map((rel) => (
+                        <ObjectCard object={rel} />
+                      ))}
+                    </div>
+                  </section>
+                )
+              }
             </div>
           </div>
-  
         </div>
-  
       </div>
     </div>
   </article>

@@ -2,8 +2,8 @@
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Hero from "@components/Hero.astro";
-import heroImg from '@assets/objects/avtonomnaya-barbekyu-zona/1.jpg';
-import heroImgMobile from '@assets/objects/avtonomnaya-barbekyu-zona/8.jpg';
+import heroImg from "@assets/objects/avtonomnaya-barbekyu-zona/1.jpg";
+import heroImgMobile from "@assets/objects/avtonomnaya-barbekyu-zona/8.jpg";
 import ObjectCard from "@components/ui/ObjectCard.astro";
 import ObjectsFilter from "@components/ui/ObjectsFilter.astro";
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
@@ -11,53 +11,90 @@ import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
 const allObjects = await getCollection("objects");
 ---
 
-<Layout 
+<Layout
   pageTitle="Объекты реализованные командой ПланкенАрт"
   pageDescription="Полный список объектов, реализованных командой ПланкенАрт"
   ogImg={heroImg.src}
 >
-  <FilterOverlay/>
+  <FilterOverlay />
   <Hero
     title="Объекты ПланкенАрт"
     excerpt="Деревянные фасады и строения, которые выглядят дорого и служат десятилетиями."
     img={heroImg}
     imgMobile={heroImgMobile}
   />
-  <div class="px-2 lg:px-4 text-foreground mt-4 mb-8">
-    <ObjectsFilter/>
+  <div class="px-2 lg:px-4 text-foreground mt-4">
+    <ObjectsFilter />
     <div class="mx-auto max-w-7xl mt-2.5">
       <div
         id="grid"
-        class="grid gap-2 
-                grid-cols-1 
-                sm:grid-cols-2 
-                md:grid-cols-3 
-                "
+        class="grid gap-2
+                grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3"
       >
-        {allObjects.map(o => <ObjectCard object={o} />)}
+        {allObjects.map((o) => <ObjectCard object={o} />)}
       </div>
-      <ElementsNotFound/>
+      <ElementsNotFound />
     </div>
   </div>
 </Layout>
 
 <script>
-  import { setupOverlay, setupCatalogFilter } from '@scripts/dropdown';
+  import { setupOverlay, setupCatalogFilter } from "@scripts/dropdown";
 
-  const { initDropdown } = setupOverlay('filter-overlay');
+  const { initDropdown } = setupOverlay("filter-overlay");
 
-  const objectDD = initDropdown('object-btn', 'object-panel', 'filter-object', 'object-label', 'object-chevron', 'object');
-  const woodDD = initDropdown('wood-btn', 'wood-panel', 'filter-wood', 'wood-label', 'wood-chevron', 'wood');
-  const materialDD = initDropdown('material-btn', 'material-panel', 'filter-material', 'material-label', 'material-chevron', 'material');
+  const objectDD = initDropdown(
+    "object-btn",
+    "object-panel",
+    "filter-object",
+    "object-label",
+    "object-chevron",
+    "object",
+  );
+  const woodDD = initDropdown(
+    "wood-btn",
+    "wood-panel",
+    "filter-wood",
+    "wood-label",
+    "wood-chevron",
+    "wood",
+  );
+  const materialDD = initDropdown(
+    "material-btn",
+    "material-panel",
+    "filter-material",
+    "material-label",
+    "material-chevron",
+    "material",
+  );
 
   setupCatalogFilter({
-    gridId: 'grid',
-    emptyId: 'empty',
-    cardSelector: '.object-card',
+    gridId: "grid",
+    emptyId: "empty",
+    cardSelector: ".object-card",
     dropdowns: [
-      { handle: objectDD, inputId: 'filter-object', paramKey: 'object', dataAttr: 'object' },
-      { handle: woodDD, inputId: 'filter-wood', paramKey: 'wood', dataAttr: 'wood', multiValue: true },
-      { handle: materialDD, inputId: 'filter-material', paramKey: 'material', dataAttr: 'material', multiValue: true },
+      {
+        handle: objectDD,
+        inputId: "filter-object",
+        paramKey: "object",
+        dataAttr: "object",
+      },
+      {
+        handle: woodDD,
+        inputId: "filter-wood",
+        paramKey: "wood",
+        dataAttr: "wood",
+        multiValue: true,
+      },
+      {
+        handle: materialDD,
+        inputId: "filter-material",
+        paramKey: "material",
+        dataAttr: "material",
+        multiValue: true,
+      },
     ],
   });
 </script>
