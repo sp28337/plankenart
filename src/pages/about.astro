@@ -1,60 +1,62 @@
 ---
-import Layout from '@layouts/Layout.astro';
-import Hero from '@components/Hero.astro';
-import heroImg from '@assets/rest-place-improved.png';
-import heroImgMobile from '@assets/objects/banya-norvezhskiy-zamok/38.jpg';
-import about1 from '@assets/about1.png';
-import about2 from '@assets/about2.png';
-import FAQ from '@components/ui/FAQ.astro';
-import AboutContentBlock from '@components/ui/AboutContentBlock.astro';
-import NumbersBlock from '@components/ui/NumbersBlock.astro';
-import AdvantagesBlock from '@components/ui/AdvantagesBlock.astro';
-import DiscountSlider from '@components/ui/DiscountSlider.astro';
-import PartnersBlock from '@components/ui/PartnersBlock.astro';
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/Hero.astro";
+import heroImg from "@assets/objects/naves-barbekyu-zona/2.jpg";
+import heroImgMobile from "@assets/objects/banya-norvezhskiy-zamok/38.jpg";
+import about1 from "@assets/objects/avtonomnaya-barbekyu-zona/8.jpg";
+import about2 from "@assets/objects/banya-norvezhskiy-zamok/6.jpg";
+import FAQ from "@components/ui/FAQ.astro";
+import AboutContentBlock from "@components/ui/AboutContentBlock.astro";
+import NumbersBlock from "@components/ui/NumbersBlock.astro";
+import AdvantagesBlock from "@components/ui/AdvantagesBlock.astro";
+import DiscountSlider from "@components/ui/DiscountSlider.astro";
+import PartnersBlock from "@components/ui/PartnersBlock.astro";
 
 const content = {
-	block1: {
-		h2: ["Мы не просто обрабатываем дерево —", "мы раскрываем его характер"],
-		p: "Нам важно, чтобы наши изделия служили долго и радовали владельцев своим внешним видом. Если вы хотите, чтобы ваша вагонка, планкен или террасная доска выглядели идеально и служили долго, ПланкенАрт — ваш надёжный партнёр.",
-		img: about1
-	},
-	block2: {
-		h2: "Мастерство приходит с опытом",
-		p: "Мы начинали со строительства срубов и каркасных конструкций, занимались наружной и внутренней отделкой. Со временем научились доводить материал до идеального состояния, чтобы поверхность была ровной, тактильно приятной, а покрытие ложилось равномерно и подчеркивало всю красоту древесной текстуры.",
-		img: about2
-	}
-}
+  block1: {
+    h2: ["Мы не просто обрабатываем дерево —", "мы раскрываем его характер"],
+    p: "Нам важно, чтобы наши изделия служили долго и радовали владельцев своим внешним видом. Если вы хотите, чтобы ваша вагонка, планкен или террасная доска выглядели идеально и служили долго, ПланкенАрт — ваш надёжный партнёр.",
+    img: about1,
+  },
+  block2: {
+    h2: "Мастерство приходит с опытом",
+    p: "Мы начинали со строительства срубов и каркасных конструкций, занимались наружной и внутренней отделкой. Со временем научились доводить материал до идеального состояния, чтобы поверхность была ровной, тактильно приятной, а покрытие ложилось равномерно и подчеркивало всю красоту древесной текстуры.",
+    img: about2,
+  },
+};
 ---
 
 <Layout
-	pageTitle="О компании ПланкенАрт — 10 лет обработки древесины в Нижнем Новгороде"
+  pageTitle="О компании ПланкенАрт — 10 лет обработки древесины в Нижнем Новгороде"
   pageDescription="ПланкенАрт — профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Более 10 лет опыта, работа с премиум-сегментом и B2B. Официальный партнёр OSMO в Нижнем Новгороде."
-	ogImg={heroImg.src}
+  ogImg={heroImg.src}
 >
-	<Hero 
-		title="О компании ПланкенАрт"
-		excerpt="Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO"
-		img={heroImg}
-		imgMobile={heroImgMobile}
-	/>
-	<div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
-		<div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
-			<AboutContentBlock
-				title={content.block1.h2}
-				content={content.block1.p}
-				img={content.block1.img}
-			/>
-			<NumbersBlock/>
-			<AboutContentBlock
-				title={content.block2.h2}
-				content={content.block2.p}
-				img={content.block2.img}
-				direction="reversed"
-			/>
-			<AdvantagesBlock/>
-			<FAQ/>
-			<DiscountSlider/>
-			<PartnersBlock/>
-		</div>
-	</div>
+  <Hero
+    title="О компании ПланкенАрт"
+    excerpt="Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO"
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-8 mb-8">
+    <div
+      class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22"
+    >
+      <AboutContentBlock
+        title={content.block1.h2}
+        content={content.block1.p}
+        img={content.block1.img}
+      />
+      <NumbersBlock />
+      <AboutContentBlock
+        title={content.block2.h2}
+        content={content.block2.p}
+        img={content.block2.img}
+        direction="reversed"
+      />
+      <AdvantagesBlock />
+      <FAQ />
+      <DiscountSlider />
+      <PartnersBlock />
+    </div>
+  </div>
 </Layout>
