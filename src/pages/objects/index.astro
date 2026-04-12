@@ -42,188 +42,22 @@ const allObjects = await getCollection("objects");
 </Layout>
 
 <script>
-  const DURATION = 30;
-  const EASING   = `cubic-bezier(0.50, 1, 0.90, 1)`;
-  const overlay = document.getElementById("filter-overlay")!;
-  let openCount = 0;
-  const registry: Array<() => void> = [];
+  import { setupOverlay, setupCatalogFilter } from '@scripts/dropdown';
 
-  function showOverlay() {
-    overlay.classList.remove("opacity-0", "pointer-events-none");
-    overlay.classList.add("opacity-100");
-    overlay.setAttribute("aria-hidden", "false");
-  }
+  const { initDropdown } = setupOverlay('filter-overlay');
 
-  function hideOverlay() {
-    overlay.classList.add("opacity-0", "pointer-events-none");
-    overlay.classList.remove("opacity-100");
-    overlay.setAttribute("aria-hidden", "true");
-  }
+  const objectDD = initDropdown('object-btn', 'object-panel', 'filter-object', 'object-label', 'object-chevron', 'object');
+  const woodDD = initDropdown('wood-btn', 'wood-panel', 'filter-wood', 'wood-label', 'wood-chevron', 'wood');
+  const materialDD = initDropdown('material-btn', 'material-panel', 'filter-material', 'material-label', 'material-chevron', 'material');
 
-  function initDropdown(
-    btnId: string,
-    panelId: string,
-    inputId: string,
-    labelId: string,
-    chevronId: string,
-    group: string,
-  ) {
-    const btn = document.getElementById(btnId)!;
-    const panel = document.getElementById(panelId)!;
-    const input = document.getElementById(inputId) as HTMLInputElement;
-    const labelEl = document.getElementById(labelId)!;
-    const chevron = document.getElementById(chevronId)!;
-    const items = Array.from(panel.querySelectorAll<HTMLElement>(`[data-group="${group}"]`));
-    const defaultLabel = labelEl.textContent!.trim();
-
-    let closeTimer: ReturnType<typeof setTimeout> | null = null;
-    let isOpen = false;
-
-    function resetItems() {
-      items.forEach(el => {
-        el.style.animation = "none";
-        el.style.transform = "translateY(-110%)";
-      });
-    }
-
-    function openPanel() {
-      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
-      if (isOpen) return;
-      registry.forEach(fn => fn());
-      isOpen = true;
-      openCount++;
-      resetItems();
-      panel.offsetHeight;
-      panel.classList.remove("opacity-0", "pointer-events-none");
-      panel.classList.add("opacity-100");
-      panel.setAttribute("aria-hidden", "false");
-      btn.setAttribute("aria-expanded", "true");
-      chevron.style.transform = "rotate(180deg)";
-      items.forEach((el, i) => {
-        el.style.animation = `menu-slide-down ${DURATION}ms ${EASING} ${i * DURATION}ms forwards`;
-      });
-      if (openCount === 1) showOverlay();
-    }
-
-    function closePanel() {
-      if (!isOpen) return;
-      isOpen = false;
-      openCount = Math.max(0, openCount - 1);
-      btn.setAttribute("aria-expanded", "false");
-      chevron.style.transform = "rotate(0deg)";
-      panel.classList.add("opacity-0", "pointer-events-none");
-      panel.classList.remove("opacity-100");
-      panel.setAttribute("aria-hidden", "true");
-      closeTimer = setTimeout(() => { resetItems(); closeTimer = null; }, DURATION);
-      if (openCount === 0) hideOverlay();
-    }
-
-    btn.addEventListener("click", e => {
-      e.stopPropagation();
-      isOpen ? closePanel() : openPanel();
-    });
-
-    items.forEach(item => {
-      item.addEventListener("click", () => {
-        const value = item.dataset.slug ?? "";
-        input.value = value;
-        labelEl.textContent = value ? item.textContent!.trim() : defaultLabel;
-        closePanel();
-        input.dispatchEvent(new Event("change", { bubbles: true }));
-      });
-    });
-
-    document.addEventListener("click", e => {
-      if (!btn.contains(e.target as Node) && !panel.contains(e.target as Node)) {
-        if (isOpen) closePanel();
-      }
-    });
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape" && isOpen) {
-        closePanel();
-        btn.focus();
-      }
-    });
-
-    overlay.addEventListener("click", () => { if (isOpen) closePanel(); });
-
-    registry.push(closePanel);
-
-    return {
-      setLabel(v: string, text: string) {
-        input.value = v;
-        labelEl.textContent = v ? text : defaultLabel;
-      }
-    };
-  }
-
-  const objectDD = initDropdown("object-btn", "object-panel", "filter-object", "object-label", "object-chevron", "object");
-  const woodDD   = initDropdown("wood-btn", "wood-panel", "filter-wood", "wood-label", "wood-chevron", "wood");
-  const materialDD   = initDropdown("material-btn", "material-panel", "filter-material", "material-label", "material-chevron", "material");
-
-  const inputObject = document.getElementById("filter-object") as HTMLInputElement;
-  const inputWood   = document.getElementById("filter-wood")   as HTMLInputElement;
-  const inputMaterial   = document.getElementById("filter-material")   as HTMLInputElement;
-  const grid    = document.getElementById("grid")!;
-  const emptyEl = document.getElementById("empty")!;
-  const cards   = Array.from(grid.querySelectorAll<HTMLElement>(".object-card"));
-
-  function applyFilters() {
-    const object = inputObject.value;
-    const wood   = inputWood.value;
-    const material   = inputMaterial.value;
-    let visible  = 0;
-
-    cards.forEach(card => {
-      const ok =
-        (!object || card.dataset.object === object) &&
-        (!wood   || card.dataset.wood?.split(" ").includes(wood)) &&
-        (!material   || card.dataset.material?.split(" ").includes(material));
-      card.style.display = ok ? "" : "none";
-      card.toggleAttribute("aria-hidden", !ok);
-      if (ok) visible++;
-    });
-
-    emptyEl.classList.toggle("hidden", visible > 0);
-    grid.classList.toggle("hidden", visible === 0);
-
-    const params = new URLSearchParams();
-    if (object) params.set("object", object);
-    if (wood)   params.set("wood",   wood);
-    if (material)   params.set("material",   material);
-    history.replaceState(null, "", params.toString() ? `?${params}` : location.pathname);
-  }
-
-  inputObject.addEventListener("change", applyFilters);
-  inputWood.addEventListener("change",   applyFilters);
-  inputMaterial.addEventListener("change",   applyFilters);
-
-  document.getElementById("btn-empty-reset")?.addEventListener("click", () => {
-    objectDD.setLabel("", "");
-    woodDD.setLabel("", "");
-    materialDD.setLabel("", "");
-    applyFilters();
+  setupCatalogFilter({
+    gridId: 'grid',
+    emptyId: 'empty',
+    cardSelector: '.object-card',
+    dropdowns: [
+      { handle: objectDD, inputId: 'filter-object', paramKey: 'object', dataAttr: 'object' },
+      { handle: woodDD, inputId: 'filter-wood', paramKey: 'wood', dataAttr: 'wood', multiValue: true },
+      { handle: materialDD, inputId: 'filter-material', paramKey: 'material', dataAttr: 'material', multiValue: true },
+    ],
   });
-
-  (function restoreFromUrl() {
-    const params      = new URLSearchParams(location.search);
-    const objectSlug  = params.get("object") ?? "";
-    const woodSlug    = params.get("wood")   ?? "";
-    const materialSlug    = params.get("material")   ?? "";
-
-    if (objectSlug) {
-      const item = document.querySelector<HTMLElement>(`[data-group="object"][data-slug="${objectSlug}"]`);
-      if (item) objectDD.setLabel(objectSlug, item.textContent!.trim());
-    }
-    if (woodSlug) {
-      const item = document.querySelector<HTMLElement>(`[data-group="wood"][data-slug="${woodSlug}"]`);
-      if (item) woodDD.setLabel(woodSlug, item.textContent!.trim());
-    }
-    if (materialSlug) {
-      const item = document.querySelector<HTMLElement>(`[data-group="material"][data-slug="${materialSlug}"]`);
-      if (item) materialDD.setLabel(materialSlug, item.textContent!.trim());
-    }
-    if (objectSlug || woodSlug || materialSlug) applyFilters();
-  })();
 </script>

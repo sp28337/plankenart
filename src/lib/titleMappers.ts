@@ -42,7 +42,7 @@ export const tagsTitleDictionary: Record<string, string> = {
   'planken-straight': 'Планкен прямой',
   'planken-angled': 'Планкен скошенный',
   'deck-board': 'Палубная доска',
-  'террасная доска': 'Террасная доска',
+  'terrace-board': 'Террасная доска',
   'timber-imitation': 'Имитация бруса',
   'lining-shtil': 'Вагонка штиль',
   'decorative': 'Декоративные изделия'

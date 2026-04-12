@@ -34,11 +34,8 @@ const classes = `${base} ${variants[variant]}`;
 >
   <div class="min-w-40 truncate relative overflow-visible">
     <h3 class:list={[
-                "text-foreground shrink-0 transition-all duration-500",
-                "group-hover:text-amber-fade leading-3",  
-                variant == "object"
-                ? "text-sm"  
-                : "text-sm"
+                "text-foreground shrink-0 transition-colors duration-500",
+                "group-hover:text-amber-fade leading-3 text-sm",
               ]}>
       {
         (variant == "default"  || variant == "decor") && title 

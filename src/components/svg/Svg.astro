@@ -1,48 +1,45 @@
 ---
 export interface Props {
-  variant?: "default" | "footer" | "menu";
-  size?: "default" | "s" | "m" | "l" | "xl";
-  hover?: "burger";
-  viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk" | "arrow";
+  variant?: 'default' | 'footer';
+  size?: 's' | 'm' | 'l' | 'xl';
+  hover?: 'default' | 'burger';
+  viewBox?: 'default' | 'tg' | 'phone' | 'burger' | 'location' | 'vk' | 'arrow';
 }
 
 const {
-  variant = "default",
-  size = "default",
-  hover = "default",
-  viewBox = "default",
+  variant = 'default',
+  size = 'l',
+  hover = 'default',
+  viewBox = 'default',
 } = Astro.props;
 
-const base = "transition-all duration-300";
+const base = 'transition-all duration-300';
 
-const hovers = {
-  default: "",
-  burger: "group-hover:fill-html group-hover:scale-[1.1]",
-}
-
-const variants = {
-  default: "fill-foreground",
-  menu: "fill-foreground",
-  footer: "fill-white",
+const hovers: Record<string, string> = {
+  default: '',
+  burger: 'group-hover:fill-html group-hover:scale-[1.1]',
 };
 
-
-const sizes = {
-  default: "w-6 h-6",
-  s: "w-[15px] h-[15px]",
-  m: "w-5 h-5",
-  l: "w-6 h-6",
-  xl: "w-7 h-7",
+const variants: Record<string, string> = {
+  default: 'fill-foreground',
+  footer: 'fill-white',
 };
 
-const viewBoxes = {
-  default: "0 0 48 48",
-  tg: "0 0 48 48",
-  burger: "0 0 15 15",
-  phone: "0 0 220 220",
-  vk: "0 0 32 32",
-  location: "0 0 100 100",
-  arrow: "0 0 18 18",
+const sizes: Record<string, string> = {
+  s: 'w-[15px] h-[15px]',
+  m: 'w-5 h-5',
+  l: 'w-6 h-6',
+  xl: 'w-7 h-7',
+};
+
+const viewBoxes: Record<string, string> = {
+  default: '0 0 48 48',
+  tg: '0 0 48 48',
+  burger: '0 0 15 15',
+  phone: '0 0 220 220',
+  vk: '0 0 32 32',
+  location: '0 0 100 100',
+  arrow: '0 0 18 18',
 };
 
 const classes = `${base} ${variants[variant]} ${hovers[hover]} ${sizes[size]}`;

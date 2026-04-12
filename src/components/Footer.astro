@@ -1,24 +1,19 @@
 ---
 import { Picture } from 'astro:assets';
 import logo from "@assets/logo.png";
+import { footerLinks } from '../lib/navigation';
 
-const links = [
-  { href: "/about",     label: "О нас"    },
-  { href: "/#services", label: "Услуги"   },
-  { href: "/materials", label: "Материалы"},
-  { href: "/objects",   label: "Объекты"  },
-  { href: "/tags",      label: "Теги"     },
-];
+const links = footerLinks;
 ---
 <footer class="bg-footer w-full h-fit relative z-97 
 pt-10 pb-4 sm:pb-6 px-2 lg:px-4">
   <div class="max-w-7xl flex flex-col gap-4 sm:gap-6 mx-auto px-4 2xl:px-0">
     <div class="flex flex-col gap-8 pt-4 text-sm font-medium sm:flex-row sm:justify-between ">
       <div class="flex flex-col gap-10 xs:flex-row sm:gap-30">
-        <section id="contacts" class="flex flex-col gap-3 cursor-default">
-          <h4 class="font-inter font-bold text-lg">
+        <section id="footer-nav" class="flex flex-col gap-3 cursor-default">
+          <h3 class="font-inter font-bold text-lg">
             Навигация
-          </h4>
+          </h3>
           <ul class="flex flex-col gap-2">
             {links.map(({ href, label }) => (
               <li>
@@ -36,9 +31,9 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4">
         </section>
   
         <section id="contacts" class="flex flex-col gap-3 cursor-default">
-          <h4 class="font-inter font-bold text-lg">
+          <h3 class="font-inter font-bold text-lg">
             Контакты
-          </h4>
+          </h3>
           <div class="flex flex-col gap-2">
             <a href="tel:+79525433716" class="flex gap-4 items-center w-full rounded-2xl group 
             transition-all duration-300 opacity-70 hover:opacity-100">

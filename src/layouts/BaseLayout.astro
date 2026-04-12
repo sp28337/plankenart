@@ -22,36 +22,36 @@ const ogType = isBlogPost ? 'article' : 'website';
 const fullOgImage = new URL(ogImg, Astro.site).href;
 const isDefaultOg = ogImg === '/og-image.png';
 
-// const businessSchema = {
-//   '@context': 'https://schema.org',
-//   '@type': 'LocalBusiness',
-//   name: 'ПланкенАрт',
-//   description:
-//     'Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Работаем по Нижнему Новгороду и области.',
-//   url: Astro.site?.toString(),
-//   telephone: '+79525433716',
-//   priceRange: '$$',
-//   address: {
-//     '@type': 'PostalAddress',
-//     streetAddress: 'Октябрьская ул., д. 1',
-//     addressLocality: 'Нижний Новгород',
-//     addressRegion: 'Нижегородская область',
-//     postalCode: '603000',
-//     addressCountry: 'RU',
-//   },
-//   geo: {
-//     '@type': 'GeoCoordinates',
-//     latitude: '56.321766',
-//     longitude: '43.997731',
-//   },
-//   sameAs: ['https://t.me/Spedd87', 'https://vk.ru/id511687461'],
-//   openingHoursSpecification: {
-//     '@type': 'OpeningHoursSpecification',
-//     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-//     opens: '09:00',
-//     closes: '18:00',
-//   },
-// };
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'ПланкенАрт',
+  description:
+    'Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Работаем по Нижнему Новгороду и области.',
+  url: Astro.site?.toString(),
+  telephone: '+79525433716',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Октябрьская ул., д. 1',
+    addressLocality: 'Нижний Новгород',
+    addressRegion: 'Нижегородская область',
+    postalCode: '603000',
+    addressCountry: 'RU',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '56.321766',
+    longitude: '43.997731',
+  },
+  sameAs: ['https://t.me/Spedd87', 'https://vk.ru/id511687461'],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+  },
+};
 ---
 
 <html lang="ru">
@@ -60,7 +60,7 @@ const isDefaultOg = ogImg === '/og-image.png';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="ПланкенАрт" />
     <meta name="description" content={pageDescription} />
-    <!-- <meta name="robots" content="index, follow" /> -->
+    <meta name="robots" content="index, follow" />
 
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -88,7 +88,7 @@ const isDefaultOg = ogImg === '/og-image.png';
 
     <title>{pageTitle}</title>
 
-    <!-- <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} /> -->
+    <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
 
     <Font cssVariable="--font-manrope" preload />
     <Font cssVariable="--font-inter" preload />

@@ -50,6 +50,8 @@ jobs:
       # so build time drops to ~30s even with check enabled.
       - name: Build Astro project
         run: pnpm build
+        env:
+          PUBLIC_ROBOTS_POLICY: ${{ github.ref == 'refs/heads/main' && 'allow' || 'disallow' }}
 
       # ─── DEV deployment ──────────────────────────────────────────────────
 

@@ -1,13 +1,7 @@
 ---
-const links = [
-  { href: "/about",    label: "О нас"    },
-  { href: "/#services", label: "Услуги"   },
-  { href: "/materials",  label: "Материалы"  },
-  { href: "/objects",  label: "Объекты"  },
-  { href: "/#contacts", label: "Контакты" },
-  { href: "/tags", label: "Теги" },
-];
+import { navLinks } from '../../lib/navigation';
 
+const links = navLinks;
 const current = Astro.url.pathname;
 ---
 

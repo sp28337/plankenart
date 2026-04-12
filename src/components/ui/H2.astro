@@ -1,53 +1,21 @@
 ---
+/**
+ * @deprecated Use <Heading variant="h2" /> instead.
+ * This file exists only for backward compatibility.
+ */
+import Heading from './Heading.astro';
+
 interface Props {
   id?: string;
   title: string | string[];
-  page?: "default" | "about" | "object";
+  page?: 'default' | 'about' | 'object';
 }
 
-const { title, id, page = "default" } = Astro.props
-
-const pages = {
-  default: "text-center lg:text-left ",
-  about: "leading-8 w-full flex flex-col",
-  object: "leading-8 w-full flex flex-col text-center",
-}
-
-const base = `font-inter text-[clamp(1.8rem,3.5vw,2.4rem)]
-              font-bold tracking-tighter cursor-default reveal`
-const classes = `${base} ${pages[page]}`
-
-const isArray = Array.isArray(title);
+const { title, id, page = 'default' } = Astro.props;
 ---
-{ 
-  id 
-  ? <h2 
-      id={id}
-      class={classes}
-    >
-      {isArray ? (
-        <>
-          <span>{title[0]}</span>
-          <span class={page == "about" ? "w-full" : ""}>
-            {title[1]}
-          </span>
-        </>
-      ) : (
-        title
-      )}
-    </h2>
-  : <h2 
-      class={classes}
-    >
-      {isArray ? (
-        <>
-          <span>{title[0]}</span>
-          <span class={page == "about" ? "w-full" : ""}>
-            {title[1]}
-          </span>
-        </>
-      ) : (
-        title
-      )}
-    </h2>
-}
+<Heading
+  variant="h2"
+  id={id}
+  title={title}
+  page={page}
+/>
