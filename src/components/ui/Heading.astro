@@ -1,48 +1,59 @@
 ---
 interface Props {
   title: string | string[];
-  variant?: 'h1' | 'h2' | 'h3';
+  variant?: "h1" | "h2" | "h3";
   styles?: string;
   id?: string;
-  page?: 'default' | 'about' | 'object';
+  page?: "default" | "about" | "object";
 }
 
-const { 
+const {
   title,
-  styles = '',
-  variant = 'h2',
+  styles = "",
+  variant = "h2",
   id,
-  page = 'default',
+  page = "default",
 } = Astro.props;
 
 const variants: Record<string, string> = {
-  h1: 'text-[clamp(2.2rem,4.5vw,3.2rem)]',
-  h2: 'text-[clamp(1.8rem,3.5vw,2.4rem)]',
-  h3: '',
+  h1: "text-[clamp(2.2rem,4.5vw,3.2rem)]",
+  h2: "text-[clamp(1.8rem,3.5vw,2.4rem)]",
+  h3: "",
 };
 
 const pages: Record<string, string> = {
-  default: 'text-center lg:text-left',
-  about:   'leading-8 w-full flex flex-col',
-  object:  'leading-8 w-full flex flex-col text-center',
+  default: "text-center lg:text-left",
+  about: "leading-8 w-full flex flex-col",
+  object: "leading-8 w-full flex flex-col text-center",
 };
 
-const base = 'font-inter font-bold tracking-tighter cursor-default reveal';
-const widthClass = variant === 'h2' ? '' : 'w-fit';
-const classes = `${base} ${widthClass} ${styles} ${variants[variant]} ${pages[page]}`.trim();
+const base = "font-inter font-bold tracking-tighter cursor-default reveal";
+const widthClass = variant === "h2" ? "" : "w-fit";
+const classes =
+  `${base} ${widthClass} ${styles} ${variants[variant]} ${pages[page]}`.trim();
 
 const Tag = variant;
 const isArray = Array.isArray(title);
 ---
+
 <Tag id={id} class={classes}>
-  {isArray ? (
-    <>
-      <span>{title[0]}</span>
-      <span class={page === 'about' ? 'w-full' : ''}>
-        {title[1]}
-      </span>
-    </>
-  ) : (
-    title
-  )}
+  {
+    isArray ? (
+      <>
+        <span>{title[0]}</span>
+        <span
+          class:list={[
+            page === "about" ? "w-full" : "",
+            title[1] === "ПланкенАрт"
+              ? "text-amber-fade text-end max-w-[344.5px] lg:max-w-none"
+              : "",
+          ]}
+        >
+          {title[1]}
+        </span>
+      </>
+    ) : (
+      title
+    )
+  }
 </Tag>

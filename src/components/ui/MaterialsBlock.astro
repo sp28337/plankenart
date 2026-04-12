@@ -51,17 +51,17 @@ const row_2 = [
   aria-labelledby="materials-heading"
   class="flex flex-col gap-6 md:gap-10 lg:gap-14 justify-between items-center max-w-7xl w-full"
 >
-  <H2 id="materials-heading" title="Материалы" />
-  <div class="flex flex-col gap-2 w-full">
-    <div class="flex flex-col gap-2 sm:flex-row lg:flex-col">
-      <div class="flex flex-col gap-2 lg:flex-row w-full">
+  <H2 id="materials-heading" title="Каталог материалов" />
+  <div class="flex flex-col gap-4 w-full">
+    <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+      <div class="flex flex-col gap-4 lg:flex-row w-full">
         {
           row_1.map(({ href, img, title }) => (
             <MaterialCardSmall route={href} img={img} title={title} />
           ))
         }
       </div>
-      <div class="flex flex-col gap-2 lg:flex-row w-full">
+      <div class="flex flex-col gap-4 lg:flex-row w-full">
         {
           row_2.map(({ href, img, title }) => (
             <MaterialCardSmall route={href} img={img} title={title} />
@@ -69,7 +69,7 @@ const row_2 = [
         }
       </div>
     </div>
-    <div class="flex flex-col gap-2 sm:flex-row justify-center">
+    <div class="flex flex-col gap-4 sm:flex-row justify-center">
       <MaterialCardSmall
         variant="decor"
         route="/materials?type=decorative"
