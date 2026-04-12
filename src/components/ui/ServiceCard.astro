@@ -1,6 +1,6 @@
 ---
-import type { ImageMetadata } from 'astro'
-import { Image } from 'astro:assets';
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 
 export interface Props {
   imgVariant: "1" | "2" | "3" | "4" | "5";
@@ -8,15 +8,9 @@ export interface Props {
   content: string;
   title: string;
   img: ImageMetadata;
-};
+}
 
-const {
-  imgVariant,
-  img,
-  number,
-  content,
-  title,
-} = Astro.props;
+const { imgVariant, img, number, content, title } = Astro.props;
 
 const imgVariants = {
   1: "w-23 h-23 lg:w-30 lg:h-30 -right-7 lg:-right-2 bottom-4 lg:bottom-3",
@@ -24,34 +18,47 @@ const imgVariants = {
   3: "w-30 h-[101px] lg:w-35 lg:h-35 -right-14 bottom-2 -rotate-13",
   4: "w-23 h-23 lg:w-33 lg:h-33 -right-4 lg:-right-0 bottom-4",
   5: "w-30 h-[101px] lg:w-30 lg:h-30 -right-4 lg:-right-2 bottom-4",
-}
+};
 
-const base = `flex flex-col gap-4 bg-nav/20 rounded-3xl px-6 py-18 
-              lg:py-0 min-h-[200px] cursor-default hover:shadow-xl/6 transition-all duration-700
-              shadow-xl/2 relative lg:min-h-[280px] justify-center
-              w-full overflow-hidden reveal`;
+const base = `group flex flex-col gap-3 lg:gap-5 bg-gradient-to-br from-nav/20 to-nav/5 
+              rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10 
+              min-h-[260px] lg:min-h-[320px] cursor-default 
+              transition-all duration-500 hover:shadow-2xl hover:shadow-nav/10
+              relative w-full overflow-hidden reveal justify-center`;
 
 const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-300`;
 
 const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
 ---
+
 <article class={base}>
-  <h3 class="text-lg font-semibold tracking-tighter leading-5 max-w-50">
-    {title}
-  </h3>
-  <p class="opacity-70 text-md tracking-tight z-1 max-w-62.5">
-    {content}
-  </p>
-  <span class="absolute right-4 top-4 lg:right-6 lg:top-6 text-[80px] lg:text-[100px] 
-              font-inter font-bold 
-              number-gradient opacity-20 leading-20 tracking-tighter">
+  <div
+    class="relative z-10 max-w-[70%] sm:max-w-[65%] lg:max-w-[75%] xl:max-w-[70%] flex flex-col gap-2 lg:gap-3 h-full justify-center"
+  >
+    <h3
+      class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight text-foreground group-hover:text-amber-fade transition-colors duration-300"
+    >
+      {title}
+    </h3>
+    <p
+      class="opacity-70 text-sm lg:text-[0.95rem] tracking-normal leading-relaxed mt-1"
+    >
+      {content}
+    </p>
+  </div>
+
+  <span
+    class="absolute right-4 top-4 lg:right-6 lg:top-6 text-[80px] lg:text-[100px]
+              font-inter font-bold
+              number-gradient opacity-20 leading-20 tracking-tighter"
+  >
     {number}
   </span>
   <Image
     src={img}
-    alt=""
+    alt={title}
     class={imgStyles}
-    loading="eager"
-    widths={[150]}
+    loading="lazy"
+    widths={[200, 400]}
   />
 </article>
