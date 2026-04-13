@@ -27,6 +27,7 @@ export const tagsTitleDictionary: Record<string, string> = {
   'sauna': 'Сауна',
   'gazebo': 'Беседка',
   'canopy': 'Навес',
+  'fence': 'Забор',
   'house': 'Дом',
   'facade': 'Фасад',
   
