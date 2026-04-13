@@ -14,7 +14,10 @@ const uniqueMaterialTypes = [
   ...new Set(allMaterials.map((item) => item.data.materialType)),
 ];
 const uniqueObjectTypes = [
-  ...new Set(allObjects.map((item) => item.data.objectType)),
+  ...new Set([
+    ...allObjects.map((item) => item.data.objectType),
+    ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+  ]),
 ];
 const uniqueWoodTypes = [
   ...new Set(allMaterials.map((item) => item.data.woodType)),

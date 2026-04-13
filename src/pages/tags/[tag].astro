@@ -23,7 +23,10 @@ export async function getStaticPaths() {
     ...new Set(allMaterials.map((item) => item.data.materialType)),
   ];
   const objectTypes = [
-    ...new Set(allObjects.map((item) => item.data.objectType)),
+    ...new Set([
+      ...allObjects.map((item) => item.data.objectType),
+      ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+    ]),
   ];
   const woodTypes = [
     ...new Set(allMaterials.map((item) => item.data.woodType)),
@@ -36,14 +39,15 @@ export async function getStaticPaths() {
   return uniqueTags.map((tag) => {
     const materials = allMaterials.filter(
       (item) =>
-        item.data.tags.includes(tag) ||
+        (item.data.tags ?? []).includes(tag) ||
+        (item.data.objectTypes ?? []).includes(tag) ||
         item.data.woodType === tag ||
         item.data.materialType === tag,
     );
 
     const objects = allObjects.filter(
       (item) =>
-        item.data.tags.includes(tag) ||
+        (item.data.tags ?? []).includes(tag) ||
         item.data.objectType === tag ||
         item.data.woodTypes.includes(tag),
     );

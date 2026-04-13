@@ -41,7 +41,10 @@ else if (collection == "woodTypes")
   }
 else if (collection == "objectType")
   {
-    tags = [...new Set(allObjects.map((item) => item.data.objectType).flat())];
+    tags = [...new Set([
+      ...allObjects.map((item) => item.data.objectType),
+      ...allMaterials.flatMap((item) => item.data.objectTypes ?? [])
+    ])];
     type = collection.replace("Type", "")
   }
 

@@ -18,7 +18,8 @@ const materials = defineCollection({
     relatedObjects:  z.array(reference("objects")),
     materialType:    z.string(),
     woodType:        z.string(),
-    tags:            z.array(z.string()),
+    tags:            z.array(z.string()).optional(),
+    objectTypes:     z.array(z.string()).optional(),
 
     sortOrder:       z.number().default(99),
     imageAlt:        z.string().optional(),
