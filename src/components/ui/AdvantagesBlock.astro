@@ -1,37 +1,36 @@
 ---
-import AdvantagesCard from "@components/ui/AdvantagesCard.astro"
-import H2 from "@components/ui/H2.astro"
+import AdvantagesCard from "@components/ui/AdvantagesCard.astro";
+import H2 from "@components/ui/H2.astro";
 
 const advantagers = [
   {
-    title: "Стиль",
-    text: "Мы посещаем различные семинары, за счет чего знаем все современные тенденци",
+    title: "Современный стиль",
+    text: "Следим за актуальными тенденциями в архитектуре и деревянной отделке. Регулярно повышаем квалификацию, чтобы предлагать решения, которые выглядят современно и остаются актуальными на годы.",
   },
   {
     title: "Профессиональное оборудование",
-    text: "Применяем современное оборудование для получения идеальных результатов.",
+    text: "Используем профессиональное оборудование для шлифовки и обработки древесины. Это позволяет добиваться ровной поверхности, точной геометрии и стабильного качества в каждом проекте.",
   },
   {
     title: "Натуральные масла",
-    text: "Используем натуральные масла, которые сохраняют и подчёркивают природную красоту древесины.",
+    text: "Применяем натуральные масла для древесины, которые глубоко проникают в структуру, защищают материал и подчёркивают его природную текстуру без образования плёнки.",
   },
   {
-    title: "Немецкое качество",
-    text: "Мы сотрудничаем с официальным дилером масел OSMO в Нижнем Новгороде",
+    title: "Немецкие технологии OSMO",
+    text: "Работаем с оригинальными маслами OSMO через официальных поставщиков. Это гарантирует долговечную защиту древесины, устойчивость к влаге и сохранение внешнего вида на долгие годы.",
   },
-]
+];
 ---
+
 <section class="flex flex-col items-center w-full gap-6 md:gap-10 lg:gap-14">
-  <H2 title="Наши преимущества"/>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
-              w-full gap-2 cursor-default">
+  <H2 title="Наши преимущества" />
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+              w-full gap-2 cursor-default"
+  >
     {
-      advantagers.map(({title, text}) => (
-        <AdvantagesCard 
-          title={title}
-          content={text}
-          size="auto"
-        />
+      advantagers.map(({ title, text }) => (
+        <AdvantagesCard title={title} content={text} size="auto" />
       ))
     }
   </div>
