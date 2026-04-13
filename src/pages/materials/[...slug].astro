@@ -6,7 +6,6 @@ import Tag from "@components/ui/Tag.astro";
 import ObjectCard from "@components/ui/ObjectCard.astro";
 import {
   getCollection,
-  getEntry,
   getEntries,
   render,
   type CollectionEntry,
@@ -32,7 +31,8 @@ const { Content } = await render(material);
 
 const relatedObjects = await getEntries(material.data.relatedObjects);
 const allTags = [
-  ...material.data.tags,
+  ...(material.data.tags ?? []),
+  ...(material.data.objectTypes ?? []),
   material.data.materialType,
   material.data.woodType,
 ];

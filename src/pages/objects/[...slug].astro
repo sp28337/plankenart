@@ -333,7 +333,7 @@ const allTags = [
   let touchDeltaX = 0;
   let isPinching = false;
 
-  function loadImage(index: number, instant = false) {
+  function loadImage(index: number, _instant = false) {
     // если уже закешировано браузером — покажем сразу без мигания
     const probe = new window.Image();
     probe.src = srcs[index];

@@ -88,7 +88,7 @@ const businessSchema = {
 
     <title>{pageTitle}</title>
 
-    <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
 
     <Font cssVariable="--font-manrope" preload />
     <Font cssVariable="--font-inter" preload />
