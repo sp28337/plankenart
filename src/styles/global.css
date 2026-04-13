@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@variant hover (&:hover);
 
 @theme inline {
   --font-manrope: var(--font-manrope);
@@ -59,10 +60,8 @@
     z-index: 0;
   }
 
-  @media (hover: hover) {
-    &:hover::after {
-      opacity: 0.3;
-    }
+  &:hover::after {
+    opacity: 0.3;
   }
 
   & > * {
