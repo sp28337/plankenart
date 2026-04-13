@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import X from "@assets/svg/x.svg"
-import ChevronDown from "@assets/svg/chevron-down.svg"
+import X from "@assets/svg/x.svg";
+import ChevronDown from "@assets/svg/chevron-down.svg";
 import type { SvgComponent } from "astro/types";
-import { tagsDictionary } from '../../lib/mappers';
+import { tagsDictionary } from "../../lib/mappers";
 import { tagsTitleDictionary } from "../../lib/titleMappers";
 
 interface Props {
@@ -11,45 +11,35 @@ interface Props {
   label: string;
   title: string;
   Icon: SvgComponent & ImageMetadata;
-
-
 }
 
-const {
-  label,
-  title,
-  collection,
-  Icon,
-} = Astro.props
-
+const { label, title, collection, Icon } = Astro.props;
 
 const allMaterials = await getCollection("materials");
 const allObjects = await getCollection("objects");
 
-let type = collection.replace("Types", "")
-let tags: Array<string> = []
+let type = collection.replace("Types", "");
+let tags: Array<string> = [];
 
-if (collection == "materialTypes")
-  {
-    tags = [...new Set(allMaterials.map((item) => item.data.materialType).flat())];
-    type = collection.replace("Types", "")
-  }
-else if (collection == "woodTypes")
-  {
-    tags = [...new Set(allMaterials.map((item) => item.data.woodType).flat())];
-    type = collection.replace("Types", "")
-  }
-else if (collection == "objectType")
-  {
-    tags = [...new Set([
-      ...allObjects.map((item) => item.data.objectType),
-      ...allMaterials.flatMap((item) => item.data.objectTypes ?? [])
-    ])];
-    type = collection.replace("Type", "")
-  }
-
-// const content = await getCollection(collection);
+if (collection == "materialTypes") {
+  tags = [
+    ...new Set(allMaterials.map((item) => item.data.materialType).flat()),
+  ];
+  type = collection.replace("Types", "");
+} else if (collection == "woodTypes") {
+  tags = [...new Set(allMaterials.map((item) => item.data.woodType).flat())];
+  type = collection.replace("Types", "");
+} else if (collection == "objectType") {
+  tags = [
+    ...new Set([
+      ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
+      // ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+    ]),
+  ];
+  type = collection.replace("Type", "");
+}
 ---
+
 <div class="relative flex h-full w-full" id=`${type}-dropdown`>
   <span id=`${type}-listbox-label` class="sr-only">{label}</span>
   <button
@@ -78,51 +68,53 @@ else if (collection == "objectType")
     aria-hidden="true"
     aria-labelledby=`${type}-listbox-label`
     class:list={[
-            "absolute left-0 w-full z-99 sm:top-[calc(100%+0.55rem)] md:top-[calc(100%+0.8rem)]",
-            "opacity-0 pointer-events-none transition-opacity duration-200",
-            "bg-bg-primary",
-            collection == "objectType" && "top-[calc(100%+5.05rem)]",
-            collection == "woodTypes" && "top-[calc(100%+2.8rem)]",
-            collection == "materialTypes" && "top-[calc(100%+0.55rem)]",
-
-          ]}
+      "absolute left-0 w-full z-99 sm:top-[calc(100%+0.55rem)] md:top-[calc(100%+0.8rem)]",
+      "opacity-0 pointer-events-none transition-opacity duration-200",
+      "bg-bg-primary",
+      collection == "objectType" && "top-[calc(100%+5.05rem)]",
+      collection == "woodTypes" && "top-[calc(100%+2.8rem)]",
+      collection == "materialTypes" && "top-[calc(100%+0.55rem)]",
+    ]}
   >
     <div class="flex flex-col gap-1 font-semibold">
-      {tags.map(tag => (
-        <div class="overflow-hidden">
-          <button type="button"
-            id={`${type}-option-${tagsDictionary[tag]}`}
-            role="option"
-            aria-selected="false"
-            data-value={tagsTitleDictionary[tagsDictionary[tag]]}
-            data-slug={tagsDictionary[tag]}
-            data-group={type}
-            class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+      {
+        tags.map((tag) => (
+          <div class="overflow-hidden">
+            <button
+              type="button"
+              id={`${type}-option-${tagsDictionary[tag]}`}
+              role="option"
+              aria-selected="false"
+              data-value={tagsTitleDictionary[tagsDictionary[tag]]}
+              data-slug={tagsDictionary[tag]}
+              data-group={type}
+              class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
                     text-xs md:text-sm tracking-tight transform-gpu will-change-transform
                     transition-colors duration-300 hover:bg-btn bg-nav/45 flex items-center gap-3"
-            style="transform:translateY(-110%)">
-            <Icon class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />                
-            {tagsTitleDictionary[tagsDictionary[tag]]}
-          </button>
-        </div>
-      ))}
+              style="transform:translateY(-110%)"
+            >
+              <Icon class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />
+              {tagsTitleDictionary[tagsDictionary[tag]]}
+            </button>
+          </div>
+        ))
+      }
       <div class="overflow-hidden">
-        <button 
+        <button
           id=`${type}-option-reset`
           role="option"
           aria-selected="false"
-          type="button" 
-          data-value="" 
-          data-slug="" 
+          type="button"
+          data-value=""
+          data-slug=""
           data-group={type}
           class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
                   text-xs md:text-sm tracking-tight transform-gpu will-change-transform
                   transition-colors duration-300 hover:bg-btn bg-nav/45 gap-3 flex items-center"
-          style="transform:translateY(-110%)">
-          <X class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />                
-          <span>
-            Сбросить фильтр
-          </span>
+          style="transform:translateY(-110%)"
+        >
+          <X class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />
+          <span> Сбросить фильтр </span>
         </button>
       </div>
     </div>

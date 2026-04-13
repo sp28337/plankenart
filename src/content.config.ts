@@ -41,11 +41,11 @@ const objects = defineCollection({
     conclusion:        z.string().optional(),
     tags:              z.array(z.string()),
 
-    objectType:    z.string(),
-    woodTypes:     z.array(z.string()),
-    materialTypes: z.array(z.string()),
-    materials:     z.array(reference("materials")),
-    usedOils:      z.array(z.object({
+    objectTypes:       z.array(z.string()),
+    woodTypes:         z.array(z.string()),
+    materialTypes:     z.array(z.string()),
+    materials:         z.array(reference("materials")),
+    usedOils:          z.array(z.object({
       surface:       z.string().optional(), // Название поверхности
       code:          z.array(z.string()),
       oil:           reference('oils'),

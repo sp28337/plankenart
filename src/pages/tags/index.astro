@@ -15,7 +15,7 @@ const uniqueMaterialTypes = [
 ];
 const uniqueObjectTypes = [
   ...new Set([
-    ...allObjects.map((item) => item.data.objectType),
+    ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
     ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
   ]),
 ];

@@ -24,7 +24,7 @@ export async function getStaticPaths() {
   ];
   const objectTypes = [
     ...new Set([
-      ...allObjects.map((item) => item.data.objectType),
+      ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
       ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
     ]),
   ];
@@ -48,8 +48,8 @@ export async function getStaticPaths() {
     const objects = allObjects.filter(
       (item) =>
         (item.data.tags ?? []).includes(tag) ||
-        item.data.objectType === tag ||
-        item.data.woodTypes.includes(tag),
+        (item.data.objectTypes ?? []).includes(tag) ||
+        (item.data.woodTypes ?? []).includes(tag),
     );
 
     const url = tagsDictionary[tag];
