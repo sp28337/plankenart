@@ -28,8 +28,8 @@ jobs:
         with:
           # Astro 6 requires >=22.12.0. Using LTS minor pin is enough —
           # no need to pin a specific patch like 24.11.1.
-          node-version: '24'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -57,7 +57,7 @@ jobs:
 
       - name: Upload dist to DEV server
         if: github.ref == 'refs/heads/dev'
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DEV_HOST }}
           port: ${{ secrets.DEV_PORT }}
@@ -106,7 +106,7 @@ jobs:
 
       - name: Upload dist to PROD server
         if: github.ref == 'refs/heads/main'
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.PROD_HOST }}
           port: ${{ secrets.PROD_PORT }}
