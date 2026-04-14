@@ -11,7 +11,7 @@ export default defineConfig({
     image: {
         service: {
             config: {
-                quality: 80,
+                quality: 90,
             }
         }
     },

@@ -21,6 +21,7 @@ export const tagsTitleDictionary: Record<string, string> = {
   // Объекты
   'terrace': 'Терраса',
   'bathhouse': 'Баня',
+  'garage': 'Гараж',
   'pool': 'Бассейн',
   'rest-zone': 'Зона отдыха',
   'barbecue': 'Барбекю',
