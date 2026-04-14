@@ -9,7 +9,7 @@ interface Props {
   variant?: "default" | "catalog";
 }
 
-const { object, variant } = Astro.props;
+const { object, variant = "default" } = Astro.props;
 
 // const tags = [
 //   ...object.data.objectTypes,
@@ -32,8 +32,8 @@ const { object, variant } = Astro.props;
     href={`/objects/${object.id}`}
     class:list={[
       "flex flex-col",
-      variant === "catalog" && "lg:flex-row",
-      "items-center gap-4",
+      variant === "default" && "lg:flex-row",
+      "items-center gap-2",
     ]}
   >
     <div class="relative flex-1">
@@ -61,19 +61,26 @@ const { object, variant } = Astro.props;
           loading="lazy"
           decoding="async"
           widths={[400, 800]}
-          sizes="(max-width: 480px) 400px, 800px"
         />
       </div>
     </div>
-    <div class="p-2 flex flex-col gap-4 flex-1">
+    <div class="p-2 flex flex-col gap-2 flex-1">
       <h3
-        class="text-[clamp(1.1rem,1.4vw,1.2rem)] font-semibold
-             text-foreground group-hover:text-line tracking-tighter
-             transition-all duration-250 font-inter leading-5"
+        class:list={[
+          "text-[clamp(1.1rem,1.4vw,1.2rem)] font-semibold",
+          "text-foreground group-hover:text-line tracking-tighter",
+          "transition-all duration-250 font-inter leading-5",
+          variant === "catalog" && "line-clamp-1 overflow-hidden text-ellipsis",
+        ]}
       >
         {object.data.title}
       </h3>
-      <p class="text-sm leading-4 text-foreground/50">
+      <p
+        class:list={[
+          "text-sm leading-4 text-foreground/50",
+          variant === "catalog" && "line-clamp-3 overflow-hidden text-ellipsis",
+        ]}
+      >
         {object.data.excerpt}
       </p>
     </div>
