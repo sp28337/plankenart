@@ -1,5 +1,5 @@
 ---
-import { navLinks } from '../../lib/navigation';
+import { navLinks } from "../../lib/navigation";
 
 const links = navLinks;
 const current = Astro.url.pathname;
@@ -8,11 +8,12 @@ const current = Astro.url.pathname;
 <!-- Overlay -->
 <div
   id="mobile-menu-overlay"
-  class="fixed inset-0 z-100 opacity-0 
+  class="fixed inset-0 z-100 opacity-0
          pointer-events-none transition-opacity duration-300
          backdrop-blur-[10px] bg-black/70 lg:hidden"
   aria-hidden="true"
-></div>
+>
+</div>
 
 <!-- Drawer -->
 <div
@@ -21,52 +22,50 @@ const current = Astro.url.pathname;
   aria-modal="true"
   aria-hidden="true"
   class="fixed top-20 right-0 z-101 lg:hidden
-         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-200"
+         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-300"
 >
-  <nav 
-    aria-label="Меню навигации" 
-  >
+  <nav aria-label="Меню навигации">
     <ul class="flex flex-col px-2 font-inter font-semibold gap-1">
-      {links.map(({ href, label }) => (
-        <li class:list={[
-          "overflow-hidden bg-nav p-0.75 w-41 h-12 rounded-[18px] flex justify-center",
-          current.startsWith(href)
-            ? "bg-btn/80"
-            : ""
-        ]}>
-          <a
-            href={href}
-            aria-current={current.startsWith(href) ? "page" : undefined}
+      {
+        links.map(({ href, label }) => (
+          <li
             class:list={[
-              "menu-link flex items-center justify-center tracking-tight w-full",
-              "rounded-[17px] text-xl",
-              "transition-colors hover:bg-html/80 duration-200 hover:text-foreground",
-              current.startsWith(href)
-              ? "bg-btn/80"
-              : ""
+              "overflow-hidden bg-nav p-0.75 w-41 h-12 rounded-[18px] flex justify-center",
+              current.startsWith(href) ? "bg-btn/80" : "",
             ]}
           >
-            {label}
-          </a>
-        </li>
-      ))}
+            <a
+              href={href}
+              aria-current={current.startsWith(href) ? "page" : undefined}
+              class:list={[
+                "menu-link flex items-center justify-center tracking-tight w-full",
+                "rounded-[17px] text-xl",
+                "transition-colors hover:bg-html/80 duration-300 hover:text-foreground",
+                current.startsWith(href) ? "bg-btn/80" : "",
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </nav>
 </div>
 
 <script>
-  const btn     = document.getElementById("burger-btn")!;
-  const menu    = document.getElementById("mobile-menu")!;
+  const btn = document.getElementById("burger-btn")!;
+  const menu = document.getElementById("mobile-menu")!;
   const overlay = document.getElementById("mobile-menu-overlay")!;
-  const links   = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
+  const links = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
 
   const DURATION = 70;
-  const EASING   = `cubic-bezier(0.22, 1, 0.36, 1)`;
+  const EASING = `cubic-bezier(0.22, 1, 0.36, 1)`;
 
   let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   function resetLinks() {
-    links.forEach(el => {
+    links.forEach((el) => {
       el.style.animation = "none";
       el.style.transform = "translateY(-110%)";
     });
@@ -89,8 +88,7 @@ const current = Astro.url.pathname;
     overlay.classList.add("opacity-100");
 
     links.forEach((el, i) => {
-      el.style.animation =
-        `menu-slide-down ${DURATION}ms ${EASING} ${i * DURATION}ms forwards`;
+      el.style.animation = `menu-slide-down ${DURATION}ms ${EASING} ${i * DURATION}ms forwards`;
     });
 
     btn.setAttribute("aria-expanded", "true");
@@ -131,10 +129,10 @@ const current = Astro.url.pathname;
   });
 
   document.addEventListener("astro:before-swap", closeMenu);
-  
-  links.forEach(el => {
-  if (el.getAttribute("href")?.includes("#")) {
-    el.addEventListener("click", closeMenu);
+
+  links.forEach((el) => {
+    if (el.getAttribute("href")?.includes("#")) {
+      el.addEventListener("click", closeMenu);
     }
   });
 </script>

@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture } from "astro:assets";
 import logo from "@assets/logo.png";
 
 interface Props {
@@ -7,20 +7,21 @@ interface Props {
 }
 const { variant = "mobile" } = Astro.props;
 ---
-<a 
-  href="/" 
+
+<a
+  href="/"
   class:list={[
-    variant === "desktop" 
-    ? "px-3 pt-5 pb-3 rounded-b-3xl" 
-    : "px-2 pt-3 pb-3 rounded-b-2xl",
+    variant === "desktop"
+      ? "px-3 pt-5 pb-3 rounded-b-3xl"
+      : "px-2 pt-3 pb-3 rounded-b-2xl",
     "flex justify-center items-end -mt-3 lg:-mt-5 bg-white  shadow-xl/3",
-    "active:translate-y-3 lg:active:translate-y-5 transition-all duration-200 h-[130%]",
+    "active:translate-y-3 lg:active:translate-y-5 transition-all duration-300 h-[130%]",
   ]}
 >
   <Picture
-    src={logo}  
-    formats={['avif', 'webp']}
-    alt="Логотип ПланкенАрт" 
+    src={logo}
+    formats={["avif", "webp"]}
+    alt="Логотип ПланкенАрт"
     class:list={[
       variant === "desktop" ? "size-24" : "size-18",
       "object-contain",

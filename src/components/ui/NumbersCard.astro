@@ -1,16 +1,16 @@
 ---
 interface Props {
-  number: number,
-  sign: string,
-  text: string,
+  number: number;
+  sign: string;
+  text: string;
 }
 
-const { number, sign, text } = Astro.props
+const { number, sign, text } = Astro.props;
 ---
 
 <div
   class="flex flex-col items-center justify-center border font-inter cursor-default
-         border-nav/20 hover:border-border/70 transition-colors duration-500 rounded-2xl md:rounded-3xl w-full font-bold
+         border-nav/20 hover:border-border/70 transition-colors duration-300 rounded-2xl md:rounded-3xl w-full font-bold
          tracking-tighter h-[clamp(160px,15vh,180px)] sm:h-[clamp(180px,20vh,280px)]"
 >
   <dt class="">
@@ -32,6 +32,3 @@ const { number, sign, text } = Astro.props
     {text}
   </dd>
 </div>
-
-
-
