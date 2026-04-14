@@ -1,0 +1,94 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { tagsDictionary } from "../../lib/mappers";
+// import Tag from "./Tag.astro";
+
+interface Props {
+  object: CollectionEntry<"objects">;
+  variant?: "default" | "catalog";
+}
+
+const { object, variant } = Astro.props;
+
+// const tags = [
+//   ...object.data.objectTypes,
+//   ...object.data.woodTypes,
+//   ...object.data.materialTypes,
+// ];
+---
+
+<article
+  class="object-card p-1 md:p-1.5 border hover:border-nav/70 transition-all
+              duration-250 border-nav/20 rounded-2xl h-fit sm:h-full reveal after:scale-98
+              overflow-hidden w-full group flex flex-col justify-between"
+  data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
+  data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
+  data-material={object.data.materialTypes
+    .map((m) => tagsDictionary[m])
+    .join(" ")}
+>
+  <a
+    href={`/objects/${object.id}`}
+    class:list={[
+      "flex flex-col",
+      variant === "catalog" && "lg:flex-row",
+      "items-center gap-4",
+    ]}
+  >
+    <div class="relative flex-1">
+      <div
+        class="transition-all w-full
+              duration-250
+              group-hover:opacity-50
+              group-hover:after:content-['Подробнее']
+              group-hover:after:absolute
+              group-hover:after:inset-0
+              group-hover:after:flex
+              group-hover:after:items-center
+              group-hover:after:justify-center
+              group-hover:after:text-html
+              group-hover:after:text-3xl
+              group-hover:after:font-bold
+              group-hover:after:font-inter
+              group-hover:active:after:scale-98"
+      >
+        <Image
+          src={object.data.coverImage}
+          alt={object.data.imageAlt ?? object.data.title}
+          class="w-full aspect-3/2 object-cover transition-all
+                  duration-250 rounded-2xl"
+          loading="lazy"
+          decoding="async"
+          widths={[400, 800]}
+          sizes="(max-width: 480px) 400px, 800px"
+        />
+      </div>
+    </div>
+    <div class="p-2 flex flex-col gap-4 flex-1">
+      <h3
+        class="text-[clamp(1.1rem,1.4vw,1.2rem)] font-semibold
+             text-foreground group-hover:text-line tracking-tighter
+             transition-all duration-250 font-inter leading-5"
+      >
+        {object.data.title}
+      </h3>
+      <p class="text-sm leading-4 text-foreground/50">
+        {object.data.excerpt}
+      </p>
+    </div>
+  </a>
+  <!-- <ul class="flex gap-2 p-1 overflow-x-hidden fade-out-right">
+    {
+      tags.map((tag) => (
+        <li>
+          <Tag
+            href={`/tags/${tagsDictionary[tag]}`}
+            tag={tag}
+            variant="alternative"
+          />
+        </li>
+      ))
+    }
+  </ul> -->
+</article>

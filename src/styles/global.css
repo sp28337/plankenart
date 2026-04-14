@@ -139,3 +139,12 @@
     transition: none;
   }
 }
+
+.fade-out-right {
+  mask-image: linear-gradient(
+    to right,
+    black 5rem,
+    black calc(100% - 1rem),
+    transparent
+  );
+}
