@@ -15,7 +15,8 @@ const { material } = Astro.props;
 
 <div
   class="material-card bg-nav/20 group flex flex-col hover:bg-nav/45
-         overflow-hidden shadow-xl/2 rounded-[15px]
+         active:scale-98 active:bg-nav/45
+         overflow-hidden shadow-xl/2 rounded-[15px] reveal
          transition-all duration-300 no-underline md:rounded-[20px]"
   data-wood={tagsDictionary[material.data.woodType]}
   data-material={tagsDictionary[material.data.materialType]}
