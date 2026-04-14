@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import H2 from "@components/ui/H2.astro"
-import type { ImageMetadata } from 'astro';
+import { Image } from "astro:assets";
+import H2 from "@components/ui/H2.astro";
+import type { ImageMetadata } from "astro";
 
 interface Props {
   direction?: "default" | "reversed";
@@ -10,34 +10,34 @@ interface Props {
   img: ImageMetadata;
 }
 
-const {
-  direction = "default",
-  title,
-  content,
-  img,
-} = Astro.props
+const { direction = "default", title, content, img } = Astro.props;
 
 const directions = {
   default: "md:flex-row",
-  reversed: "md:flex-row-reverse"
-}
+  reversed: "md:flex-row-reverse",
+};
 
-const base = "flex flex-col gap-8 justify-between items-center w-full"
-const classes = `${base} ${directions[direction]}`
+const base = "flex flex-col gap-8 justify-between items-center w-full";
+const classes = `${base} ${directions[direction]}`;
 ---
+
 <div class={classes}>
-  <div class="flex flex-col gap-4 md:gap-6 lg:gap-10 w-full 
-              md:justify-center px-2 md:px-0">
-    <H2 title={title} page="about"/>
+  <div
+    class="flex flex-col gap-4 md:gap-6 lg:gap-10 w-full
+              md:justify-center px-2 md:px-0"
+  >
+    <H2 title={title} page="about" />
     <p class="opacity-70 text-[clamp(16px,2vw,20px)] reveal">{content}</p>
   </div>
-  <div class="w-full border  border-nav/20 p-1 lg:p-2 rounded-[15px] 
-              lg:rounded-[25px] flex md:max-w-155 reveal">
+  <div
+    class="w-full border border-nav/20 p-1 lg:p-2 rounded-[15px]
+              lg:rounded-[25px] flex md:max-w-155 reveal"
+  >
     <Image
       src={img}
       alt="Фоновое фото с примером готового объекта"
-      class="w-full object-cover rounded-[15px] lg:rounded-[25px] 
-             transition-all duration-300 aspect-3/2"
+      class="w-full object-cover rounded-[15px] lg:rounded-[25px]
+             transition-all duration-150 aspect-3/2"
       loading="eager"
       widths={[400, 500, 600, 700]}
       sizes="100vw"

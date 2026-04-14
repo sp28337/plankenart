@@ -124,7 +124,7 @@ const allTags = [
                     {object.data.technicalFeatures.map((feat) => (
                       <li
                         class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
-                                py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-300"
+                                py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-150"
                       >
                         <CheckIcon />
                         <p class="">{feat}</p>
@@ -163,8 +163,8 @@ const allTags = [
                   <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
                     {usedOils.map(({ oil, colors, surface }) => (
                       <li
-                        class="flex flex-col gap-4 duration-300
-                                 border  border-nav/20 hover:border-border/50 rounded-[17px]
+                        class="flex flex-col gap-4 duration-150
+                                 border  border-nav/20 hover:border-nav/50 rounded-[17px]
                                  reveal p-2"
                       >
                         {/* поверхность */}
@@ -227,16 +227,16 @@ const allTags = [
                     {object.data.images.map((img, i) => (
                       <li
                         class="rounded-2xl lg:rounded-3xl overflow-hidden border 
-                            border-nav/20 p-2 group hover:border-border/50 transition-all duration-300
-                            cursor-zoom-in reveal"
+                            border-nav/20 p-2 group hover:border-nav/50 transition-all duration-150
+                            cursor-zoom-in reveal "
                         data-lightbox-index={i}
                       >
                         <Image
                           src={img}
                           alt={`${object.data.title} — фото ${i + 1}`}
-                          class="w-full aspect-3/2 object-cover transition-all duration-300 
+                          class="w-full aspect-3/2 object-cover transition-all duration-150 
                               group-hover:scale-101 rounded-2xl lg:rounded-3xl pointer-events-none
-                              active:scale-115"
+                              "
                           loading="lazy"
                           widths={[400, 900]}
                         />
@@ -267,13 +267,13 @@ const allTags = [
   class="fixed inset-0 z-9999 flex items-center justify-center
          opacity-0 pointer-events-none
          bg-black/90
-         transition-opacity duration-300"
+         transition-opacity duration-150"
 >
   <button
     id="lb-close"
     aria-label="Закрыть"
     class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center
-           rounded-full bg-white/10 hover:bg-white/25 transition-colors duration-300
+           rounded-full bg-white/10 hover:bg-white/25 transition-colors duration-150
            text-white cursor-pointer"
   >
     <svg
@@ -295,13 +295,13 @@ const allTags = [
     id="lb-img"
     src=""
     alt=""
-    class="w-full h-full object-contain select-none transition-opacity duration-300"
+    class="w-full h-full object-contain select-none transition-opacity duration-150"
     draggable="false"
   />
 
   <div
     id="lb-spinner"
-    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300"
+    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-150"
   >
     <div
       class="w-10 h-10 rounded-full border-2 border-white/30 border-t-white animate-spin"

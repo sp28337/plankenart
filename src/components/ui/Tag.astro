@@ -5,29 +5,22 @@ interface Props {
   variant?: "default" | "dashed" | "alternative";
 }
 
-const {
-  href,
-  tag,
-  variant = "default",
-} = Astro.props
-
+const { href, tag, variant = "default" } = Astro.props;
 
 const variants = {
   default: "",
-  dashed: "border border-nav/20 hover:border-border/50 hover:border-line active:scale-95 active:bg-nav/40 rounded-xl text-gradient inline-block text-[0.77rem] px-[0.7rem] py-1 font-black",
+  dashed:
+    "border border-nav/20 hover:border-nav/50 hover:border-line active:scale-95 active:bg-nav/40 rounded-xl text-gradient inline-block text-[0.77rem] px-[0.7rem] py-1 font-black",
   alternative: `text-[0.77rem] px-[0.7rem] py-1 font-bold bg-nav/20 
                 text-foreground/50 rounded-xl h-8 items-center 
                 lowercase hover:text-amber-fade flex hover:bg-nav/40 active:scale-95 active:bg-nav/45`,
-}
+};
 
-const base = "whitespace-nowrap transition-all duration-300"
-const classes = `${base} ${variants[variant]}`
+const base = "whitespace-nowrap transition-all duration-150";
+const classes = `${base} ${variants[variant]}`;
 ---
 
-<a
-  href={href}
-  class={classes}
->
+<a href={href} class={classes}>
   <p>
     {tag}
   </p>

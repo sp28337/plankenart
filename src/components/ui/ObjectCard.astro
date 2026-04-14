@@ -13,8 +13,8 @@ const { object } = Astro.props;
 <a
   href={`/objects/${object.id}`}
   class="object-card group flex flex-col rounded-2xl
-         relative w-full reveal
-         transition-all duration-300 no-underline"
+         relative w-full reveal after:scale-98
+         transition-all duration-150 no-underline"
   data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
   data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
   data-material={object.data.materialTypes
@@ -22,8 +22,8 @@ const { object } = Astro.props;
     .join(" ")}
 >
   <div
-    class="p-1 md:p-1.5 border hover:border-border
-              duration-300 border-nav/20 rounded-2xl
+    class="p-1 md:p-1.5 border hover:border-nav
+              duration-150 border-nav/20 rounded-2xl
               overflow-hidden w-full
               hover:opacity-50
               hover:after:content-['Подробнее']
@@ -35,13 +35,14 @@ const { object } = Astro.props;
               hover:after:text-white
               hover:after:text-3xl
               hover:after:font-bold
-              hover:after:font-inter"
+              hover:after:font-inter
+              hover:active:after:scale-98"
   >
     <Image
       src={object.data.coverImage}
       alt={object.data.imageAlt ?? object.data.title}
       class="w-full aspect-3/2 object-cover transition-all
-              duration-300 rounded-2xl active:scale-105"
+              duration-150 rounded-2xl"
       loading="lazy"
       decoding="async"
       widths={[400, 800]}
@@ -49,7 +50,7 @@ const { object } = Astro.props;
     />
   </div>
   <h3
-    class="text-[clamp(1rem,1.9vw,1.2rem)] text-center font-semibold truncate text-foreground group-hover:text-line tracking-tighter transition-all duration-300 font-inter"
+    class="text-[clamp(1rem,1.9vw,1.2rem)] text-center font-semibold truncate text-foreground group-hover:text-line tracking-tighter transition-all duration-150 font-inter"
   >
     {object.data.title}
   </h3>
