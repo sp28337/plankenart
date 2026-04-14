@@ -8,6 +8,13 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
     },
+    image: {
+        service: {
+            config: {
+                quality: 80,
+            }
+        }
+    },
     site: 'https://plankenart.ru',
     integrations: [sitemap(), mdx()],
     fonts: [
