@@ -38,6 +38,7 @@ export const tagsDictionary: Record<string, string> = {
   // Строительные конструкции
   'фахверк': 'fachwerk',
   'норвежский лафет': 'norwegian-laft',
+  'кровля ПВХ': 'krovlya-pvkh',
   
   // Материалы
   'клееный брус': 'glued-beam',

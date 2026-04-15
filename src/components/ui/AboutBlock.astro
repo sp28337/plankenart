@@ -15,7 +15,7 @@ import Heading from "@components/ui/Heading.astro";
       title={["Почему выбирают", "ПланкенАрт"]}
       page="about"
     />
-    <div class="flex flex-col gap-4 lg:gap-8 cursor-default reveal">
+    <div class="flex flex-col gap-4 lg:gap-8  reveal">
       <p
         class="text-[20px] md:text-2xl font-bold text-amber-fade tracking-tighter leading-5 lg:leading-none"
       >
@@ -28,14 +28,15 @@ import Heading from "@components/ui/Heading.astro";
         не трескается и сохраняет вид годами — без ежегодного обслуживания.
       </p>
     </div>
-
-    <Button href="/about" title="подробнее" />
+    <div class="w-full">
+      <Button href="/about" title="подробнее" />
+    </div>
   </div>
 
   <div
     role="region"
     aria-label="Наши преимущества"
-    class="hidden lg:flex gap-2 items-center justify-center cursor-default"
+    class="hidden lg:flex gap-2 items-center justify-center "
   >
     <div class="flex flex-col gap-2 items-end w-fill mt-8">
       <AdvantagesCard

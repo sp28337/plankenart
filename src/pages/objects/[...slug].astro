@@ -80,9 +80,9 @@ const allTags = [
       >
         <div class="w-full">
           <section class="flex flex-col justify-center items-center gap-2">
-            <Heading styles="text-gradient" title="Теги" variant="h3" />
+            <Heading styles="text-nav" title="связанные темы:" variant="h3" />
             <ul
-              class="flex flex-wrap justify-center gap-2 h-fit mb-5 md:mb-10 lg:mb-14 reveal"
+              class="flex flex-wrap justify-center gap-2 h-fit mb-5 md:mb-10 lg:mb-14 reveal max-w-4xl"
             >
               {
                 allTags.map((tag) => (
@@ -100,7 +100,7 @@ const allTags = [
 
           <div class="flex flex-col gap-10 md:gap-18 lg:gap-22">
             <section
-              class="flex flex-col gap-6 md:gap-10 lg:gap-14 cursor-default"
+              class="flex flex-col gap-6 md:gap-10 lg:gap-14 "
             >
               <H2 title="История объекта" page="object" />
               <div class="flex flex-col gap-2 w-full reveal">
@@ -124,7 +124,7 @@ const allTags = [
                     {object.data.technicalFeatures.map((feat) => (
                       <li
                         class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
-                                py-2 md:px-4 rounded-2xl hover:bg-nav/30 transition-all duration-250"
+                                py-2 md:px-4 rounded-2xl transition-all duration-250"
                       >
                         <CheckIcon />
                         <p class="">{feat}</p>
@@ -139,7 +139,7 @@ const allTags = [
               materials && (
                 <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
                   <H2 title="Материалы" />
-                  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
                     {materials.map((material) => (
                       <li>
                         <MaterialCardSmall
@@ -157,7 +157,7 @@ const allTags = [
 
             {
               usedOils.length > 0 && (
-                <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14 cursor-default">
+                <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14 ">
                   <H2 title="Масло" />
 
                   <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">

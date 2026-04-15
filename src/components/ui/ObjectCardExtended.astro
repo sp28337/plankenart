@@ -6,7 +6,7 @@ import { tagsDictionary } from "../../lib/mappers";
 
 interface Props {
   object: CollectionEntry<"objects">;
-  variant?: "default" | "catalog";
+  variant?: "default" | "column" | "tags";
 }
 
 const { object, variant = "default" } = Astro.props;
@@ -31,9 +31,8 @@ const { object, variant = "default" } = Astro.props;
   <a
     href={`/objects/${object.id}`}
     class:list={[
-      "flex flex-col",
       variant === "default" && "lg:flex-row",
-      "items-center gap-2",
+      "flex flex-col items-center gap-2",
     ]}
   >
     <div class="relative flex-1">
@@ -70,7 +69,7 @@ const { object, variant = "default" } = Astro.props;
           "text-[clamp(1.1rem,1.4vw,1.2rem)] font-semibold",
           "text-foreground group-hover:text-line tracking-tighter",
           "transition-all duration-250 font-inter leading-5",
-          variant === "catalog" && "line-clamp-1 overflow-hidden text-ellipsis",
+          variant === "column" && "line-clamp-1 overflow-hidden text-ellipsis",
         ]}
       >
         {object.data.title}
@@ -78,7 +77,7 @@ const { object, variant = "default" } = Astro.props;
       <p
         class:list={[
           "text-sm leading-4 text-foreground/50",
-          variant === "catalog" && "line-clamp-3 overflow-hidden text-ellipsis",
+          variant === "column" && "line-clamp-3 overflow-hidden text-ellipsis",
         ]}
       >
         {object.data.excerpt}

@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro";
 import H2 from "@components/ui/H2.astro";
-import ObjectCard from "@components/ui/ObjectCard.astro";
 import Heading from "@components/ui/Heading.astro";
 import { tagsDictionary } from "../../lib/mappers";
 import { tagsTitleDictionary } from "../../lib/titleMappers";
@@ -68,6 +67,7 @@ const pageTitle = tagsTitleDictionary[tag] ?? tag;
 import Fence from "@assets/svg/fence.svg";
 import Scan from "@assets/svg/scan.svg";
 import Button from "@components/ui/Button.astro";
+import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
 ---
 
 <Layout
@@ -92,10 +92,10 @@ import Button from "@components/ui/Button.astro";
         variant="h1"
       />
       <p
-        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed cursor-default"
+        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed "
       >
-        Все объекты и материалы, связанные с тегом: <b class="text-foreground"
-          >{pageTitle}</b
+        Объекты и материалы, связанные с темой: <b class="text-foreground"
+          >"{pageTitle}"</b
         >
       </p>
     </div>
@@ -142,7 +142,7 @@ import Button from "@components/ui/Button.astro";
             <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-full">
               {objects.map((object) => (
                 <li>
-                  <ObjectCard object={object} />
+                  <ObjectCardExtended object={object} variant="tags"/>
                 </li>
               ))}
             </ul>

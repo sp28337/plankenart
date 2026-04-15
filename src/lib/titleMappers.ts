@@ -36,6 +36,7 @@ export const tagsTitleDictionary: Record<string, string> = {
   'double-fold': 'Двойной фальц',
   
   // Строительные конструкции
+  'krovlya-pvkh': 'Кровля ПВХ',
   'fachwerk': 'Фахверк',
   'norwegian-laft': 'Норвежский лафет',
   
