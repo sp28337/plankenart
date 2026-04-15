@@ -148,3 +148,22 @@
     transparent
   );
 }
+
+@keyframes footer-bounce {
+  0%,
+  16%,
+  32%,
+  100% {
+    transform: translateY(0);
+  }
+  8% {
+    transform: translateY(-8px);
+  }
+  24% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-footer-bounce {
+  animation: footer-bounce 3s ease-in-out infinite;
+}

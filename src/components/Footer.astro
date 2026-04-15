@@ -74,6 +74,7 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
 
       <a
         href="#top"
+        id="footer-logo-link"
         class="flex items-center justify-center lg:-translate-x-10 active:-translate-y-4 transition-all duration-250"
       >
         <Picture
@@ -95,3 +96,29 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
     </div>
   </div>
 </footer>
+<script>
+  function initFooterAnimation() {
+    const logoLink = document.getElementById("footer-logo-link");
+    if (!logoLink) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("animate-footer-bounce");
+            }, 800);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(logoLink);
+  }
+
+  document.addEventListener("astro:page-load", initFooterAnimation);
+  // Initial call for the first load
+  initFooterAnimation();
+</script>
