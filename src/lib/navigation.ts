@@ -9,8 +9,8 @@ export const navLinks: NavLink[] = [
   { href: '/#services', label: 'Услуги'    },
   { href: '/materials', label: 'Материалы' },
   { href: '/objects',   label: 'Объекты'   },
-  { href: '/#contacts', label: 'Контакты'  },
-  { href: '/tags',      label: 'Теги'      },
+  { href: '/tags',      label: 'Темы'      },
+  { href: '#contacts', label: 'Контакты'  },
 ];
 
 /** Footer navigation — slightly different set (no hash anchors, has tags). */
@@ -18,6 +18,6 @@ export const footerLinks: NavLink[] = [
   { href: '/about',     label: 'О нас'     },
   { href: '/#services', label: 'Услуги'    },
   { href: '/materials', label: 'Материалы' },
+  { href: '/tags',      label: 'Темы'      },
   { href: '/objects',   label: 'Объекты'   },
-  { href: '/tags',      label: 'Теги'      },
 ];
