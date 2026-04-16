@@ -4,8 +4,8 @@ export const tagsDictionary: Record<string, string> = {
   'плинтус': 'skirting-board',
   
   // Типы отделки
-  'внутренняя отделка': 'interior-finishing',
-  'наружная отделка': 'exterior-finishing',
+  'интерьер': 'interior',
+  'экстерьер': 'exterior',
   
   // Породы дерева
   'ель': 'spruce',

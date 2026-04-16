@@ -15,7 +15,8 @@ export default defineConfig({
             }
         }
     },
-    site: 'https://plankenart.ru',
+    // site: 'https://plankenart.ru',
+    site: 'https://plankenart.sp28337.site',
     integrations: [sitemap(), mdx()],
     fonts: [
         {

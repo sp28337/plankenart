@@ -167,48 +167,50 @@ const allTags = [
                                  border  border-nav/20 hover:border-nav/70 rounded-[17px]
                                  reveal p-2"
                       >
-                        {/* поверхность */}
-                        {surface && <p class="text-sm opacity-70">{surface}</p>}
+                        <a href={`/oils/${oil.id}`}>
+                          {/* поверхность */}
+                          {surface && <p class="text-sm opacity-70">{surface}</p>}
 
-                        <div class="flex flex-col gap-4 w-full">
-                          <h3
-                            class="text-lg font-semibold items-center tracking-tighter 
-                                     leading-5 flex flex-col p-2"
-                          >
-                            {oil.data.title}
-                            <span class="font-normal text-foreground/50 text-sm">
-                              {oil.data.titleRu}
-                            </span>
-                          </h3>
-                          <Image
-                            src={oil.data.coverImage}
-                            alt={oil.data.title}
-                            class="w-46 h-46 object-cover rounded-xl mx-auto"
-                          />
-                          <div class="flex flex-col gap-2">
-                            {colors.map((color) => (
-                              <div class="items-center flex gap-2 bg-nav/20 p-2 rounded-2xl">
-                                <div class="w-12 h-12 rounded-xl overflow-hidden">
-                                  <Image
-                                    src={color.image}
-                                    alt={`${color.name} (${color.code})`}
-                                    class="w-full h-full object-cover rounded-xl"
-                                  />
+                          <div class="flex flex-col gap-4 w-full">
+                            <h3
+                              class="text-lg font-semibold items-center tracking-tighter 
+                                      leading-5 flex flex-col p-2"
+                            >
+                              {oil.data.title}
+                              <span class="font-normal text-foreground/50 text-sm">
+                                {oil.data.titleRu}
+                              </span>
+                            </h3>
+                            <Image
+                              src={oil.data.coverImage}
+                              alt={oil.data.title}
+                              class="w-46 h-46 object-cover rounded-xl mx-auto"
+                            />
+                            <div class="flex flex-col gap-2">
+                              {colors.map((color) => (
+                                <div class="items-center flex gap-2 bg-nav/20 p-2 rounded-2xl">
+                                  <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                    <Image
+                                      src={color.image}
+                                      alt={`${color.name} (${color.code})`}
+                                      class="w-full h-full object-cover rounded-xl"
+                                    />
+                                  </div>
+
+                                  <div class="flex relative flex-col">
+                                    <span class="text-md top-2 font-inter font-bold">
+                                      {color.code}
+                                    </span>
+
+                                    <i class="text-sm text-foreground/50 text-center">
+                                      {color.name}
+                                    </i>
+                                  </div>
                                 </div>
-
-                                <div class="flex relative flex-col">
-                                  <span class="text-md top-2 font-inter font-bold">
-                                    {color.code}
-                                  </span>
-
-                                  <i class="text-sm text-foreground/50 text-center">
-                                    {color.name}
-                                  </i>
-                                </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
+                        </a>
                       </li>
                     ))}
                   </ul>

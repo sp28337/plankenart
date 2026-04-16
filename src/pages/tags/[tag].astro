@@ -6,16 +6,23 @@ import H2 from "@components/ui/H2.astro";
 import Heading from "@components/ui/Heading.astro";
 import { tagsDictionary } from "../../lib/mappers";
 import { tagsTitleDictionary } from "../../lib/titleMappers";
+import Fence from "@assets/svg/fence.svg";
+import Scan from "@assets/svg/scan.svg";
+import Droplet from "@assets/svg/droplet.svg";
+import Button from "@components/ui/Button.astro";
+import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
+import OilCard from "@components/ui/OilCard.astro";
 
 export async function getStaticPaths() {
-  const [allMaterials, allObjects] = await Promise.all([
+  const [allMaterials, allObjects, allOils] = await Promise.all([
     getCollection("materials"),
     getCollection("objects"),
+    getCollection("oils"),
   ]);
 
   const tags = [
     ...new Set(
-      [...allMaterials, ...allObjects].flatMap((item) => item.data.tags ?? []),
+      [...allMaterials, ...allObjects, ...allOils].flatMap((item) => item.data.tags ?? []),
     ),
   ];
   const materialTypes = [
@@ -51,23 +58,22 @@ export async function getStaticPaths() {
         (item.data.woodTypes ?? []).includes(tag),
     );
 
+    const oils = allOils.filter(
+      (item) => (item.data.tags ?? []).includes(tag)
+    );
+
     const url = tagsDictionary[tag];
 
     return {
       params: { tag: url },
-      props: { materials, objects },
+      props: { materials, objects, oils },
     };
   });
 }
 
 const { tag } = Astro.params;
-const { materials, objects } = Astro.props;
+const { materials, objects, oils } = Astro.props;
 const pageTitle = tagsTitleDictionary[tag] ?? tag;
-
-import Fence from "@assets/svg/fence.svg";
-import Scan from "@assets/svg/scan.svg";
-import Button from "@components/ui/Button.astro";
-import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
 ---
 
 <Layout
@@ -94,7 +100,7 @@ import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
       <p
         class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed "
       >
-        Объекты и материалы, связанные с темой: <b class="text-foreground"
+        Объекты, материалы и масла связанные с темой: <b class="text-foreground"
           >"{pageTitle}"</b
         >
       </p>
@@ -143,6 +149,25 @@ import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
               {objects.map((object) => (
                 <li>
                   <ObjectCardExtended object={object} variant="tags"/>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      {
+        oils.length > 0 && (
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 hover:border-nav/70 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-250 mb-8 lg:mb-12">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Droplet class="w-5 h-5 opacity-70 reveal" />
+              </div>
+              <H2 title="Масла" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-full">
+              {oils.map((oil) => (
+                <li>
+                  <OilCard oil={oil}/>
                 </li>
               ))}
             </ul>

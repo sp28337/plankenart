@@ -1,0 +1,153 @@
+---
+import Layout from "@layouts/Layout.astro";
+import H2 from "@components/ui/H2.astro";
+import {
+  getCollection,
+  getEntries,
+  type CollectionEntry,
+} from "astro:content";
+import { Image } from "astro:assets";
+import Heading from "@components/ui/Heading.astro";
+import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
+interface Props {
+  oil: CollectionEntry<"oils">;
+}
+
+export async function getStaticPaths() {
+  const allObjects = await getCollection("oils");
+
+  return allObjects.map((oil) => {
+    return {
+      params: { oil: oil.id },
+      props: { oil },
+    };
+  });
+}
+
+const { oil } = Astro.props;
+
+const relatedObjects = await getEntries(oil.data.relatedObjects);
+// const materials = await getEntries(oil.data.relatedObjects);
+// const allTags = [
+//   ...oil.data.tags,
+// ];
+---
+
+<Layout
+  pageTitle={oil.data.metaTitle}
+  pageDescription={oil.data.metaDescription}
+  ogImg={oil.data.coverImage.src}
+>
+  <article class="text-foreground mt-30 px-2 lg:px-4">
+    <div class="max-w-7xl flex flex-col md:flex-row-reverse mx-auto">
+      <div class="mx-auto xs:w-[70%] md:w-fit">
+        <Image
+          src={oil.data.coverImage}
+          alt={oil.data.title}
+          class="object-cover mx-auto"
+          loading="eager"
+          fetchpriority="high"
+          widths={[200, 400, 800]}
+        />
+      </div>
+      <div class="my-auto ">
+        <h1 class="flex flex-col text-center  font-bold">
+          <span class="text-[clamp(1.7rem,4.5vw,3.2rem)] font-inter tracking-tight">
+            {oil.data.title} 
+          </span>
+          <span class="text-[clamp(1.2rem,3.8vw,2.5rem)] leading-5 sm:leading-8 lg:leading-10 text-amber-fade">
+            {oil.data.titleRu}
+          </span>
+        </h1>
+        <p class="text-center leading-5 mt-4 text-foreground/50 max-w-[90%] mx-auto">
+          {oil.data.excerpt}
+        </p>
+      </div>
+    </div>
+    <div class="px-2 lg:px-4  mt-8">
+      <div
+        class="max-w-7xl flex flex-col items-center mx-auto gap-10"
+      >
+        <section
+          class="flex flex-col gap-4 md:gap-6 items-center"
+        >
+          <Heading 
+            title="Описание"
+            variant="h2"
+          />
+          <div class="flex flex-col gap-2 w-full reveal">
+            {oil.data.description}
+          </div>
+        </section>
+
+        {
+          // <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 items-center">
+          //   <Heading title="Преимущества" variant="h2"/>
+          //   <ul class="list-none flex flex-col md:w-full w-[94%]">
+          //     {oil.data.advantagers.map((adv) => (
+          //       <li
+          //         class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
+          //                 py-2 md:px-4 rounded-2xl transition-all duration-250"
+          //       >
+          //         <CheckIcon />
+          //         <p class="">{adv}</p>
+          //       </li>
+          //     ))}
+          //   </ul>
+          // </section>
+        }
+          
+        <section class="w-full flex flex-col items-center gap-4 md:gap-6 ">
+          <Heading title="Цвета" variant="h2"/>
+
+          <ul class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 w-full">
+            {oil.data.colors.map(({ code, name, image }) => (
+              <li class="flex flex-col gap-2 reveal">
+                  <div class="items-center flex gap-2 bg-nav/20 p-2 duration-250
+                              rounded-2xl hover:bg-nav/50 transition-all cursor-default">
+                    <div class="min-w-12 max-w-12 h-12 rounded-xl overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${name} (${code})`}
+                        class="w-full h-full object-cover rounded-xl"
+                      />
+                    </div>
+
+                    <div class="flex relative flex-col  w-full truncate transition-all duration-250
+                                hover:overflow-visible hover:whitespace-normal">
+                      <span class="text-md top-2 font-inter font-bold">
+                        {code}
+                      </span>
+
+                      <i class="text-sm text-foreground/50 transition-all duration-250">
+                        {name}
+                      </i>
+                    </div>
+                  </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+        {
+          relatedObjects.length > 0 && (
+            <section class="flex flex-col gap-4 md:gap-6 items-center">
+              <H2 title="Объекты" />
+              <p class="text-center leading-5 text-foreground/50">
+                Объекты на которых мы использовали масло {oil.data.title}:
+              </p>
+              <div
+                class="grid gap-2 md:gap-5
+                        grid-cols-1 
+                        xs:grid-cols-2 
+                        sm:grid-cols-3 w-full"
+              >
+                {relatedObjects.map((rel) => (
+                  <ObjectCardExtended object={rel} variant="column" />
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </div>
+  </article>
+</Layout>
