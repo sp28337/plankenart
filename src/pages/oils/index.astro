@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/Hero.astro";
+import heroImg from "@assets/objects/avtonomnaya-barbekyu-zona/1-hero.jpg";
+import heroImgMobile from "@assets/objects/avtonomnaya-barbekyu-zona/8-hero-mobile.jpg";
+import OilCard from "@components/ui/OilCard.astro";
+import FilterOverlay from "@components/ui/FilterOverlay.astro";
+const allOils = await getCollection("oils");
+---
+
+<Layout
+  pageTitle="Каталог масел OSMO с примерами цветов и описанием"
+  pageDescription="Каталог продукции используемой в работе: фотографии и названия масел, цветовые выкрасы и коды, описание и назначение масел."
+  ogImg={heroImg.src}
+>
+  <FilterOverlay />
+  <Hero
+    title="Каталог масел OSMO с примерами цветов и описанием"
+    excerpt="Каталог продукции используемой в работе: фотографии и названия масел, цветовые выкрасы и коды, описание и назначение масел."
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-4">
+    <div class="mx-auto max-w-7xl mt-2.5">
+      <div
+        id="grid"
+        class="grid gap-2
+                grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3"
+      >
+        {
+          allOils.map((oil) => (
+            <OilCard oil={oil} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

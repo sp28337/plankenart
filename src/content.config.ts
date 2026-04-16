@@ -46,33 +46,40 @@ const objects = defineCollection({
     materialTypes:     z.array(z.string()),
     materials:         z.array(reference("materials")),
     usedOils:          z.array(z.object({
-      surface:       z.string().optional(), // Название поверхности
-      code:          z.array(z.string()),
-      oil:           reference('oils'),
+      surface:           z.string().optional(), // Название поверхности
+      code:              z.array(z.string()),
+      oil:               reference('oils'),
     })).optional(),
 
-    sortOrder:       z.number().default(99),
-    imageAlt:        z.string().optional(),
-    coverImage:      image(),
-    heroImage:       image(),
-    heroImageMobile: image(),
-    images:          z.array(image()),
+    sortOrder:         z.number().default(99),
+    imageAlt:          z.string().optional(),
+    coverImage:        image(),
+    heroImage:         image(),
+    heroImageMobile:   image(),
+    images:            z.array(image()),
   }),
 });
 
 const oils = defineCollection({
   loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/oils" }),
   schema: ({ image }) => z.object({
-
-    brand:       z.string(),
-    title:       z.string(),
-    titleRu:     z.string(),
-    colors:      z.array(z.object({
-      code:        z.string(),
-      name:        z.string(),
-      image:       image(),
+    metaTitle:       z.string().max(60),
+    metaDescription: z.string().max(160),
+    brand:           z.string(),
+    label:           z.string().optional(),
+    title:           z.string(),
+    titleRu:         z.string(),
+    excerpt:         z.string().optional(),
+    description:     z.string().optional(),
+    advantagers:     z.array(z.string()),
+    relatedObjects:  z.array(reference('objects')),
+    tags:            z.array(z.string()),
+    colors:          z.array(z.object({
+      code:            z.string(),
+      name:            z.string(),
+      image:           image(),
     })),
-    coverImage:  image(),
+    coverImage:      image(),
   }),
 });
 
