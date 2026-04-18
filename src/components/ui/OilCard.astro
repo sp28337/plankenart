@@ -37,8 +37,8 @@ const { oil } = Astro.props;
         {oil.data.excerpt}
       </p>
 
-      <div class="items-center relative flex gap-2 bg-nav/20 
-                  p-2 rounded-2xl overflow-hidden">
+      <div class="items-center relative flex gap-2 bg-nav/20 p-2
+                  rounded-2xl overflow-x-auto overflow-y-hidden scroll-hidden">
         {oil.data.colors.map((color) => (
           <div class="w-12 h-12 rounded-xl relative shrink-0 ">
             <Image
@@ -54,26 +54,6 @@ const { oil } = Astro.props;
           </div>
         ))}
       </div>
-      {
-        // <div class="color-strip-wrap">
-        //   <div class="color-strip">
-        //     {oil.data.colors.map((color) => (
-        //       <div class="color-swatch">
-        //         <div class="color-swatch-circle">
-        //           <Image
-        //             src={color.image}
-        //             alt={`${color.name} (${color.code})`}
-        //             class="w-full h-full object-cover"
-        //             widths={[80]}
-        //           />
-        //         </div>
-        //         <span class="color-swatch-code">{color.code}</span>
-        //         <span class="color-swatch-name">{color.name}</span>
-        //       </div>
-        //     ))}
-        //   </div>
-        // </div>
-      }
     </div>
   </article>
 </a>

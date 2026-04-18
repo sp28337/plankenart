@@ -94,6 +94,14 @@
   background-clip: text;
 }
 
+@utility scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   footer::before {
     content: '';
