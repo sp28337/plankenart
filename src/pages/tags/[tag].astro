@@ -55,7 +55,8 @@ export async function getStaticPaths() {
       (item) =>
         (item.data.tags ?? []).includes(tag) ||
         (item.data.objectTypes ?? []).includes(tag) ||
-        (item.data.woodTypes ?? []).includes(tag),
+        (item.data.woodTypes ?? []).includes(tag) ||
+        (item.data.materialTypes ?? []).includes(tag),
     );
 
     const oils = allOils.filter(
@@ -175,7 +176,7 @@ const pageTitle = tagsTitleDictionary[tag] ?? tag;
         )
       }
       <div class="w-full flex justify-start reveal">
-        <Button href="/tags" title="Все теги" />
+        <Button href="/tags" title="Все темы" />
       </div>
     </div>
   </div>
