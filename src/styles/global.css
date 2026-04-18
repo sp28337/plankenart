@@ -169,3 +169,7 @@
 .animate-footer-bounce {
   animation: footer-bounce 3s ease-in-out infinite;
 }
+
+.gallery-hidden {
+  display: none;
+}
