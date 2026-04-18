@@ -24,6 +24,6 @@ const allOils = (await getCollection("oils")).slice(0, 4)
     >
       {allOils.map((o) => <OilCard oil={o} />)}
     </div>
-    <Button href="/objects" title="Перейти в каталог" variant="catalog" />
+    <Button href="/oils" title="Перейти в каталог" variant="catalog" />
   </div>
 </section>

@@ -183,15 +183,19 @@ const rows = [
     }
   }
 
-  // Initialize on load
-  document.addEventListener("astro:page-load", () => {
-    if (document.getElementById("marquee-root")) {
-      new MarqueeManager("marquee-root");
-    }
-  });
-
-  // Early init for non-view transitions navigation or first load
-  if (document.getElementById("marquee-root")) {
+  // Single initializer guarded by data-initialized attribute.
+  // The attribute lives on the DOM element, so after Astro view-transition
+  // navigation the new element won't have it — safe to re-init.
+  function initMarquee() {
+    const root = document.getElementById("marquee-root");
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized = "true";
     new MarqueeManager("marquee-root");
   }
+
+  // Covers view-transition navigations
+  document.addEventListener("astro:page-load", initMarquee);
+
+  // Covers the very first load (fires before astro:page-load on initial page)
+  initMarquee();
 </script>
