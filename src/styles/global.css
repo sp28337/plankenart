@@ -28,6 +28,31 @@
   --color-border: #d3a887;
   --color-line: #c27530;
   --color-foreground: #5b4038;
+  --color-accent-soft: #f6c98d;
+}
+
+:root[data-time-theme='morning'] {
+  --color-nav: color-mix(in srgb, #dcb28a 62%, transparent);
+  --color-btn: color-mix(in srgb, #e8b35a 78%, transparent);
+  --color-accent-soft: #ffd7a5;
+}
+
+:root[data-time-theme='day'] {
+  --color-nav: color-mix(in srgb, #b7a48c 60%, transparent);
+  --color-btn: color-mix(in srgb, #df9b42 75%, transparent);
+  --color-accent-soft: #f6c98d;
+}
+
+:root[data-time-theme='evening'] {
+  --color-nav: color-mix(in srgb, #9f876e 66%, transparent);
+  --color-btn: color-mix(in srgb, #cc8440 78%, transparent);
+  --color-accent-soft: #eab889;
+}
+
+:root[data-time-theme='night'] {
+  --color-nav: color-mix(in srgb, #796a5f 64%, transparent);
+  --color-btn: color-mix(in srgb, #a66e4e 80%, transparent);
+  --color-accent-soft: #ce9c78;
 }
 
 @utility material-gradient {
@@ -140,6 +165,10 @@
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+#hero-time-context {
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--color-accent-soft) 35%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {

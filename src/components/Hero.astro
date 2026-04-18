@@ -49,6 +49,12 @@ const isArray = Array.isArray(title);
                 max-w-7xl mx-auto items-start gap-2 xl:gap-0"
     >
       <div class={wrapperClasses}>
+        <p
+          id="hero-time-context"
+          class="inline-flex w-fit items-center rounded-full bg-white/20 px-3 py-1 text-xs md:text-sm font-medium text-white/90 backdrop-blur-md border border-white/25"
+        >
+          Актуально на сейчас
+        </p>
         <h1
           class="tracking-tighter text-[clamp(1.7rem,4.5vw,3.2rem)] font-bold
               leading-6 sm:leading-8 lg:leading-12"
@@ -106,3 +112,34 @@ const isArray = Array.isArray(title);
     </div>
   </div>
 </div>
+<script>
+  const setTimeContext = () => {
+    const timeContext = document.getElementById("hero-time-context");
+    const hour = new Date().getHours();
+
+    let timeTheme = "day";
+    let message = "Актуально на сейчас";
+
+    if (hour >= 5 && hour < 11) {
+      timeTheme = "morning";
+      message = "Доброе утро — обновлено для 2026";
+    } else if (hour >= 11 && hour < 17) {
+      timeTheme = "day";
+      message = "Добрый день — решения в актуальном стиле 2026";
+    } else if (hour >= 17 && hour < 22) {
+      timeTheme = "evening";
+      message = "Добрый вечер — современный дизайн под ваш объект";
+    } else {
+      timeTheme = "night";
+      message = "Работаем даже ночью — оставьте заявку онлайн";
+    }
+
+    document.documentElement.setAttribute("data-time-theme", timeTheme);
+    if (timeContext) {
+      timeContext.textContent = message;
+    }
+  };
+
+  document.addEventListener("astro:page-load", setTimeContext);
+  setTimeContext();
+</script>
