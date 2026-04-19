@@ -9,7 +9,7 @@ const current = Astro.url.pathname;
 <div
   id="mobile-menu-overlay"
   class="fixed inset-0 z-100 opacity-0
-         pointer-events-none transition-opacity duration-250
+         pointer-events-none transition-opacity duration-300
          backdrop-blur-[10px] bg-black/70 lg:hidden"
   aria-hidden="true"
 >
@@ -22,7 +22,7 @@ const current = Astro.url.pathname;
   aria-modal="true"
   aria-hidden="true"
   class="fixed top-20 right-0 z-101 lg:hidden
-         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-250"
+         bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-300"
 >
   <nav aria-label="Меню навигации">
     <ul class="flex flex-col px-2 font-inter font-semibold gap-1">
@@ -40,7 +40,7 @@ const current = Astro.url.pathname;
               class:list={[
                 "menu-link flex items-center justify-center tracking-tight w-full",
                 "rounded-[17px] text-xl active:scale-98",
-                "transition-colors hover:bg-html/80 duration-250 hover:text-foreground",
+                "transition-colors hover:bg-html/80 duration-300 hover:text-foreground",
                 current.startsWith(href) ? "bg-btn/80" : "",
               ]}
             >

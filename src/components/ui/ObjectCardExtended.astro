@@ -20,7 +20,7 @@ const tags = [
 
 <article
   class="object-card p-1 md:p-1.5 border hover:border-nav/70 transition-all items-between
-         duration-250 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden 
+         duration-300 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden 
          w-full group flex flex-col justify-between"
   data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
   data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
@@ -38,7 +38,7 @@ const tags = [
     <div class="relative flex-1">
       <div
         class="transition-all w-full
-              duration-250
+              duration-300
               group-hover:opacity-50
               group-hover:after:content-['Подробнее']
               group-hover:after:absolute
@@ -56,7 +56,7 @@ const tags = [
           src={object.data.coverImage}
           alt={object.data.imageAlt ?? object.data.title}
           class="w-full aspect-3/2 object-cover transition-all
-                  duration-250 rounded-2xl"
+                  duration-300 rounded-2xl"
           loading="lazy"
           decoding="async"
           widths={[400, 900]}
@@ -68,7 +68,7 @@ const tags = [
         class:list={[
           "text-[clamp(1.1rem,1.4vw,1.2rem)] font-semibold",
           "text-foreground group-hover:text-line tracking-tighter",
-          "transition-all duration-250 font-inter leading-5",
+          "transition-all duration-300 font-inter leading-5",
           variant === "column" && "line-clamp-1 overflow-hidden text-ellipsis",
         ]}
       >
@@ -84,7 +84,8 @@ const tags = [
       </p>
     </div>
   </a>
-  <ul class="flex gap-2 p-1 overflow-x-auto scroll-hidden fade-out-right">
+  <ul class="flex gap-2 m-2 overflow-x-auto scroll-hidden active:scale-105
+             transition-all duration-400 hover:opacity-100 active:opacity-100 opacity-70">
     {
       tags.map((tag) => (
         <li>

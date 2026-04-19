@@ -23,10 +23,10 @@ const imgVariants = {
 const base = `group flex flex-col gap-3 lg:gap-5 bg-gradient-to-br from-nav/20 to-nav/5 
               rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10 
               min-h-[260px] lg:min-h-[320px]  
-              transition-all duration-250 shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6 
+              transition-all duration-300 shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6 
               relative w-full overflow-hidden reveal justify-center`;
 
-const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-250`;
+const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-300`;
 
 const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
 ---
@@ -36,7 +36,7 @@ const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
     class="relative z-10 max-w-[70%] sm:max-w-[65%] lg:max-w-[75%] xl:max-w-[70%] flex flex-col gap-2 lg:gap-3 h-full justify-center"
   >
     <h3
-      class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight text-foreground group-hover:text-amber-fade transition-colors duration-250"
+      class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight text-foreground group-hover:text-amber-fade transition-colors duration-300"
     >
       {title}
     </h3>

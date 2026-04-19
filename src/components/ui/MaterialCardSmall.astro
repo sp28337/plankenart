@@ -23,7 +23,7 @@ const variants = {
   tags: "px-4 md:px-6 w-full",
 }
 
-const base = `transition-all relative flex  justify-evenly duration-250
+const base = `transition-all relative flex  justify-evenly duration-300
               shadow-xl/2 h-12.5 items-center bg-nav/20 rounded-[17px]
               active:scale-98 active:bg-nav/40
               font-semibold  group reveal hover:bg-nav/40`;
@@ -35,7 +35,7 @@ const classes = `${base} ${variants[variant]}`;
 >
   <div class="relative overflow-visible">
     <h3 class:list={[
-                "text-foreground shrink-0 transition-colors duration-250",
+                "text-foreground shrink-0 transition-colors duration-300",
                 "group-hover:text-amber-fade text-sm w-37 truncate",
               ]}>
       {
@@ -47,7 +47,7 @@ const classes = `${base} ${variants[variant]}`;
           {title.split(" — ")[0]}
         </span>
         <br/> 
-        <i class="text-foreground/50 text-sm font-normal group-hover:text-amber-fade transition-all duration-250 leading-1">
+        <i class="text-foreground/50 text-sm font-normal group-hover:text-amber-fade transition-all duration-300 leading-1">
           {title.split(" — ")[1].toLowerCase()}
         </i>
       }
@@ -55,7 +55,7 @@ const classes = `${base} ${variants[variant]}`;
         variant == "object" &&
         <span>{title.split(" — ")[0]}</span>
         <i
-          class="absolute w-fit -bottom-3 right-10 text-foreground/50 text-sm font-normal group-hover:text-amber-fade transition-all duration-250"
+          class="absolute w-fit -bottom-3 right-10 text-foreground/50 text-sm font-normal group-hover:text-amber-fade transition-all duration-300"
         >
           {title.split(" — ")[1].toLowerCase()}
         </i>
@@ -67,7 +67,7 @@ const classes = `${base} ${variants[variant]}`;
     src={img}
     alt=""
     class="w-30 h-12.5 md:w-37.5 md:h-15 object-contain right-1 sm:right-2
-           transition-all duration-250"
+           transition-all duration-300"
     loading="eager"
     widths={[150, 300]}
     sizes="(max-width: 640px) 150px, 300px"

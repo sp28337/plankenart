@@ -153,10 +153,18 @@
 .fade-out-right {
   mask-image: linear-gradient(
     to right,
-    black 5rem,
+    black 1rem,
     black calc(100% - 1rem),
     transparent
   );
+}
+
+.fade-out-right:active {
+  mask-image: none
+}
+
+.fade-out-right:hover {
+  mask-image: none
 }
 
 @keyframes footer-bounce {

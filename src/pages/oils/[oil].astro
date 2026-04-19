@@ -87,7 +87,7 @@ const relatedObjects = await getEntries(oil.data.relatedObjects);
           //     {oil.data.advantagers.map((adv) => (
           //       <li
           //         class="flex gap-3 items-center text-[0.93rem] leading-normal reveal
-          //                 py-2 md:px-4 rounded-2xl transition-all duration-250"
+          //                 py-2 md:px-4 rounded-2xl transition-all duration-300"
           //       >
           //         <CheckIcon />
           //         <p class="">{adv}</p>
@@ -103,7 +103,7 @@ const relatedObjects = await getEntries(oil.data.relatedObjects);
           <ul class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 w-full">
             {oil.data.colors.map(({ code, name, image }) => (
               <li class="flex flex-col gap-2 reveal">
-                  <div class="items-center flex gap-2 bg-nav/20 p-2 duration-250
+                  <div class="items-center flex gap-2 bg-nav/20 p-2 duration-300
                               rounded-2xl hover:bg-nav/50 transition-all cursor-default">
                     <div class="min-w-12 max-w-12 h-12 rounded-xl overflow-hidden">
                       <Image
@@ -113,13 +113,13 @@ const relatedObjects = await getEntries(oil.data.relatedObjects);
                       />
                     </div>
 
-                    <div class="flex relative flex-col  w-full truncate transition-all duration-250
+                    <div class="flex relative flex-col  w-full truncate transition-all duration-300
                                 hover:overflow-visible hover:whitespace-normal">
                       <span class="text-md top-2 font-inter font-bold">
                         {code}
                       </span>
 
-                      <i class="text-sm text-foreground/50 transition-all duration-250">
+                      <i class="text-sm text-foreground/50 transition-all duration-300">
                         {name}
                       </i>
                     </div>

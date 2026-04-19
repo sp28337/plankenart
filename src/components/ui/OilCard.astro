@@ -13,7 +13,7 @@ const { oil } = Astro.props;
 ---
 <a href={`/oils/${oil.id}`}>
   <article
-    class="flex flex-col gap-4 duration-250 translate-all
+    class="flex flex-col gap-4 duration-300 translate-all
            border border-nav/20 hover:border-nav/70 rounded-[17px]
            reveal p-2 group h-full"
   >
@@ -33,26 +33,29 @@ const { oil } = Astro.props;
     />
     <div class="flex h-full flex-col justify-between">
       <p class="text-foreground/50 p-2 group-hover:text-foreground/70 
-                transition-all duration-250 line-clamp-3 overflow-y-hidden text-ellipsis">
+                transition-all duration-300 line-clamp-3 overflow-y-hidden text-ellipsis">
         {oil.data.excerpt}
       </p>
-
-      <div class="items-center relative flex gap-2 bg-nav/20 p-2
-                  rounded-2xl overflow-x-auto overflow-y-hidden scroll-hidden">
-        {oil.data.colors.map((color) => (
-          <div class="w-12 h-12 rounded-xl relative shrink-0 ">
-            <Image
-              src={color.image}
-              alt={`${color.name} (${color.code})`}
-              class="w-full h-full object-cover rounded-xl"
-            />
-            <span class="opacity-0 absolute inset-0 group-hover:opacity-100 flex items-center 
-                          justify-center text-md font-inter font-bold text-white
-                          transition-all duration-250 bg-nav/50 rounded-xl">
-              {color.code}
-            </span>
-          </div>
-        ))}
+      <div class="bg-nav/20 rounded-2xl overflow-y-hidden scroll-hidden overflow-x-auto">
+        <div class="m-1 p-1 overflow-y-hidden scroll-hidden">
+          <ul class="items-center relative flex gap-2 overflow-y-hidden scroll-hidden overflow-x-auto
+                     active:scale-105 transition-all duration-400">
+            {oil.data.colors.map((color) => (
+              <li class="w-12 h-12 rounded-xl relative shrink-0 ">
+                <Image
+                  src={color.image}
+                  alt={`${color.name} (${color.code})`}
+                  class="w-full h-full object-cover rounded-xl"
+                />
+                <span class="opacity-0 absolute inset-0 group-hover:opacity-100 flex items-center 
+                              justify-center text-md font-inter font-bold text-white
+                              transition-all duration-300 bg-nav/50 rounded-xl">
+                  {color.code}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   </article>
