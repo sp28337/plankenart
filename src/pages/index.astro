@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import Hero from "@components/Hero.astro";
+import FeedbackForm from "@components/FeedbackForm.astro";
 import AboutBlock from "@components/ui/AboutBlock.astro";
 import MaterialsBlock from "@components/ui/MaterialsBlock.astro";
 import ServiceBlock from "@components/Services.astro";
@@ -12,6 +13,7 @@ import ObjectsBlock from "@components/ui/ObjectsBlock.astro";
 import OilsBlock from "@components/ui/OilsBlock.astro";
 import DiscountSlider from "@components/ui/DiscountSlider.astro";
 import PartnersBlock from "@components/ui/PartnersBlock.astro";
+import H2 from "@components/ui/H2.astro";
 ---
 
 <Layout
@@ -34,6 +36,18 @@ import PartnersBlock from "@components/ui/PartnersBlock.astro";
       <ServiceBlock />
       <ObjectsBlock />
       <OilsBlock />
+      <section
+        id="contact"
+        class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+      >
+        <H2 id="contact-heading" title="Обратная связь" />
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full max-w-7xl mx-auto items-stretch"
+        >
+          <FeedbackForm type="test" />
+          <FeedbackForm type="calc" />
+        </div>
+      </section>
       <DiscountSlider />
       <FAQ />
       <PartnersBlock />

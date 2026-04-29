@@ -84,6 +84,29 @@
   background-clip: text;
 }
 
+@utility text-gradient-error {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-red-700),
+    var(--color-red-200)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+@utility text-gradient-success {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-emerald-700),
+    var(--color-emerald-200)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 @utility number-gradient {
   background-image: linear-gradient(
     to bottom,
@@ -197,4 +220,22 @@
 }
 #burger-btn[aria-expanded="true"] svg {
   transform: rotate(45deg);
+}
+
+.custom-checkbox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 18px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.custom-checkbox:checked::after {
+  opacity: 1;
 }

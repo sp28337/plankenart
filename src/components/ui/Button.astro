@@ -3,11 +3,14 @@ import Svg from "../svg/Svg.astro";
 import Arrow from "../svg/arrow.astro";
 
 interface Props {
+  id?: string;
+  ariaLabel?: string;
   variant?: "default" | "catalog" | "404";
-  href: string;
-  title: string;
+  href?: string;
+  title?: string;
+  type?: "button" | "submit" | "reset";
 }
-const { href, title, variant = "default" } = Astro.props;
+const { id, href, ariaLabel, title, type, variant = "default" } = Astro.props;
 
 const variants = {
   default: "",
@@ -16,14 +19,22 @@ const variants = {
 };
 
 const base = `flex gap-4 font-inter justify-center items-center text-[20px] uppercase
-              w-full font-bold border  rounded-[20px] h-12.5 border-nav/20
+              w-full font-bold border rounded-[20px] h-12.5 border-nav/20 hover:bg-nav/10
               hover:border-nav/70 transition-colors duration-300 reveal active:scale-98`;
 const classes = `${base} ${variants[variant]}`;
 ---
 
-<a href={href} class={classes}>
-  <span class="text-gradient tracking-tighter">{title}</span>
-  <Svg viewBox="arrow" size="m">
-    <Arrow />
-  </Svg>
-</a>
+{
+  href ? (
+    <a href={href} class={classes}>
+      <span class="text-gradient tracking-tighter">{title}</span>
+      <Svg viewBox="arrow" size="m">
+        <Arrow />
+      </Svg>
+    </a>
+  ) : (
+    <button id={id} type={type} class={classes} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}
