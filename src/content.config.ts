@@ -71,6 +71,7 @@ const oils = defineCollection({
     titleRu:         z.string(),
     excerpt:         z.string().optional(),
     description:     z.string().optional(),
+    category:        z.enum(['interior', 'exterior']),
     advantagers:     z.array(z.string()),
     relatedObjects:  z.array(reference('objects')),
     tags:            z.array(z.string()),
