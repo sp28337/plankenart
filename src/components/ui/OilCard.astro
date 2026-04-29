@@ -1,7 +1,5 @@
 ---
-import {
-  type CollectionEntry,
-} from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -9,54 +7,136 @@ interface Props {
 }
 
 const { oil } = Astro.props;
-
+const isExterior = oil.data.category === "exterior";
 ---
+
 <a href={`/oils/${oil.id}`}>
   <article
-    class="flex flex-col gap-4 duration-300 translate-all
+    class="relative flex flex-col gap-4 duration-300 translate-all
            border border-nav/20 hover:border-nav/70 rounded-[17px]
-           reveal p-2 group h-full"
+           reveal p-2 group h-full overflow-hidden"
   >
-    <h3
-      class="text-lg font-semibold items-center tracking-tighter 
-                leading-5 flex flex-col p-2"
+    <!-- Лента-закладка -->
+    <div
+      class:list={[
+        "oil-ribbon",
+        isExterior ? "oil-ribbon--exterior" : "oil-ribbon--interior",
+      ]}
     >
-      {oil.data.title}
-      <span class="font-normal text-foreground/50 text-sm">
-        {oil.data.titleRu}
-      </span>
-    </h3>
+      <span>{isExterior ? "экстерьер" : "интерьер"}</span>
+    </div>
+
+    <div>
+      <h3
+        class="text-lg font-semibold items-center tracking-tighter
+               leading-5 flex flex-col p-2 pt-6"
+      >
+        {oil.data.title}
+        <span class="font-normal text-foreground/50 text-sm">
+          {oil.data.titleRu}
+        </span>
+      </h3>
+    </div>
+
     <Image
       src={oil.data.coverImage}
       alt={oil.data.title}
       class="w-46 h-46 object-cover rounded-xl mx-auto"
     />
+
     <div class="flex h-full flex-col justify-between">
-      <p class="text-foreground/50 p-2 group-hover:text-foreground/70 
-                transition-all duration-300 line-clamp-3 overflow-y-hidden text-ellipsis">
+      <p
+        class="text-foreground/50 p-2 group-hover:text-foreground/70
+               transition-all duration-300 line-clamp-3 overflow-y-hidden text-ellipsis"
+      >
         {oil.data.excerpt}
       </p>
-      <div class="bg-nav/20 rounded-2xl overflow-y-hidden scroll-hidden overflow-x-auto">
+      <div
+        class="bg-nav/20 rounded-2xl overflow-y-hidden scroll-hidden overflow-x-auto"
+      >
         <div class="m-1 p-1 overflow-y-hidden scroll-hidden">
-          <ul class="items-center relative flex gap-2 overflow-y-hidden scroll-hidden overflow-x-auto
-                     active:scale-105 transition-all duration-400">
-            {oil.data.colors.map((color) => (
-              <li class="w-12 h-12 rounded-xl relative shrink-0 ">
-                <Image
-                  src={color.image}
-                  alt={`${color.name} (${color.code})`}
-                  class="w-full h-full object-cover rounded-xl"
-                />
-                <span class="opacity-0 absolute inset-0 group-hover:opacity-100 flex items-center 
-                              justify-center text-md font-inter font-bold text-white
-                              transition-all duration-300 bg-nav/50 rounded-xl">
-                  {color.code}
-                </span>
-              </li>
-            ))}
+          <ul
+            class="items-center relative flex gap-2 overflow-y-hidden scroll-hidden overflow-x-auto
+                   active:scale-105 transition-all duration-400"
+          >
+            {
+              oil.data.colors.map((color) => (
+                <li class="w-12 h-12 rounded-xl relative shrink-0">
+                  <Image
+                    src={color.image}
+                    alt={`${color.name} (${color.code})`}
+                    class="w-full h-full object-cover rounded-xl"
+                  />
+                  <span
+                    class="opacity-0 absolute inset-0 group-hover:opacity-100 flex items-center
+                           justify-center text-md font-inter font-bold text-white
+                           transition-all duration-300 bg-nav/50 rounded-xl"
+                  >
+                    {color.code}
+                  </span>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
     </div>
   </article>
 </a>
+
+<style>
+  /* Лента: прямоугольник + V-вырез снизу через clip-path */
+  .oil-ribbon {
+    position: absolute;
+    opacity: 0.3;
+    top: 0;
+    right: 1.25rem;
+    width: 2.25rem;
+    padding-top: 0.35rem;
+    padding-bottom: 1.6rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+    box-shadow: 2px 3px 10px rgb(0 0 0 / 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  /* Небольшой «выпуск» из карточки сверху */
+  /* .oil-ribbon::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: inherit;
+    filter: brightness(0.75);
+    border-radius: 0 0 2px 2px;
+  } */
+
+  .oil-ribbon span {
+    writing-mode: sideways-lr;
+    text-orientation:;
+    transform: rotate(180deg);
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    opacity: 0.9;
+    margin-top: 0.15rem;
+  }
+
+  .oil-ribbon--interior {
+    background-color: #6a8f5a;
+  }
+
+  .oil-ribbon--exterior {
+    background-color: #c27530;
+  }
+
+  a:hover .oil-ribbon {
+    padding-bottom: 1.8rem;
+    opacity: 1;
+  }
+</style>

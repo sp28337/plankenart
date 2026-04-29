@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import { tagsDictionary } from "../../lib/mappers";
-import Tag from "./Tag.astro";
+// import Tag from "./Tag.astro";
 
 interface Props {
   object: CollectionEntry<"objects">;
@@ -11,16 +11,16 @@ interface Props {
 
 const { object, variant = "default" } = Astro.props;
 
-const tags = [
-  ...object.data.objectTypes,
-  ...object.data.woodTypes,
-  ...object.data.materialTypes,
-];
+// const tags = [
+//   ...object.data.objectTypes,
+//   ...object.data.woodTypes,
+//   ...object.data.materialTypes,
+// ];
 ---
 
 <article
   class="object-card p-1 md:p-1.5 border hover:border-nav/70 transition-all items-between
-         duration-300 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden 
+         duration-300 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden
          w-full group flex flex-col justify-between"
   data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
   data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
@@ -30,10 +30,7 @@ const tags = [
 >
   <a
     href={`/objects/${object.id}`}
-    class:list={[
-      variant === "default" && "",
-      "flex flex-col gap-2",
-    ]}
+    class:list={[variant === "default" && "", "flex flex-col gap-2"]}
   >
     <div class="relative flex-1">
       <div
@@ -84,18 +81,20 @@ const tags = [
       </p>
     </div>
   </a>
-  <ul class="flex gap-2 m-2 overflow-x-auto scroll-hidden active:scale-105
-             transition-all duration-400 hover:opacity-100 active:opacity-100 opacity-70">
-    {
-      tags.map((tag) => (
-        <li>
-          <Tag
-            href={`/tags/${tagsDictionary[tag]}`}
-            tag={tag}
-            variant="alternative"
-          />
-        </li>
-      ))
-    }
-  </ul>
+  {
+    // <ul class="flex gap-2 m-2 overflow-x-auto scroll-hidden active:scale-105
+    //           transition-all duration-400 hover:opacity-100 active:opacity-100 opacity-70">
+    //   {
+    //     tags.map((tag) => (
+    //       <li>
+    //         <Tag
+    //           href={`/tags/${tagsDictionary[tag]}`}
+    //           tag={tag}
+    //           variant="alternative"
+    //         />
+    //       </li>
+    //     ))
+    //   }
+    // </ul>
+  }
 </article>
