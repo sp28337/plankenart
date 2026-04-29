@@ -7,6 +7,8 @@ import heroImgMobile from "@assets/oils/hero.jpg";
 import OilCard from "@components/ui/OilCard.astro";
 import FilterOverlay from "@components/ui/FilterOverlay.astro";
 const allOils = await getCollection("oils");
+const interiorOils = allOils.filter((oil) => oil.data.category === "interior");
+const exteriorOils = allOils.filter((oil) => oil.data.category === "exterior");
 ---
 
 <Layout
@@ -22,20 +24,19 @@ const allOils = await getCollection("oils");
     imgMobile={heroImgMobile}
   />
   <div class="px-2 lg:px-4 text-foreground mt-4">
-    <div class="mx-auto max-w-7xl mt-2.5">
-      <div
-        id="grid"
-        class="grid gap-2
-                grid-cols-1
-                sm:grid-cols-2
-                md:grid-cols-3"
-      >
-        {
-          allOils.map((oil) => (
-            <OilCard oil={oil} />
-          ))
-        }
-      </div>
+    <div class="mx-auto max-w-7xl mt-2.5 space-y-8">
+      <section>
+        <h2 class="text-xl md:text-2xl font-medium mb-3">Масло для внутренних работ</h2>
+        <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {interiorOils.map((oil) => <OilCard oil={oil} />)}
+        </div>
+      </section>
+      <section>
+        <h2 class="text-xl md:text-2xl font-medium mb-3">Масло для наружных работ</h2>
+        <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {exteriorOils.map((oil) => <OilCard oil={oil} />)}
+        </div>
+      </section>
     </div>
   </div>
 </Layout>
