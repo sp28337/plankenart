@@ -10,7 +10,6 @@ export const navLinks: NavLink[] = [
   { href: '/objects',   label: 'Объекты'   },
   { href: '/oils',      label: 'Масло'     },
   { href: '/materials', label: 'Материалы' },
-  { href: '/tags',      label: 'Темы'      },
   { href: '#contacts',  label: 'Контакты'  },
 ];
 
@@ -21,5 +20,4 @@ export const footerLinks: NavLink[] = [
   { href: '/objects',   label: 'Объекты'   },
   { href: '/oils',      label: 'Масло'     },
   { href: '/materials', label: 'Материалы' },
-  { href: '/tags',      label: 'Темы'      },
 ];
