@@ -3,7 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const materials = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/materials" }),
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/materials" }),
   schema: ({ image }) => z.object({
     metaTitle:       z.string().max(60),
     metaDescription: z.string().max(160),
@@ -30,7 +30,7 @@ const materials = defineCollection({
 });
 
 const objects = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/objects" }),
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/objects" }),
   schema: ({ image }) => z.object({
     metaTitle:         z.string().max(60),
     metaDescription:   z.string().max(160),
@@ -61,7 +61,7 @@ const objects = defineCollection({
 });
 
 const oils = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.mdx", base: "./src/content/oils" }),
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/oils" }),
   schema: ({ image }) => z.object({
     metaTitle:       z.string().max(60),
     metaDescription: z.string().max(160),

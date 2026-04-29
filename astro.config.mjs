@@ -1,8 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-
-import mdx from "@astrojs/mdx";
+import markdoc from '@astrojs/markdoc';
 
 export default defineConfig({
     vite: {
@@ -17,7 +16,10 @@ export default defineConfig({
     },
     // site: 'https://plankenart.ru',
     site: 'https://plankenart.sp28337.site',
-    integrations: [sitemap(), mdx()],
+    integrations: [
+        sitemap(), 
+        markdoc(),
+    ],
     fonts: [
         {
             provider: fontProviders.google(),

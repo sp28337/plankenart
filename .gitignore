@@ -5,6 +5,7 @@ dist/
 
 #skills
 .agents/
+.cursor/
 
 # dependencies
 node_modules/

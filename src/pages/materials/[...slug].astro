@@ -3,7 +3,6 @@ import Layout from "@layouts/Layout.astro";
 import Hero from "@components/Hero.astro";
 import H2 from "@components/ui/H2.astro";
 import Tag from "@components/ui/Tag.astro";
-import ObjectCard from "@components/ui/ObjectCard.astro";
 import {
   getCollection,
   getEntries,
@@ -13,6 +12,7 @@ import {
 import Heading from "@components/ui/Heading.astro";
 import CheckIcon from "@components/svg/CheckIcon.astro";
 import { tagsDictionary } from "../../lib/mappers";
+import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
 
 interface Props {
   material: CollectionEntry<"materials">;
@@ -79,7 +79,7 @@ const allTags = [
             <!-- mat-main -->
             <div class="flex flex-col gap-8">
               <!-- sect: О материале -->
-              <section class="flex flex-col gap-4 items-center ">
+              <section class="flex flex-col gap-4 items-center">
                 <H2 title="О материале" />
                 <div class="flex flex-col gap-2 w-full reveal">
                   {
@@ -93,7 +93,7 @@ const allTags = [
                 </div>
               </section>
 
-              <div class="flex flex-col md:flex-row gap-4 ">
+              <div class="flex flex-col md:flex-row gap-4">
                 <!-- sect: Особенности -->
                 <section
                   class="flex flex-col gap-4 flex-1 items-center md:w-[40%]"
@@ -174,7 +174,7 @@ const allTags = [
                              sm:grid-cols-3 w-full"
                     >
                       {relatedObjects.map((rel) => (
-                        <ObjectCard object={rel} />
+                        <ObjectCardExtended object={rel} />
                       ))}
                     </div>
                   </section>
