@@ -4,7 +4,9 @@ import OilCard from "@components/ui/OilCard.astro";
 import H2 from "./H2.astro";
 import Button from "./Button.astro";
 
-const allOils = (await getCollection("oils")).slice(0, 4)
+const allOils = await getCollection("oils");
+const interiorOils = allOils.filter((oil) => oil.data.category === "interior");
+const exteriorOils = allOils.filter((oil) => oil.data.category === "exterior");
 ---
 
 <section
@@ -14,16 +16,85 @@ const allOils = (await getCollection("oils")).slice(0, 4)
 >
   <H2 id="oils-heading" title="Используемые масла" />
   <div class="flex flex-col gap-6 justify-center items-center w-full">
-    <div
-      id="grid"
-      class="grid gap-2
-              grid-cols-1
-              sm:grid-cols-2 
-              xl:grid-cols-3 
-              w-full"
-    >
-      {allOils.map((o) => <OilCard oil={o} />)}
+    <div class="w-full max-w-7xl">
+      <div class="inline-flex items-end">
+        <button
+          type="button"
+          class="oil-tab oil-tab-active"
+          data-oils-tab="interior"
+        >
+          Масло для внутренних работ
+        </button>
+        <button type="button" class="oil-tab" data-oils-tab="exterior">
+          Масло для наружных работ
+        </button>
+      </div>
+      <div class="border border-foreground/20 rounded-b-xl rounded-tr-xl p-2 sm:p-3 md:p-4">
+        <div data-oils-panel="interior" class="grid gap-2 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full">
+          {interiorOils.map((o) => <OilCard oil={o} />)}
+        </div>
+        <div data-oils-panel="exterior" class="hidden grid gap-2 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full">
+          {exteriorOils.map((o) => <OilCard oil={o} />)}
+        </div>
+      </div>
     </div>
     <Button href="/oils" title="Перейти в каталог" variant="catalog" />
   </div>
 </section>
+
+<script>
+  const tabs = document.querySelectorAll('[data-oils-tab]');
+  const panels = document.querySelectorAll('[data-oils-panel]');
+
+  const setActiveTab = (target: string) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.getAttribute('data-oils-tab') === target;
+      tab.classList.toggle('oil-tab-active', isActive);
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.getAttribute('data-oils-panel') === target;
+      panel.classList.toggle('hidden', !isActive);
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-oils-tab');
+      if (target) setActiveTab(target);
+    });
+  });
+</script>
+
+<style>
+  .oil-tab {
+    border: 1px solid rgb(var(--foreground) / 0.2);
+    border-bottom: none;
+    padding: 0.625rem 1rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    color: rgb(var(--foreground) / 0.6);
+    background: rgb(var(--background));
+    transition: color .2s ease, background-color .2s ease;
+  }
+
+  .oil-tab + .oil-tab {
+    margin-left: 0.25rem;
+  }
+
+  .oil-tab-active {
+    color: rgb(var(--foreground));
+    background: rgb(var(--background));
+    position: relative;
+  }
+
+  .oil-tab-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: rgb(var(--background));
+  }
+</style>
