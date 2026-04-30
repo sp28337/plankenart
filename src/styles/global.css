@@ -239,3 +239,13 @@
 .custom-checkbox:checked::after {
   opacity: 1;
 }
+
+@layer base {
+  input:-webkit-autofill {
+    @apply shadow-[inset_0_0_0_1000px_#fff8ee] bg-transparent text-black;
+  }
+
+  input:focus {
+    @apply outline-none ring-0 border-transparent;
+  }
+}

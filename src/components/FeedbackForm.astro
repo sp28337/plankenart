@@ -1,8 +1,8 @@
 ---
-import Arrow from "./svg/arrow.astro";
-import Svg from "./svg/Svg.astro";
 import Button from "./ui/Button.astro";
 import Input from "./ui/Input.astro";
+import DraftingCompass from "@assets/svg/drafting-compass.svg";
+import Paintbrush from "@assets/svg/paintbrush.svg";
 
 export interface Props {
   type: "test" | "calc";
@@ -14,15 +14,24 @@ const formId = type === "test" ? "testForm" : "calcForm";
 ---
 
 <div
-  class="h-full group bg-linear-to-br from-nav/20 to-nav/5 rounded-[25px] reveal text-card-foreground flex flex-col bg-background"
+  class="h-full group bg-linear-to-br from-nav/10 to-nav/20 
+         rounded-[25px] reveal text-card-foreground flex 
+         flex-col bg-background shadow-xl/2 hover:shadow-xl/6"
 >
-  <div class="flex flex-col space-y-1.5 p-6 mt-2">
+  <span class="absolute hidden xs:block top-6 right-6 saturate-0 opacity-30 transition-all duration-300 group-hover:saturate-100 group-hover:opacity-100">
+    {
+      type == "calc" ? 
+      <DraftingCompass/> :
+      <Paintbrush/>
+    }
+  </span>
+  <div class="flex space-y-1.5 p-6 mt-2 items-center mx-auto relative">
     <h3 class="text-3xl font-inter text-center font-bold text-gradient tracking-tighter">
       {title}
     </h3>
   </div>
 
-  <div class="p-6 pt-0 space-y-6 grow flex flex-col">
+  <div class="p-2 sm:p-6 pt-0 space-y-6 grow flex flex-col">
     <form
       id={formId}
       class="contact-form space-y-6 flex flex-col h-full"
