@@ -7,6 +7,7 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { href: '/about',     label: 'О нас'     },
   { href: '/#services', label: 'Услуги'    },
+  { href: '/obrabotka-doski', label: 'Обработка доски' },
   { href: '/objects',   label: 'Объекты'   },
   { href: '/oils',      label: 'Масло'     },
   { href: '/materials', label: 'Материалы' },
@@ -17,6 +18,7 @@ export const navLinks: NavLink[] = [
 export const footerLinks: NavLink[] = [
   { href: '/about',     label: 'О нас'     },
   { href: '/#services', label: 'Услуги'    },
+  { href: '/obrabotka-doski', label: 'Обработка доски' },
   { href: '/objects',   label: 'Объекты'   },
   { href: '/oils',      label: 'Масло'     },
   { href: '/materials', label: 'Материалы' },
