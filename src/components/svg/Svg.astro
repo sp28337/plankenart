@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  variant?: "default" | "footer";
+  variant?: "default" | "footer" | "form";
   size?: "s" | "m" | "l" | "xl";
   hover?: "default" | "burger";
   viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk" | "arrow";
@@ -22,6 +22,7 @@ const hovers: Record<string, string> = {
 
 const variants: Record<string, string> = {
   default: "fill-foreground",
+  form: "fill-html",
   footer: "fill-white",
 };
 

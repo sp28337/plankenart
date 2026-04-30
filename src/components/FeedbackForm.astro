@@ -2,6 +2,7 @@
 import Arrow from "./svg/arrow.astro";
 import Svg from "./svg/Svg.astro";
 import Button from "./ui/Button.astro";
+import Input from "./ui/Input.astro";
 
 export interface Props {
   type: "test" | "calc";
@@ -13,10 +14,10 @@ const formId = type === "test" ? "testForm" : "calcForm";
 ---
 
 <div
-  class="h-full border border-nav/20 hover:border-nav/70 rounded-[25px] reveal text-card-foreground flex flex-col bg-background"
+  class="h-full group bg-linear-to-br from-nav/20 to-nav/5 rounded-[25px] reveal text-card-foreground flex flex-col bg-background"
 >
-  <div class="flex flex-col space-y-1.5 p-6">
-    <h3 class="text-2xl font-inter text-center font-bold text-foreground">
+  <div class="flex flex-col space-y-1.5 p-6 mt-2">
+    <h3 class="text-3xl font-inter text-center font-bold text-gradient tracking-tighter">
       {title}
     </h3>
   </div>
@@ -31,32 +32,26 @@ const formId = type === "test" ? "testForm" : "calcForm";
       <div class="grid grid-cols-1 gap-4 grow">
         {/* Имя */}
         <div>
-          <label class="block text-md font-semibold text-foreground mb-2">
-            Имя: <span class="text-red-600">*</span></label
-          >
-          <input
+          <Input
+            label="Имя:"
             type="text"
             name="name"
             autocomplete="given-name"
             placeholder="Ваше имя"
             required
-            class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
           />
           <p class="error-msg nameError mt-1 text-sm text-red-600 hidden"></p>
         </div>
 
         {/* Телефон */}
         <div>
-          <label class="block text-md font-semibold text-foreground mb-2">
-            Телефон: <span class="text-red-600">*</span></label
-          >
-          <input
+          <Input
+            label="Телефон:"
             type="tel"
             name="phone"
             autocomplete="tel"
             placeholder="+7 (XXX) XXX-XX-XX"
             required
-            class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
           />
           <p class="error-msg phoneError mt-1 text-sm text-red-600 hidden"></p>
         </div>
@@ -65,30 +60,22 @@ const formId = type === "test" ? "testForm" : "calcForm";
           type === "test" && (
             <>
               <div>
-                <label class="block text-md font-semibold text-foreground mb-2">
-                  {" "}
-                  Артикул(ы) масла: <span class="text-red-600">*</span>
-                </label>
-                <input
+                <Input
+                  label="Артикул(ы) масла:"
                   type="text"
                   name="articles"
                   placeholder="Например: 3101, 3111"
                   required
-                  class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
                 />
                 <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden" />
               </div>
               <div>
-                <label class="block text-md font-semibold text-foreground mb-2">
-                  {" "}
-                  Сорт дерева: <span class="text-red-600">*</span>
-                </label>
-                <input
+                <Input
+                  label="Сорт дерева:"
                   type="text"
                   name="wood_sort"
                   placeholder="Например: Лиственница"
                   required
-                  class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
                 />
                 <p class="error-msg wood_sortError mt-1 text-sm text-red-600 hidden" />
               </div>
@@ -100,29 +87,21 @@ const formId = type === "test" ? "testForm" : "calcForm";
           type === "calc" && (
             <>
               <div>
-                <label class="block text-md font-semibold text-foreground mb-2">
-                  {" "}
-                  Площадь обработки (м²): <span class="text-red-600">*</span>
-                </label>
-                <input
+                <Input
+                  label="Площадь обработки (м²):"
                   type="text"
                   name="area"
                   placeholder="Например: 50"
                   required
-                  class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
                 />
                 <p class="error-msg treatmentAreaError mt-1 text-sm text-red-600 hidden" />
               </div>
               <div>
-                <label class="block text-md font-semibold text-foreground mb-2">
-                  {" "}
-                  Артикул масла (необязательно):
-                </label>
-                <input
+                <Input
+                  label="Артикул масла (необязательно):"
                   type="text"
                   name="article"
                   placeholder="Например: 3101"
-                  class="w-full px-4 py-2 border border-nav/20 hover:border-nav/50 rounded-xl bg-card text-foreground placeholder:text-foreground/50 focus:outline-none transition-all duration-300"
                 />
                 <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden" />
               </div>
@@ -134,16 +113,13 @@ const formId = type === "test" ? "testForm" : "calcForm";
       {/* Согласие */}
       <div class="mt-auto pt-6">
         <div class="flex items-center space-x-3">
-          <input
+          <Input
             type="checkbox"
             name="consent"
             required
-            class="custom-checkbox checked:bg-emerald-500 appearance-none h-8 w-8 shrink-0 relative
-                  cursor-pointer border border-nav/20 hover:border-nav/70
-                  rounded-lg transition-all duration-300 mt-1 bg-nav/10"
           />
           <label
-            class="text-md text-foreground/90 leading-relaxed cursor-pointer"
+            class="text-sm text-foreground/90 leading-relaxed cursor-pointer"
             onclick={`document.querySelector('#${formId} input[name="consent"]').click()`}
           >
             Отправляя заявку, вы подтверждаете что ознакомлены <a
@@ -161,7 +137,7 @@ const formId = type === "test" ? "testForm" : "calcForm";
               onclick="event.stopPropagation()"
               >согласие на обработку персональных данных</a
             > согласно Федерального закона "О персональных данных" от 27.07.2006 N
-            152-ФЗ <span class="text-red-600 text-md font-semibold">*</span>
+            152-ФЗ
           </label>
         </div>
         <p class="error-msg consentError mt-1 text-sm text-red-600 ml-6 hidden">
@@ -169,11 +145,10 @@ const formId = type === "test" ? "testForm" : "calcForm";
 
         {/* Кнопка */}
         <div class="mt-6 flex justify-center w-full">
-          <Button type="submit">
-            <span class="uppercase font-bold text-gradient tracking-tighter"
+          <Button type="submit" variant="form">
+            <span class="uppercase font-bold text-html tracking-tighter"
               >Отправить заявку</span
             >
-            <Svg viewBox="arrow" size="m"><Arrow /></Svg>
           </Button>
         </div>
 
