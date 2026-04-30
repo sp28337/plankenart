@@ -5,7 +5,7 @@ import Arrow from "../svg/arrow.astro";
 interface Props {
   id?: string;
   ariaLabel?: string;
-  variant?: "default" | "catalog" | "404";
+  variant?: "default" | "catalog" | "404" | "form";
   href?: string;
   title?: string;
   type?: "button" | "submit" | "reset";
@@ -13,14 +13,15 @@ interface Props {
 const { id, href, ariaLabel, title, type, variant = "default" } = Astro.props;
 
 const variants = {
-  default: "",
-  "404": "max-w-105",
-  catalog: "lg:max-w-105",
+  default: `border border-nav/20 hover:bg-nav/10 hover:border-nav/70`,
+  form: "bg-btn/80 hover:bg-btn border border-transparent hover:border-nav/70",
+  "404": "max-w-105 border border-nav/20 hover:bg-nav/10 hover:border-nav/70",
+  catalog: "lg:max-w-105 border rounded-[20px] border-nav/20 hover:bg-nav/10 hover:border-nav/70",
 };
 
-const base = `flex gap-4 font-inter justify-center items-center text-[20px] uppercase
-              w-full font-bold border rounded-[20px] h-12.5 border-nav/20 hover:bg-nav/10
-              hover:border-nav/70 transition-colors duration-300 reveal active:scale-98`;
+const base = `flex gap-4 font-inter justify-center h-12.5 items-center 
+              text-[20px] uppercase w-full font-bold rounded-[20px]
+              transition-colors duration-300 reveal active:scale-98 cursor-pointer`;
 const classes = `${base} ${variants[variant]}`;
 ---
 
