@@ -29,8 +29,8 @@ forms.forEach(form => {
 
     const now = Date.now()
     const lastSubmitTime = lastSubmitTimes.get(form) || 0
-    if (now - lastSubmitTime < 3000) {
-      showMessage(messageDiv, 'Подождите немного перед следующей отправкой', 'error')
+    if (now - lastSubmitTime < 2000) {
+      showMessage(messageDiv, 'Подождите немного', 'error')
       return
     }
     lastSubmitTimes.set(form, now)
@@ -45,7 +45,7 @@ forms.forEach(form => {
 
     if (Object.keys(errors).length > 0) {
       displayErrors(form, errors)
-      showMessage(messageDiv, 'Исправьте ошибки в форме', 'error')
+      showMessage(messageDiv, 'Исправьте ошибки', 'error')
       return
     }
 

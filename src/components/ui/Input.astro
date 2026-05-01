@@ -23,7 +23,7 @@ const inputId = id ?? `${name ?? 'input'}-${Math.random().toString(36).slice(2, 
 
 const base = `bg-html text-foreground focus:ring-0 focus:border-transparent
               placeholder:text-foreground/50 focus:outline-none 
-              transition-all duration-300`
+              transition-all duration-300 placeholder:text-sm`
 
 const inputStyles = `
   ${type == "checkbox" && "custom-checkbox checked:bg-emerald-500 border border-html group-hover:border-nav/50 focus:border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}

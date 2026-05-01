@@ -3,7 +3,7 @@ export const showMessage = (messageDiv, text, type) => {
   messageDiv.textContent = text
   messageDiv.className = `form-message px-4 py-2 h-12.5 rounded-[20px] text-center text-sm flex gap-4 
                           font-inter justify-center items-center text-[20px] uppercase
-                          w-full font-bold mt-4
+                          w-full font-bold bg-red-300
                           transition-all duration-500 mx-auto tracking-tighter
                           ${
                             type === 'success'
