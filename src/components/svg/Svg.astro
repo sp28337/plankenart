@@ -3,7 +3,7 @@ export interface Props {
   variant?: "default" | "footer" | "form";
   size?: "s" | "m" | "l" | "xl";
   hover?: "default" | "burger";
-  viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk" | "arrow";
+  viewBox?: "default" | "tg" | "phone" | "burger" | "location" | "vk" | "arrow" | "max";
 }
 
 const {
@@ -38,6 +38,7 @@ const viewBoxes: Record<string, string> = {
   tg: "0 0 48 48",
   burger: "0 0 15 15",
   phone: "0 0 220 220",
+  max: "-4 -2 50 50",
   vk: "0 0 32 32",
   location: "0 0 100 100",
   arrow: "0 0 18 18",

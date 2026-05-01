@@ -5,23 +5,25 @@ import Arrow from "../svg/arrow.astro";
 interface Props {
   id?: string;
   ariaLabel?: string;
-  variant?: "default" | "catalog" | "404" | "form";
+  variant?: "default" | "catalog" | "404" | "form" | "menu";
   href?: string;
   title?: string;
   type?: "button" | "submit" | "reset";
+  modalTarget?: string;
 }
-const { id, href, ariaLabel, title, type, variant = "default" } = Astro.props;
+const { id, href, ariaLabel, title, type, modalTarget, variant = "default" } = Astro.props;
 
 const variants = {
-  default: `border border-nav/20 hover:bg-nav/10 hover:border-nav/70`,
-  form: "bg-btn/80 hover:bg-btn border border-transparent hover:border-nav/70",
-  "404": "max-w-105 border border-nav/20 hover:bg-nav/10 hover:border-nav/70",
-  catalog: "lg:max-w-105 border rounded-[20px] border-nav/20 hover:bg-nav/10 hover:border-nav/70",
+  default: `border border-nav/20 hover:bg-nav/10 hover:border-nav/70 reveal h-12.5 uppercase`,
+  form: "bg-btn/80 hover:bg-btn border border-transparent hover:border-nav/70 h-12.5 uppercase",
+  "404": "max-w-105 border border-nav/20 hover:bg-nav/10 hover:border-nav/70 h-12.5 uppercase",
+  catalog: "lg:max-w-105 border rounded-[20px] border-nav/20 hover:bg-nav/10 hover:border-nav/70 reveal h-12.5 uppercase",
+  menu: "overflow-hidden bg-nav p-0.75 xs:w-56 h-12 rounded-[18px] flex justify-center",
 };
 
-const base = `flex gap-4 font-inter justify-center h-12.5 items-center 
-              text-[20px] uppercase w-full font-bold rounded-[20px]
-              transition-colors duration-300 reveal active:scale-98 cursor-pointer`;
+const base = `flex gap-4 font-inter justify-center  items-center 
+              text-[20px] w-full font-bold rounded-[20px]
+              transition-colors duration-300 active:scale-98 cursor-pointer`;
 const classes = `${base} ${variants[variant]}`;
 ---
 
@@ -34,7 +36,13 @@ const classes = `${base} ${variants[variant]}`;
       </Svg>
     </a>
   ) : (
-    <button id={id} type={type} class={classes} aria-label={ariaLabel}>
+    <button 
+      id={id}
+      type={type}
+      class={classes}
+      aria-label={ariaLabel}
+      {...modalTarget ? { 'data-modal-open': modalTarget, role: 'button', tabindex: '0' } : {}}
+    > 
       <slot />
     </button>
   )

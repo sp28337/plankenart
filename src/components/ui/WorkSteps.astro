@@ -1,0 +1,212 @@
+---
+import H2 from "@components/ui/H2.astro";
+import Info from "@assets/svg/info.svg";
+import { Image } from "astro:assets";
+import beaver from "@assets/Beaver-SR-RP-400.png"
+import oil from "@assets/oil-brash.png"
+import Button from "./Button.astro";
+
+interface Props {
+  short?: boolean
+}
+
+const { short = false } = Astro.props
+
+const steps = [
+  {
+    step: "Шаг 1",
+    title: "Грубая шлифовка и калибровка",
+    content:
+      "Работаем на калибровально-шлифовальном станке Beaver SR-RP 400 — оборудование промышленного класса. Калибровка выравнивает толщину доски по всей длине и устраняет коробление после сушки. Грубая шлифовка снимает загрязнения, следы инструмента и ворс.",
+  },
+  {
+    step: "Шаг 2",
+    title: "Финишная шлифовка",
+    content:
+      "Мелкий абразив убирает все риски от первого прохода и формирует гладкую, бархатистую поверхность. Именно двойная шлифовка обеспечивает равномерное впитывание масла без пятен и полос.",
+  },
+  {
+    step: "Шаг 3",
+    title: "Первый слой масла OSMO",
+    content:
+      "Масло наносится на лицевые стороны доски и тщательно втирается. Глубоко проникает в поры, насыщает волокна и создаёт основу защитного слоя. Между слоями — технологическая пауза для полного высыхания.",
+  },
+  {
+    step: "Шаг 4",
+    title: "Второй слой масла OSMO",
+    content:
+      "Закрепляет защиту и формирует итоговый внешний вид. Двухслойное нанесение обеспечивает полноценную глубокую пропитку и долговечность покрытия. Для фасадных досок дополнительно обрабатываем тыльную сторону — исключает коробление.",
+  },
+];
+---
+<section
+  aria-labelledby="steps-heading"
+  class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+>
+  <H2 id="steps-heading" title="Как мы обрабатываем доску" />
+
+  <!-- 2×2 сетка: широкие + узкие карточки в шахматном порядке -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-4 lg:gap-8">
+
+    <!-- Шаг 1 — широкий -->
+    <article
+      class="group flex flex-col sm:flex-row gap-6 lg:gap-8 bg-gradient-to-br from-nav/20 to-nav/5
+              rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10
+              min-h-[260px] lg:min-h-[320px] transition-all duration-300
+              shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6
+              relative w-full overflow-hidden reveal items-center
+              sm:col-span-2 lg:col-span-2"
+    >
+      <!-- Текст -->
+      <div class="flex flex-col gap-6 items-between flex-1 min-w-0 h-full">
+        <span
+          class="
+                text-4xl font-inter font-bold
+                number-gradient opacity-60 leading-none tracking-tighter"
+        >
+          {steps[0].step}
+        </span>
+        <div class="relative z-10 flex flex-col gap-2 lg:gap-3 h-full justify-center">
+          <h3 class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight
+                    text-foreground group-hover:text-amber-fade transition-colors duration-300">
+            {steps[0].title}
+          </h3>
+          <p class="opacity-70 text-sm lg:text-[0.95rem] tracking-normal leading-relaxed mt-1">
+            {steps[0].content}
+          </p>
+        </div>
+      </div>
+      <!-- Картинка: фиксированная ширина, выровнена по центру по вертикали -->
+      <div class="shrink-0 flex items-center justify-center
+                  w-[140px] sm:w-[160px] lg:w-[190px] mx-auto sm:mx-0">
+        <Image
+          src={beaver}
+          alt="Beaver SR-RP 400 — промышленный калибровально-шлифовальный станок"
+          class="w-full h-auto object-contain
+                  transition-transform duration-300"
+          loading="lazy"
+          decoding="async"
+          width={190}
+        />
+      </div>
+    </article>
+
+    <!-- Шаг 2 — узкий -->
+    <article
+      class="group flex flex-col gap-3 lg:gap-5 bg-gradient-to-br from-nav/20 to-nav/5
+              rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10
+              min-h-[260px] lg:min-h-[320px] transition-all duration-300
+              shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6
+              relative w-full overflow-hidden reveal justify-center
+              sm:col-span-1 lg:col-span-1"
+    >
+      <span
+        class="
+              text-4xl font-inter font-bold
+              number-gradient opacity-60 leading-none tracking-tighter"
+      >
+        {steps[1].step}
+      </span>
+      <div class="relative z-10 flex flex-col gap-2 lg:gap-3 h-full justify-center">
+        <h3 class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight
+                    text-foreground group-hover:text-amber-fade transition-colors duration-300">
+          {steps[1].title}
+        </h3>
+        <p class="opacity-70 text-sm lg:text-[0.95rem] tracking-normal leading-relaxed mt-1">
+          {steps[1].content}
+        </p>
+      </div>
+    </article>
+
+    <!-- Шаг 3 — узкий -->
+    <article
+      class="group flex flex-col gap-3 lg:gap-5 bg-gradient-to-br from-nav/20 to-nav/5
+              rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10
+              min-h-[260px] lg:min-h-[320px] transition-all duration-300
+              shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6
+              relative w-full overflow-hidden reveal justify-center
+              sm:col-span-1 lg:col-span-1"
+    >
+      <span
+        class="
+                text-4xl font-inter font-bold
+                number-gradient opacity-60 leading-none tracking-tighter"
+      >
+        {steps[2].step}
+      </span>          
+      <div class="relative z-10 flex flex-col gap-2 lg:gap-3 h-full justify-center">
+        <h3 class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight
+                    text-foreground group-hover:text-amber-fade transition-colors duration-300">
+          {steps[2].title}
+        </h3>
+        <p class="opacity-70 text-sm lg:text-[0.95rem] tracking-normal leading-relaxed mt-1">
+          {steps[2].content}
+        </p>
+      </div>
+    </article>
+
+    <!-- Шаг 4 — широкий -->
+    <article
+      class="group flex flex-col sm:flex-row gap-6 lg:gap-8 bg-gradient-to-br from-nav/20 to-nav/5
+              rounded-[25px] lg:rounded-[30px] p-6 sm:p-8 lg:p-10
+              min-h-[260px] lg:min-h-[320px] transition-all duration-300
+              shadow-xl/2 hover:bg-nav/10 hover:shadow-xl/6
+              relative w-full overflow-hidden reveal items-center
+              sm:col-span-2 lg:col-span-2"
+    >
+      <!-- Текст -->
+      <div class="flex flex-col gap-6 items-between flex-1 min-w-0 h-full">
+        <span
+          class="
+                text-4xl font-inter font-bold
+                number-gradient opacity-60 leading-none tracking-tighter"
+        >
+          {steps[3].step}
+        </span>
+        <div class="relative z-10 flex flex-col gap-2 lg:gap-3 h-full justify-center">
+          <h3 class="text-xl lg:text-[1.35rem] font-bold tracking-tight leading-tight
+                    text-foreground group-hover:text-amber-fade transition-colors duration-300">
+            {steps[3].title}
+          </h3>
+          <p class="opacity-70 text-sm lg:text-[0.95rem] tracking-normal leading-relaxed mt-1">
+            {steps[3].content}
+          </p>
+        </div>
+      </div>
+      <!-- Картинка: тот же контейнер что у шага 1 -->
+      <div class="shrink-0 flex items-center justify-center
+                  w-[140px] sm:w-[160px] lg:w-[190px] mx-auto sm:mx-0">
+        <Image
+          src={oil}
+          alt="Масло OSMO — двухслойное нанесение для глубокой защиты древесины"
+          class="w-full h-auto object-contain
+                  transition-transform duration-300"
+          loading="lazy"
+          decoding="async"
+          width={190}
+        />
+      </div>
+    </article>
+
+  </div>
+  {
+    !short && 
+    // Важное примечание про фасад 
+    <div class="w-full border border-nav/20 hover:border-nav/70 transition-all duration-300
+                rounded-2xl md:rounded-3xl p-6 md:p-8 reveal flex gap-4 items-start">
+      <div class="my-auto">
+        <Info />
+      </div>
+      <p class="text-foreground/70 text-sm md:text-base leading-relaxed">
+        <strong class="text-foreground">Важно для наружного фасада:</strong> если доска используется как фасадный материал,
+        рекомендуется также обрабатывать внутреннюю (тыльную) сторону. Это предотвращает впитывание
+        влаги с обратной стороны и исключает коробление.
+      </p>
+    </div>
+  }
+  {
+    short && 
+    <Button href="/obrabotka-doski" title="Подробнее" variant="catalog" />
+
+  }
+</section>

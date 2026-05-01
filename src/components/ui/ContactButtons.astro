@@ -1,6 +1,7 @@
 ---
 import Svg from "@components/svg/Svg.astro";
 import Telegram from "@components/svg/telegram.astro";
+import Max from "@components/svg/max.astro";
 import Burger from "@components/svg/burger.astro";
 import Phone from "@components/svg/phone.astro";
 
@@ -11,6 +12,7 @@ const { variant = "mobile" } = Astro.props;
 const phone = "+7 (952) 543 37 16";
 const phoneHref = "tel:+79525433716";
 const tgHref = "https://t.me/Spedd87";
+const maxHref = "https://max.ru/";
 ---
 
 <div
@@ -19,43 +21,62 @@ const tgHref = "https://t.me/Spedd87";
       ? "bg-none translate-y-5"
       : "bg-nav translate-y-3.5 p-2",
     "flex items-center backdrop-blur-xl lg:backdrop-blur-none ",
-    "h-fit rounded-[23px] gap-2.5",
+    "h-fit lg:h-12.5 rounded-[23px] gap-1.5 2xs:gap-4",
   ]}
 >
-  <!-- Telegram -->
-  <a
-    href={tgHref}
-    aria-label="Написать в Telegram"
-    class:list={[
-      variant === "desktop"
-        ? "hover:bg-html backdrop-blur-xl shadow-xl/7"
-        : "hover:bg-html",
-      "flex justify-center items-center bg-btn rounded-full",
-      "group w-11 h-11 transition-colors duration-300 active:scale-98",
-    ]}
-  >
-    <Svg size="xl">
-      <Telegram />
-    </Svg>
-  </a>
+  <div class="flex gap-1.5 2xs:gap-2.5">
 
-  <!-- Phone -->
-  <a
-    href={phoneHref}
-    aria-label={`Позвонить: ${phone}`}
-    class:list={[
-      "flex justify-center items-center transition-colors duration-300",
-      "rounded-[20px] font-bold bg-btn text-foreground group active:scale-98",
-      variant === "desktop"
-        ? "w-auto h-12.5 gap-4 px-6.25 hover:bg-html backdrop-blur-xl shadow-xl/7"
-        : "w-11 h-11 hover:bg-html",
-    ]}
-  >
-    <Svg viewBox="phone" size="l">
-      <Phone />
-    </Svg>
-    {variant === "desktop" && <span>{phone}</span>}
-  </a>
+    <!-- Telegram -->
+    <a
+      href={tgHref}
+      aria-label="Написать в Telegram"
+      class:list={[
+        variant === "desktop"
+          ? "hover:bg-html backdrop-blur-xl shadow-xl"
+          : "hover:bg-html",
+        "flex justify-center items-center bg-btn rounded-full",
+        "group w-11 h-11 transition-colors duration-300 active:scale-98",
+      ]}
+    >
+      <Svg size="xl">
+        <Telegram />
+      </Svg>
+    </a>
+  
+    <!-- Max -->
+    <a
+      href={maxHref}
+      aria-label="Написать в Max"
+      class:list={[
+        variant === "desktop"
+          ? "hover:bg-html backdrop-blur-xl shadow-xl"
+          : "hover:bg-html",
+        "flex justify-center items-center bg-btn rounded-full",
+        "group w-11 h-11 transition-colors duration-300 active:scale-98",
+      ]}
+    >
+      <Svg size="xl" viewBox="max">
+        <Max />
+      </Svg>
+    </a>
+  
+    <!-- Phone -->
+    <a
+      href={phoneHref}
+      aria-label={`Позвонить: ${phone}`}
+      class:list={[
+        "flex justify-center items-center transition-colors duration-300 w-11 h-11",
+        "rounded-[20px] font-bold bg-btn text-foreground group active:scale-98",
+        variant === "desktop"
+          ? "hover:bg-html backdrop-blur-xl shadow-xl"
+          : "hover:bg-html",
+      ]}
+    >
+      <Svg viewBox="phone" size="l">
+        <Phone />
+      </Svg>
+    </a>
+  </div>
 
   <!-- Burger -->
   <button

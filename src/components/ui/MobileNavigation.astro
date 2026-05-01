@@ -1,5 +1,6 @@
 ---
 import { navLinks } from "../../lib/navigation";
+import Button from "./Button.astro";
 
 const links = navLinks;
 const current = Astro.url.pathname;
@@ -21,7 +22,7 @@ const current = Astro.url.pathname;
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
-  class="fixed top-20 right-0 z-101 lg:hidden
+  class="fixed top-26 w-full xs:w-auto xs:right-0 z-101 lg:hidden
          bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-300"
 >
   <nav aria-label="Меню навигации">
@@ -30,7 +31,7 @@ const current = Astro.url.pathname;
         links.map(({ href, label }) => (
           <li
             class:list={[
-              "overflow-hidden bg-nav p-0.75 w-41 h-12 rounded-[18px] flex justify-center",
+              "overflow-hidden bg-nav p-0.75 xs:w-56 h-12 rounded-[18px] flex justify-center",
               current.startsWith(href) ? "bg-btn/80" : "",
             ]}
           >
@@ -39,7 +40,7 @@ const current = Astro.url.pathname;
               aria-current={current.startsWith(href) ? "page" : undefined}
               class:list={[
                 "menu-link flex items-center justify-center tracking-tight w-full",
-                "rounded-[17px] text-xl active:scale-98",
+                "rounded-[17px] text-xl active:scale-98 px-4",
                 "transition-colors hover:bg-html/80 duration-300 hover:text-foreground",
                 current.startsWith(href) ? "bg-btn/80" : "",
               ]}
@@ -51,6 +52,37 @@ const current = Astro.url.pathname;
       }
     </ul>
   </nav>
+
+  <div class="flex flex-col gap-1 mt-4 px-2">
+    <Button
+      modalTarget="modal-test"
+      variant="menu"
+    >
+      <span
+        class:list={[
+          "menu-link flex items-center justify-center tracking-tight w-full",
+          "rounded-[17px] text-xl active:scale-98 px-4 h-full",
+          "transition-colors hover:bg-btn/80 duration-300",
+        ]}
+      >
+        Заказать выкрас
+      </span>
+    </Button>
+    <Button
+      modalTarget="modal-calc"
+      variant="menu"
+    >
+      <span
+        class:list={[
+          "menu-link flex items-center justify-center tracking-tight w-full",
+          "rounded-[17px] text-xl active:scale-98 px-4 h-full",
+          "transition-colors hover:bg-btn/80 duration-300",
+        ]}
+      >
+        Заказать расчет
+      </span>
+    </Button>
+  </div>
 </div>
 
 <script>
@@ -59,14 +91,13 @@ const current = Astro.url.pathname;
   const overlay = document.getElementById("mobile-menu-overlay")!;
   const links = Array.from(menu.querySelectorAll<HTMLElement>(".menu-link"));
 
-  const DURATION = 70;
+  const DURATION = 0;
   const EASING = `cubic-bezier(0.22, 1, 0.36, 1)`;
 
   let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   function resetLinks() {
     links.forEach((el) => {
-      el.style.animation = "none";
       el.style.transform = "translateY(-110%)";
     });
   }

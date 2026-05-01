@@ -14,6 +14,7 @@ import OilsBlock from "@components/ui/OilsBlock.astro";
 import DiscountSlider from "@components/ui/DiscountSlider.astro";
 import PartnersBlock from "@components/ui/PartnersBlock.astro";
 import H2 from "@components/ui/H2.astro";
+import WorkSteps from "@components/ui/WorkSteps.astro";
 ---
 
 <Layout
@@ -32,15 +33,19 @@ import H2 from "@components/ui/H2.astro";
     >
       <AboutBlock />
       <NumbersBlock />
-      <MaterialsBlock />
+      <WorkSteps short={true}/>
       <ServiceBlock />
       <ObjectsBlock />
+      <MaterialsBlock />
       <OilsBlock />
       <section
         id="contact"
         class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
       >
         <H2 id="contact-heading" title="Обратная связь" />
+        <p class="text-foreground/70 text-sm md:text-[1.05rem] leading-relaxed w-2/3 text-center">
+          Сообщите площадь обработки, породу и артикул масла — расчёт пришлём за несколько часов. Если с артикулом не определились, поможем выбрать.
+        </p>
         <div
           class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-7xl mx-auto items-stretch"
         >
