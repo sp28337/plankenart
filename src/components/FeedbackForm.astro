@@ -6,11 +6,13 @@ import Paintbrush from "@assets/svg/paintbrush.svg";
 
 export interface Props {
   type: "test" | "calc";
+  idPrefix?: string;
 }
-const { type } = Astro.props;
+const { type, idPrefix = "" } = Astro.props;
 
 const title = type === "test" ? "Заказать выкрас" : "Заказать расчет";
-const formId = type === "test" ? "testForm" : "calcForm";
+const formId = `${idPrefix}${type === "test" ? "testForm" : "calcForm"}`;
+const consentId = `${formId}-consent`;
 ---
 
 <div
@@ -25,6 +27,7 @@ const formId = type === "test" ? "testForm" : "calcForm";
       <Paintbrush/>
     }
   </span>
+
   <div class="flex space-y-1.5 p-6 mt-2 items-center mx-auto relative">
     <h3 class="text-3xl font-inter text-center font-bold text-gradient tracking-tighter">
       {title}
@@ -76,8 +79,9 @@ const formId = type === "test" ? "testForm" : "calcForm";
                   placeholder="Например: 3101, 3111"
                   required
                 />
-                <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden" />
+                <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden"></p>
               </div>
+
               <div>
                 <Input
                   label="Сорт дерева:"
@@ -86,7 +90,7 @@ const formId = type === "test" ? "testForm" : "calcForm";
                   placeholder="Например: Лиственница"
                   required
                 />
-                <p class="error-msg wood_sortError mt-1 text-sm text-red-600 hidden" />
+                <p class="error-msg wood_sortError mt-1 text-sm text-red-600 hidden"></p>
               </div>
             </>
           )
@@ -103,8 +107,9 @@ const formId = type === "test" ? "testForm" : "calcForm";
                   placeholder="Например: 50"
                   required
                 />
-                <p class="error-msg treatmentAreaError mt-1 text-sm text-red-600 hidden" />
+                <p class="error-msg treatmentAreaError mt-1 text-sm text-red-600 hidden"></p>
               </div>
+
               <div>
                 <Input
                   label="Артикул масла (необязательно):"
@@ -112,7 +117,7 @@ const formId = type === "test" ? "testForm" : "calcForm";
                   name="article"
                   placeholder="Например: 3101"
                 />
-                <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden" />
+                <p class="error-msg oilArticleError mt-1 text-sm text-red-600 hidden"></p>
               </div>
             </>
           )
@@ -123,41 +128,49 @@ const formId = type === "test" ? "testForm" : "calcForm";
       <div class="mt-auto pt-6">
         <div class="flex items-center space-x-3">
           <Input
+            id={consentId}
             type="checkbox"
             name="consent"
             required
           />
+
           <label
+            for={consentId}
             class="text-sm text-foreground/90 leading-relaxed cursor-pointer"
-            onclick={`document.querySelector('#${formId} input[name="consent"]').click()`}
           >
-            Отправляя заявку, вы подтверждаете что ознакомлены <a
+            Отправляя заявку, вы подтверждаете что ознакомлены 
+            <a
               rel="noopener noreferrer"
               target="_blank"
               class="hover:underline text-text-gradient-top"
               href="/privacy-policy"
-              onclick="event.stopPropagation()"
-              >с политикой конфиденциальности</a
-            > и даёте <a
+              data-stop-prop
+            >
+              с политикой конфиденциальности
+            </a>{" "}
+            и даёте{" "}
+            <a
               rel="noopener noreferrer"
               target="_blank"
               class="text-text-gradient-top hover:underline"
               href="/user-agreement"
-              onclick="event.stopPropagation()"
-              >согласие на обработку персональных данных</a
-            > согласно Федерального закона "О персональных данных" от 27.07.2006 N
+              data-stop-prop
+            >
+              согласие на обработку персональных данных
+            </a>{" "}
+            согласно Федерального закона "О персональных данных" от 27.07.2006 N
             152-ФЗ
           </label>
         </div>
-        <p class="error-msg consentError mt-1 text-sm text-red-600 ml-6 hidden">
-        </p>
+
+        <p class="error-msg consentError mt-1 text-sm text-red-600 ml-6 hidden"></p>
 
         {/* Кнопка */}
         <div class="mt-6 flex justify-center w-full">
           <Button type="submit" variant="form">
-            <span class="uppercase font-bold text-html tracking-tighter"
-              >Отправить заявку</span
-            >
+            <span class="uppercase font-bold text-html tracking-tighter">
+              Отправить заявку
+            </span>
           </Button>
         </div>
 

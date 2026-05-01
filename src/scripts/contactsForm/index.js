@@ -62,4 +62,10 @@ forms.forEach(form => {
       setButtonLoading(submitButton, false)
     }
   })
+
+  document.querySelectorAll('[data-stop-prop]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  });
 })

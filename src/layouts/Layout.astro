@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import FormModal from '../components/ui/FormModal.astro';
 
 interface Props {
   pageTitle: string;
@@ -25,6 +26,7 @@ const {
     <slot />
 	</main>
   <Footer/>
+  <FormModal />
 </BaseLayout>
 <script>
   import "@scripts/reveal.js"

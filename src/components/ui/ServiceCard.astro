@@ -8,9 +8,10 @@ export interface Props {
   content: string;
   title: string;
   img: ImageMetadata;
+  modalTarget?: string;
 }
 
-const { imgVariant, img, number, content, title } = Astro.props;
+const { imgVariant, img, number, content, title, modalTarget } = Astro.props;
 
 const imgVariants = {
   1: "w-23 h-23 lg:w-30 lg:h-30 -right-7 lg:-right-2 bottom-4 lg:bottom-3",
@@ -31,7 +32,11 @@ const baseImgStyles = `absolute w-35 object-contain z-0 transition-all duration-
 const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
 ---
 
-<article class={base}>
+<article
+  class={base}
+  {...modalTarget ? { 'data-modal-open': modalTarget, role: 'button', tabindex: '0' } : {}}
+  class:list={[base, modalTarget && 'cursor-pointer']}
+>
   <div
     class="relative z-10 max-w-[70%] sm:max-w-[65%] lg:max-w-[75%] xl:max-w-[70%] flex flex-col gap-2 lg:gap-3 h-full justify-center"
   >
@@ -45,6 +50,13 @@ const imgStyles = `${baseImgStyles} ${imgVariants[imgVariant]}`;
     >
       {content}
     </p>
+    {
+      // modalTarget && (
+      //   <span class="mt-2 text-xs font-semibold text-line opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      //     Оставить заявку →
+      //   </span>
+      // )
+    }
   </div>
 
   <span
