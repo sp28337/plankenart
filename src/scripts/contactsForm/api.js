@@ -1,43 +1,28 @@
-export const submitContactForm = async (data, type) => {
-  const apiUrl = import.meta.env.PUBLIC_API_BASE_URL
-  const apiPathTest = import.meta.env.PUBLIC_NOTIFY_TEST_PATH
-  const apiPathCalc = import.meta.env.PUBLIC_NOTIFY_CALC_PATH
-  
-  const apiPath = type === 'test' ? apiPathTest : apiPathCalc;
+export const submitContactForm = async (formData) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
-  if (!apiUrl) {
-    throw new Error('API URL не задан')
-  }
-
-  const controller = new AbortController()
-  const timeoutId = setTimeout(() => controller.abort(), 15000)
-
-  // trim fields before sending
-  const payload = { ...data }
-  for (const key in payload) {
-    if (typeof payload[key] === 'string') {
-      payload[key] = payload[key].trim()
-    }
-  }
-  
   try {
-    const response = await fetch(`${apiUrl}${apiPath}`, {
+    const response = await fetch('/api/contact', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      credentials: 'include',
+      body: formData,
       signal: controller.signal,
-    })
+    });
 
-    clearTimeout(timeoutId)
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(`Server error ${response.status}`)
+      throw new Error(data.message ?? `Server error ${response.status}`);
     }
 
-    return { success: true }
+    return { success: true, message: data.message };
+
   } catch (error) {
-    clearTimeout(timeoutId)
-    throw error
+    if (error.name === 'AbortError') {
+      throw new Error('Превышено время ожидания ответа');
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
-}
+};

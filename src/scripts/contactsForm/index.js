@@ -1,71 +1,99 @@
-import { formatPhoneNumber } from './phoneFormatter'
-import { validateForm } from './validation'
-import { submitContactForm } from './api'
-import { 
-  showMessage, 
-  hideMessage, 
-  clearErrors, 
-  displayErrors, 
-  setButtonLoading 
-} from './ui'
+import { formatPhoneNumber } from './phoneFormatter.js';
+import { validateForm }      from './validation.js';
+import { submitContactForm } from './api.js';
+import { showMessage, hideMessage, clearErrors, displayErrors, setButtonLoading } from './ui.js';
 
-const forms = document.querySelectorAll('.contact-form')
-let lastSubmitTimes = new Map()
+// Дедупликация отправок — хранится вне initForms, сбрасывается при перезагрузке страницы
+const lastSubmitTimes = new Map();
 
-forms.forEach(form => {
-  const type = form.dataset.formType
-  const phoneInput = form.querySelector('[name="phone"]')
-  const messageDiv = form.querySelector('.form-message')
-  const submitButton = form.querySelector('button[type="submit"]')
+/**
+ * Инициализирует все формы, которые ещё не были инициализированы.
+ * Вызывается как при первой загрузке, так и после каждой view-transition навигации.
+ */
+function initForms() {
+  // Ищем только ещё не инициализированные формы.
+  // data-initialized живёт на DOM-элементе — после навигации через
+  // view transitions элемент пересоздаётся, атрибута нет → инициализируем снова.
+  const forms = document.querySelectorAll('.contact-form:not([data-initialized])');
 
-  phoneInput?.addEventListener('input', (e) => {
-    e.target.value = formatPhoneNumber(e.target.value)
-  })
+  forms.forEach((form) => {
+    form.dataset.initialized = 'true';
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    hideMessage(messageDiv)
-    clearErrors(form)
+    const type         = form.dataset.formType;
+    const phoneInput   = form.querySelector('[name="phone"]');
+    const messageDiv   = form.querySelector('.form-message');
+    const submitButton = form.querySelector('button[type="submit"]');
 
-    const now = Date.now()
-    const lastSubmitTime = lastSubmitTimes.get(form) || 0
-    if (now - lastSubmitTime < 2000) {
-      showMessage(messageDiv, 'Подождите немного', 'error')
-      return
-    }
-    lastSubmitTimes.set(form, now)
+    // Форматирование телефона в реальном времени
+    phoneInput?.addEventListener('input', (e) => {
+      e.target.value = formatPhoneNumber(e.target.value);
+    });
 
-    const formData = new FormData(form)
-    const data = Object.fromEntries(formData.entries())
-    // Make sure consent is captured as boolean
-    data.consent = formData.has('consent')
-    data.formType = type
+    // Блокируем всплытие с внутренних ссылок (политика, пользовательское соглашение)
+    form.querySelectorAll('[data-stop-prop]').forEach((el) => {
+      el.addEventListener('click', (e) => e.stopPropagation());
+    });
 
-    const errors = validateForm(data, type)
+    form.addEventListener('submit', async (e) => {
+      // Перехватываем нативный submit — работаем через fetch
+      e.preventDefault();
 
-    if (Object.keys(errors).length > 0) {
-      displayErrors(form, errors)
-      showMessage(messageDiv, 'Исправьте ошибки', 'error')
-      return
-    }
+      hideMessage(messageDiv);
+      clearErrors(form);
 
-    setButtonLoading(submitButton, true)
+      // Защита от двойного клика (2 секунды между отправками)
+      const now = Date.now();
+      const lastSubmit = lastSubmitTimes.get(form) ?? 0;
+      if (now - lastSubmit < 2_000) {
+        showMessage(messageDiv, 'Подождите немного', 'error');
+        return;
+      }
+      lastSubmitTimes.set(form, now);
 
-    try {
-      await submitContactForm(data, type)
-      showMessage(messageDiv, 'Мы скоро свяжемся с вами!', 'success')
-      form.reset()
-    } catch (error) {
-      console.error(`Error submitting ${type} form:`, error)
-      showMessage(messageDiv, 'Сервис временно недоступен', 'error')
-    } finally {
-      setButtonLoading(submitButton, false)
-    }
-  })
+      // Собираем FormData — все поля формы включая hidden input formType
+      const formData = new FormData(form);
 
-  document.querySelectorAll('[data-stop-prop]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
+      // Клиентская валидация — быстрая обратная связь для пользователя
+      // Дополнительно валидирует сервер в /api/contact
+      const validationData = {
+        name:      formData.get('name')?.toString().trim()  ?? '',
+        phone:     formData.get('phone')?.toString().trim() ?? '',
+        consent:   formData.has('consent'),
+        articles:  formData.get('articles')?.toString().trim(),
+        wood_sort: formData.get('wood_sort')?.toString().trim(),
+        area:      formData.get('area')?.toString().trim(),
+      };
+
+      const errors = validateForm(validationData, type);
+
+      if (Object.keys(errors).length > 0) {
+        displayErrors(form, errors);
+        showMessage(messageDiv, 'Исправьте ошибки', 'error');
+        return;
+      }
+
+      setButtonLoading(submitButton, true);
+
+      try {
+        // FormData уходит напрямую — браузер сам ставит Content-Type
+        const result = await submitContactForm(formData);
+        showMessage(messageDiv, result.message, 'success');
+        form.reset();
+      } catch (error) {
+        // Сообщение из ошибки уже на русском (приходит с сервера)
+        const msg = error?.message ?? 'Сервис временно недоступен';
+        showMessage(messageDiv, msg, 'error');
+      } finally {
+        setButtonLoading(submitButton, false);
+      }
     });
   });
-})
+}
+
+// ─── Точки входа ─────────────────────────────────────────────────────────────
+
+// Покрывает навигацию через View Transitions (каждый переход на новую страницу)
+document.addEventListener('astro:page-load', initForms);
+
+// Покрывает первую загрузку страницы (до astro:page-load)
+initForms();

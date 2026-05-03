@@ -5,6 +5,8 @@ interface Props extends HTMLAttributes<'input'> {
   label?: string;
   error?: string;
   id?: string;
+  /** ID элемента с текстом ошибки для aria-describedby */
+  errorId?: string;
 }
 
 const {
@@ -15,10 +17,10 @@ const {
   required,
   label,
   autocomplete,
+  errorId,
   ...rest
 } = Astro.props
 
-// 👉 гарантируем id всегда
 const inputId = id ?? `${name ?? 'input'}-${Math.random().toString(36).slice(2, 8)}`
 
 const base = `bg-html text-foreground focus:ring-0 focus:border-transparent
@@ -35,34 +37,32 @@ const labelStyles = `block text-md font-semibold text-foreground mb-2 pl-4`
 const classes = `${base} ${inputStyles}`
 ---
 
-{
-  label && type !== "checkbox" && (
-    <label for={inputId} class={labelStyles}>
-      {label}
-    </label>
-  )
-}
+{label && type !== "checkbox" && (
+  <label for={inputId} class={labelStyles}>
+    {label}
+  </label>
+)}
 
-{
-  type === "checkbox" ? (
-    <input
-      id={inputId}
-      type={type}
-      name={name}
-      required={required ?? undefined}
-      class={classes}
-      {...rest}
-    />
-  ) : (
-    <input
-      id={inputId}
-      type={type}
-      autocomplete={autocomplete}
-      name={name}
-      placeholder={placeholder}
-      required={required ?? undefined}
-      class={classes}
-      {...rest}
-    />
-  )
-}
+{type === "checkbox" ? (
+  <input
+    id={inputId}
+    type={type}
+    name={name}
+    required={required ?? undefined}
+    aria-describedby={errorId ?? undefined}
+    class={classes}
+    {...rest}
+  />
+) : (
+  <input
+    id={inputId}
+    type={type}
+    autocomplete={autocomplete}
+    name={name}
+    placeholder={placeholder}
+    required={required ?? undefined}
+    aria-describedby={errorId ?? undefined}
+    class={classes}
+    {...rest}
+  />
+)}
