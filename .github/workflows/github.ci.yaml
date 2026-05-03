@@ -37,7 +37,6 @@ jobs:
         if: github.ref == 'refs/heads/dev'
         run: |
           cat > .env << EOF
-          VITE_ENV=dev
           PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_DEV_URL }}
           PUBLIC_NOTIFY_TEST_PATH=${{ secrets.PUBLIC_NOTIFY_TEST_PATH }}
           PUBLIC_NOTIFY_CALC_PATH=${{ secrets.PUBLIC_NOTIFY_CALC_PATH }}
@@ -49,7 +48,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           cat > .env << EOF
-          VITE_ENV=prod
           PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_PROD_URL }}
           PUBLIC_NOTIFY_TEST_PATH=${{ secrets.PUBLIC_NOTIFY_TEST_PATH }}
           PUBLIC_NOTIFY_CALC_PATH=${{ secrets.PUBLIC_NOTIFY_CALC_PATH }}
