@@ -7,7 +7,7 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { href: '/about',           label: 'О нас'           },
   { href: '/#services',       label: 'Услуги'          },
-  { href: '/obrabotka-doski', label: 'Обработака доски'},
+  { href: '/obrabotka-doski', label: 'Обработка доски' },
   { href: '/objects',         label: 'Объекты'         },
   { href: '/oils',            label: 'Масло'           },
   { href: '/materials',       label: 'Материалы'       },
@@ -16,10 +16,10 @@ export const navLinks: NavLink[] = [
 
 /** Footer navigation — slightly different set (no hash anchors, has tags). */
 export const footerLinks: NavLink[] = [
-  { href: '/about',     label: 'О нас'     },
-  { href: '/#services', label: 'Услуги'    },
-  { href: '/obrabotka-doski', label: 'Обработака доски'},
-  { href: '/objects',   label: 'Объекты'   },
-  { href: '/oils',      label: 'Масло'     },
-  { href: '/materials', label: 'Материалы' },
+  { href: '/about',           label: 'О нас'          },
+  { href: '/#services',       label: 'Услуги'         },
+  { href: '/obrabotka-doski', label: 'Обработка доски'},
+  { href: '/objects',         label: 'Объекты'        },
+  { href: '/oils',            label: 'Масло'          },
+  { href: '/materials',       label: 'Материалы'      },
 ];
