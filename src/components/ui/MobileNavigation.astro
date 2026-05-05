@@ -1,6 +1,6 @@
 ---
 import { navLinks } from "../../lib/navigation";
-import Button from "./Button.astro";
+import { DraftingCompass, Paintbrush }from "@lucide/astro";
 
 const links = navLinks;
 const current = Astro.url.pathname;
@@ -22,16 +22,17 @@ const current = Astro.url.pathname;
   role="dialog"
   aria-modal="true"
   aria-hidden="true"
-  class="fixed top-26 w-full xs:w-auto xs:right-0 z-101 lg:hidden
+  class="fixed top-30 w-full xs:w-auto xs:right-0 z-101 lg:hidden
          bg-bg-primary opacity-0 pointer-events-none transition-opacity duration-300"
 >
   <nav aria-label="Меню навигации">
-    <ul class="flex flex-col px-2 font-inter font-semibold gap-1">
+    <ul class="flex flex-col mx-2 font-inter font-semibold bg-nav/80 rounded-3xl">
       {
-        links.map(({ href, label }) => (
+        links.map(({ href, label, SvgIcon }) => (
           <li
             class:list={[
-              "overflow-hidden bg-nav p-0.75 xs:w-56 h-12 rounded-[18px] flex justify-center",
+              "overflow-hidden mb-0 m-1 last:mb-1  h-12 flex justify-center",
+              "bg-html/10 rounded-lg hover:bg-btn/70 first:rounded-t-3xl last:rounded-b-3xl",
               current.startsWith(href) ? "bg-btn/80" : "",
             ]}
           >
@@ -39,13 +40,16 @@ const current = Astro.url.pathname;
               href={href}
               aria-current={current.startsWith(href) ? "page" : undefined}
               class:list={[
-                "menu-link flex items-center justify-center tracking-tight w-full",
-                "rounded-[17px] text-xl active:scale-98 px-4",
-                "transition-colors hover:bg-html/80 duration-300 hover:text-foreground",
+                "menu-link flex items-center justify-start tracking-tight w-full",
+                "text-xl active:scale-98 px-4 group",
+                "transition-colors  duration-300",
                 current.startsWith(href) ? "bg-btn/80" : "",
               ]}
             >
-              {label}
+              <div class="flex gap-4 items-center">
+                { SvgIcon && <SvgIcon class="opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"/>}
+                {label}
+              </div>
             </a>
           </li>
         ))
@@ -53,35 +57,46 @@ const current = Astro.url.pathname;
     </ul>
   </nav>
 
-  <div class="flex flex-col gap-1 mt-4 px-2">
-    <Button
-      modalTarget="modal-test"
-      variant="menu"
+  <div class="flex flex-col mt-4 mx-2 bg-nav/80 rounded-3xl font-inter font-bold">
+    <button
+      data-modal-open="modal-test" 
+      class="overflow-hidden mb-0 m-1 last:mb-1  h-12 flex justify-center bg-html/10 rounded-lg hover:bg-btn/70 first:rounded-t-3xl last:rounded-b-3xl bg-btn/80"
     >
       <span
         class:list={[
-          "menu-link flex items-center justify-center tracking-tight w-full",
-          "rounded-[17px] text-xl active:scale-98 px-4 h-full",
-          "transition-colors hover:bg-btn/80 duration-300",
+          "menu-link flex items-center justify-start tracking-tight w-full",
+          "text-xl active:scale-98 px-4 group",
+          "transition-colors  duration-300 cursor-pointer",
         ]}
       >
-        Заказать выкрас
+        <div class="flex gap-4 items-center">
+          <Paintbrush class="opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"/>
+          <span>
+            Заказать выкрас
+          </span>
+        </div>
       </span>
-    </Button>
-    <Button
-      modalTarget="modal-calc"
-      variant="menu"
+    </button>
+    <button
+      data-modal-open="modal-calc" 
+      class="overflow-hidden mb-0 m-1 last:mb-1  h-12 flex justify-center bg-html/10 rounded-lg hover:bg-btn/70 first:rounded-t-3xl last:rounded-b-3xl bg-btn/80"
+
     >
       <span
         class:list={[
-          "menu-link flex items-center justify-center tracking-tight w-full",
-          "rounded-[17px] text-xl active:scale-98 px-4 h-full",
-          "transition-colors hover:bg-btn/80 duration-300",
+          "menu-link flex items-center justify-start tracking-tight w-full",
+          "rounded-lg text-xl active:scale-98 px-4 h-full group",
+          "transition-colors hover:bg-btn/80 duration-300 cursor-pointer",
         ]}
       >
-        Заказать расчет
+        <div class="flex gap-4 items-center">
+          <DraftingCompass class="opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"/>
+          <span>
+            Заказать расчет
+          </span>
+        </div>
       </span>
-    </Button>
+    </button>
   </div>
 </div>
 
