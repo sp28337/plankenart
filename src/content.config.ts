@@ -60,6 +60,17 @@ const objects = defineCollection({
   }),
 });
 
+const documents = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/documents" }),
+  schema: z.object({
+    title:           z.string(),
+    slug:            z.string(),
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
+    lastUpdated:     z.string(),
+  }),
+});
+
 const oils = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/oils" }),
   schema: ({ image }) => z.object({
@@ -88,4 +99,5 @@ export const collections = {
   materials,
   objects,
   oils,
+  documents,
 };

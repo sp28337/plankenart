@@ -15,7 +15,7 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
       class="flex flex-col gap-8 pt-4 text-sm font-medium sm:flex-row sm:justify-between"
     >
       <div class="flex flex-col gap-10 xs:flex-row sm:gap-30">
-        <section id="footer-nav" class="flex flex-col gap-3 ">
+        <section id="footer-nav" class="flex flex-col gap-3">
           <h2 class="font-inter font-bold text-lg">Навигация</h2>
           <ul class="flex flex-col gap-2">
             {
@@ -34,7 +34,7 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
           </ul>
         </section>
 
-        <section id="contacts" class="flex flex-col gap-3 ">
+        <section id="contacts" class="flex flex-col gap-3">
           <h2 class="font-inter font-bold text-lg">Контакты</h2>
           <div class="flex flex-col gap-2">
             <a
@@ -103,10 +103,26 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
     </div>
     <hr class="border-line" />
     <div
-      class="text-[12px] text-center flex flex-col gap-4 opacity-70
-    sm:justify-between sm:flex-row-reverse sm:text-sm "
+      class="text-[12px] text-center flex flex-col gap-3
+    sm:justify-between sm:flex-row-reverse sm:text-sm"
     >
-      <p>Наш сайт не осуществляет сбор персональных данных</p>
+      <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:justify-end">
+        <a
+          href="/documents/privacy-policy"
+          class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >Политика конфиденциальности</a
+        >
+        <a
+          href="/documents/user-agreement"
+          class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >Пользовательское соглашение</a
+        >
+        <a
+          href="/documents/consent"
+          class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >Согласие на обработку ПД</a
+        >
+      </div>
       <p>© {new Date().getFullYear()} ПланкенАрт</p>
     </div>
   </div>
