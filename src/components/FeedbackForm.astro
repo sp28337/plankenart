@@ -10,7 +10,7 @@ export interface Props {
 }
 const { type, idPrefix = "" } = Astro.props;
 
-const title  = type === "test" ? "Заказать выкрас" : "Заказать расчет";
+const title = type === "test" ? "Заказать выкрас" : "Заказать расчет";
 const formId = `${idPrefix}${type === "test" ? "testForm" : "calcForm"}`;
 const consentId = `${formId}-consent`;
 
@@ -19,16 +19,20 @@ const errId = (field: string) => `${formId}-${field}-error`;
 ---
 
 <div
-  class="h-full group bg-linear-to-br from-nav/10 to-nav/20 
+  class="h-full group bg-linear-to-br from-nav/10 to-nav/20
          rounded-[25px] reveal text-card-foreground flex mb-4
          flex-col bg-background shadow-xl/2 hover:shadow-xl/6"
 >
-  <span class="absolute hidden xs:block top-6 right-6 saturate-0 opacity-30 transition-all duration-300 group-hover:saturate-100 group-hover:opacity-100">
-    {type == "calc" ? <DraftingCompass/> : <Paintbrush/>}
+  <span
+    class="absolute hidden xs:block top-6 right-6 saturate-0 opacity-30 transition-all duration-300 group-hover:saturate-100 group-hover:opacity-100"
+  >
+    {type == "calc" ? <DraftingCompass /> : <Paintbrush />}
   </span>
 
   <div class="flex space-y-1.5 p-6 xs:mt-2 items-center mx-auto relative">
-    <h3 class="text-2xl xs:text-3xl font-inter text-center font-bold text-gradient tracking-tighter">
+    <h3
+      class="text-2xl xs:text-3xl font-inter text-center font-bold text-gradient tracking-tighter"
+    >
       {title}
     </h3>
   </div>
@@ -63,9 +67,14 @@ const errId = (field: string) => `${formId}-${field}-error`;
             autocomplete="given-name"
             placeholder="Ваше имя"
             required
-            errorId={errId('name')}
+            errorId={errId("name")}
           />
-          <p id={errId('name')} class="error-msg nameError mt-1 text-sm text-red-600 hidden" role="alert"></p>
+          <p
+            id={errId("name")}
+            class="error-msg nameError mt-1 text-sm text-red-600 hidden"
+            role="alert"
+          >
+          </p>
         </div>
 
         {/* Телефон */}
@@ -77,67 +86,92 @@ const errId = (field: string) => `${formId}-${field}-error`;
             autocomplete="tel"
             placeholder="+7 (XXX) XXX-XX-XX"
             required
-            errorId={errId('phone')}
+            errorId={errId("phone")}
           />
-          <p id={errId('phone')} class="error-msg phoneError mt-1 text-sm text-red-600 hidden" role="alert"></p>
+          <p
+            id={errId("phone")}
+            class="error-msg phoneError mt-1 text-sm text-red-600 hidden"
+            role="alert"
+          >
+          </p>
         </div>
 
-        {type === "test" && (
-          <>
-            <div>
-              <Input
-                label="Артикул(ы) масла:"
-                type="text"
-                name="articles"
-                placeholder="Например: 3101, 3111"
-                required
-                errorId={errId('articles')}
-              />
-              {/* Класс articlesError — исправлен с oilArticleError, чтобы совпадал с ключом validation.js */}
-              <p id={errId('articles')} class="error-msg articlesError mt-1 text-sm text-red-600 hidden" role="alert"></p>
-            </div>
+        {
+          type === "test" && (
+            <>
+              <div>
+                <Input
+                  label="Артикул(ы) масла:"
+                  type="text"
+                  name="articles"
+                  placeholder="Например: 3101, 3111"
+                  required
+                  errorId={errId("articles")}
+                />
+                {/* Класс articlesError — исправлен с oilArticleError, чтобы совпадал с ключом validation.js */}
+                <p
+                  id={errId("articles")}
+                  class="error-msg articlesError mt-1 text-sm text-red-600 hidden"
+                  role="alert"
+                />
+              </div>
 
-            <div>
-              <Input
-                label="Сорт дерева:"
-                type="text"
-                name="wood_sort"
-                placeholder="Например: Лиственница"
-                required
-                errorId={errId('wood_sort')}
-              />
-              <p id={errId('wood_sort')} class="error-msg wood_sortError mt-1 text-sm text-red-600 hidden" role="alert"></p>
-            </div>
-          </>
-        )}
+              <div>
+                <Input
+                  label="Сорт дерева:"
+                  type="text"
+                  name="wood_sort"
+                  placeholder="Например: Лиственница"
+                  required
+                  errorId={errId("wood_sort")}
+                />
+                <p
+                  id={errId("wood_sort")}
+                  class="error-msg wood_sortError mt-1 text-sm text-red-600 hidden"
+                  role="alert"
+                />
+              </div>
+            </>
+          )
+        }
 
-        {type === "calc" && (
-          <>
-            <div>
-              <Input
-                label="Площадь обработки (м²):"
-                type="text"
-                name="area"
-                placeholder="Например: 50"
-                required
-                errorId={errId('area')}
-              />
-              {/* Класс areaError — исправлен с treatmentAreaError */}
-              <p id={errId('area')} class="error-msg areaError mt-1 text-sm text-red-600 hidden" role="alert"></p>
-            </div>
+        {
+          type === "calc" && (
+            <>
+              <div>
+                <Input
+                  label="Площадь обработки (м²):"
+                  type="text"
+                  name="area"
+                  placeholder="Например: 50"
+                  required
+                  errorId={errId("area")}
+                />
+                {/* Класс areaError — исправлен с treatmentAreaError */}
+                <p
+                  id={errId("area")}
+                  class="error-msg areaError mt-1 text-sm text-red-600 hidden"
+                  role="alert"
+                />
+              </div>
 
-            <div>
-              <Input
-                label="Артикул масла (необязательно):"
-                type="text"
-                name="article"
-                placeholder="Например: 3101"
-                errorId={errId('article')}
-              />
-              <p id={errId('article')} class="error-msg articleError mt-1 text-sm text-red-600 hidden" role="alert"></p>
-            </div>
-          </>
-        )}
+              <div>
+                <Input
+                  label="Артикул масла (необязательно):"
+                  type="text"
+                  name="article"
+                  placeholder="Например: 3101"
+                  errorId={errId("article")}
+                />
+                <p
+                  id={errId("article")}
+                  class="error-msg articleError mt-1 text-sm text-red-600 hidden"
+                  role="alert"
+                />
+              </div>
+            </>
+          )
+        }
       </div>
 
       {/* Согласие */}
@@ -148,14 +182,14 @@ const errId = (field: string) => `${formId}-${field}-error`;
             type="checkbox"
             name="consent"
             required
-            errorId={errId('consent')}
+            errorId={errId("consent")}
           />
 
           <label
             for={consentId}
             class="text-xs xs:text-sm text-foreground/90 leading-relaxed cursor-pointer"
           >
-            Отправляя заявку, вы подтверждаете что ознакомлены 
+            Я ознакомлен(а) с
             <a
               rel="noopener noreferrer"
               target="_blank"
@@ -165,7 +199,7 @@ const errId = (field: string) => `${formId}-${field}-error`;
             >
               с политикой конфиденциальности
             </a>{" "}
-            и даёте{" "}
+            и даю{" "}
             <a
               rel="noopener noreferrer"
               target="_blank"
@@ -175,11 +209,15 @@ const errId = (field: string) => `${formId}-${field}-error`;
             >
               согласие на обработку персональных данных
             </a>{" "}
-            согласно Федерального закона "О персональных данных" от 27.07.2006 N 152-ФЗ
           </label>
         </div>
 
-        <p id={errId('consent')} class="error-msg consentError mt-1 text-sm text-red-600 ml-6 hidden" role="alert"></p>
+        <p
+          id={errId("consent")}
+          class="error-msg consentError mt-1 text-sm text-red-600 ml-6 hidden"
+          role="alert"
+        >
+        </p>
 
         {/* Кнопка */}
         <div class="mt-6 flex justify-center w-full">

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { Font } from 'astro:assets';
+import CookieBanner from '../components/CookieBanner.astro';
 
 interface Props {
   pageDescription: string;
@@ -90,11 +91,18 @@ const businessSchema = {
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
 
+    <!-- Yandex Metrika counter ID — script loads only after cookie consent -->
+    <script is:inline>
+      // TODO: Replace with your real Yandex Metrika counter ID
+      window.__YM_COUNTER_ID = null;
+    </script>
+
     <Font cssVariable="--font-manrope" preload />
     <Font cssVariable="--font-inter" preload />
   </head>
 
   <body class="bg-html mx-auto font-manrope text-white" ontouchstart="">
     <slot />
+    <CookieBanner />
   </body>
 </html>

@@ -1,7 +1,7 @@
 ---
-import type { HTMLAttributes } from 'astro/types'
+import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<'input'> {
+interface Props extends HTMLAttributes<"input"> {
   label?: string;
   error?: string;
   id?: string;
@@ -19,50 +19,55 @@ const {
   autocomplete,
   errorId,
   ...rest
-} = Astro.props
+} = Astro.props;
 
-const inputId = id ?? `${name ?? 'input'}-${Math.random().toString(36).slice(2, 8)}`
+const inputId =
+  id ?? `${name ?? "input"}-${Math.random().toString(36).slice(2, 8)}`;
 
 const base = `bg-html text-foreground focus:ring-0 focus:border-transparent
               placeholder:text-foreground/50 focus:outline-none 
-              transition-all duration-300 placeholder:text-sm`
+              transition-all duration-300 placeholder:text-sm`;
 
 const inputStyles = `
-  ${type == "checkbox" && "custom-checkbox checked:bg-emerald-500 border border-html group-hover:border-nav/50 focus:border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}
+  ${type == "checkbox" && "custom-checkbox checked:bg-[#6a8f5a] border border-html group-hover:border-nav/50 focus:border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}
   ${type != "checkbox" && "w-full px-4 py-2 border border-html group-hover:border-nav/50 focus:border-nav/50 rounded-2xl"}
-`
+`;
 
-const labelStyles = `block text-md font-semibold text-foreground mb-2 pl-4`
+const labelStyles = `block text-md font-semibold text-foreground mb-2 pl-4`;
 
-const classes = `${base} ${inputStyles}`
+const classes = `${base} ${inputStyles}`;
 ---
 
-{label && type !== "checkbox" && (
-  <label for={inputId} class={labelStyles}>
-    {label}
-  </label>
-)}
+{
+  label && type !== "checkbox" && (
+    <label for={inputId} class={labelStyles}>
+      {label}
+    </label>
+  )
+}
 
-{type === "checkbox" ? (
-  <input
-    id={inputId}
-    type={type}
-    name={name}
-    required={required ?? undefined}
-    aria-describedby={errorId ?? undefined}
-    class={classes}
-    {...rest}
-  />
-) : (
-  <input
-    id={inputId}
-    type={type}
-    autocomplete={autocomplete}
-    name={name}
-    placeholder={placeholder}
-    required={required ?? undefined}
-    aria-describedby={errorId ?? undefined}
-    class={classes}
-    {...rest}
-  />
-)}
+{
+  type === "checkbox" ? (
+    <input
+      id={inputId}
+      type={type}
+      name={name}
+      required={required ?? undefined}
+      aria-describedby={errorId ?? undefined}
+      class={classes}
+      {...rest}
+    />
+  ) : (
+    <input
+      id={inputId}
+      type={type}
+      autocomplete={autocomplete}
+      name={name}
+      placeholder={placeholder}
+      required={required ?? undefined}
+      aria-describedby={errorId ?? undefined}
+      class={classes}
+      {...rest}
+    />
+  )
+}
