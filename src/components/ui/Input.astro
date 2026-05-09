@@ -24,13 +24,13 @@ const {
 const inputId =
   id ?? `${name ?? "input"}-${Math.random().toString(36).slice(2, 8)}`;
 
-const base = `bg-html text-foreground focus:ring-0 focus:border-transparent
+const base = `bg-html text-foreground
               placeholder:text-foreground/50 focus:outline-none 
               transition-all duration-300 placeholder:text-sm`;
 
 const inputStyles = `
-  ${type == "checkbox" && "custom-checkbox checked:bg-[#6a8f5a] border border-html group-hover:border-nav/50 focus:border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}
-  ${type != "checkbox" && "w-full px-4 py-2 border border-html group-hover:border-nav/50 focus:border-nav/50 rounded-2xl"}
+  ${type == "checkbox" && "custom-checkbox cursor-pointer checked:bg-emerald-600 border border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}
+  ${type != "checkbox" && "w-full px-4 py-2 border border-html border-nav/50 rounded-2xl"}
 `;
 
 const labelStyles = `block text-md font-semibold text-foreground mb-2 pl-4`;

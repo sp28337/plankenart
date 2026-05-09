@@ -95,18 +95,6 @@
   background-clip: text;
 }
 
-
-@utility text-gradient-success {
-  background-image: linear-gradient(
-    to bottom,
-    var(--color-emerald-700),
-    var(--color-emerald-200)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 @utility number-gradient {
   background-image: linear-gradient(
     to bottom,

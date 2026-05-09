@@ -1,0 +1,19 @@
+---
+import FeedbackForm from "@components/FeedbackForm.astro";
+import Heading from "@components/ui/Heading.astro";
+---
+<section
+  id="contact"
+  class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+>
+  <Heading variant="h2" id="contact-heading" title="Обратная связь" />
+  <p class="text-foreground/70 text-sm md:text-[1.05rem] leading-relaxed w-2/3 text-center reveal">
+    Сообщите площадь обработки, породу и артикул масла — расчёт пришлём за несколько часов. Если с артикулом не определились, поможем выбрать.
+  </p>
+  <div
+    class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-7xl mx-auto items-stretch"
+  >
+    <FeedbackForm type="test" />
+    <FeedbackForm type="calc" />
+  </div>
+</section>
