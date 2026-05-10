@@ -237,3 +237,8 @@
     @apply outline-none ring-0 border-transparent;
   }
 }
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+}

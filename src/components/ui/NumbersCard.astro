@@ -16,7 +16,7 @@ const { number, sign, text } = Astro.props;
   <dt class="">
     <span
       class:list={[
-        "text-gradient text-[clamp(3rem,3.5vw,4rem)] flex items-center",
+        "text-amber-fade text-[clamp(3rem,3.5vw,4rem)] flex items-center",
         sign == "+" && "after:content-['+']  after:text-[70%]",
         sign == "%" && "after:content-['%']  after:text-[70%] after:font-sans",
         sign == ">" && "before:content-['>'] before:text-[60%] ",
@@ -28,7 +28,7 @@ const { number, sign, text } = Astro.props;
     </span>
   </dt>
 
-  <dd class="text-gradient text-center text-[clamp(1rem,1.5vw,2rem)]">
+  <dd class="text-amber-fade text-center text-[clamp(1rem,1.5vw,2rem)]">
     {text}
   </dd>
 </div>

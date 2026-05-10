@@ -60,8 +60,8 @@ const objects = defineCollection({
   }),
 });
 
-const documents = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/documents" }),
+const legal = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/legal" }),
   schema: z.object({
     title:           z.string(),
     slug:            z.string(),
@@ -99,5 +99,5 @@ export const collections = {
   materials,
   objects,
   oils,
-  documents,
+  legal,
 };

@@ -8,34 +8,15 @@ const links = footerLinks;
 
 <footer
   class="bg-footer w-full h-fit relative z-97
-pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
+           pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
 >
   <div
     class="max-w-7xl flex flex-col gap-4 sm:gap-6 mx-auto px-4 2xl:px-0 pt-4 text-sm font-medium"
   >
     <div
-      class="grid grid-cols-1 grid-rows-4 sm:grid-cols-2 sm:grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-10 sm:gap-30"
+      class="flex flex-wrap  gap-8"
     >
-      <section id="footer-nav" class="flex flex-col gap-3">
-        <h2 class="font-inter font-bold text-lg">Навигация</h2>
-        <ul class="flex flex-col gap-2">
-          {
-            links.map(({ href, label }) => (
-              <li>
-                <a
-                  href={href}
-                  class="flex gap-4 items-center w-full rounded-2xl group 
-        transition-all duration-300 opacity-70 hover:opacity-100"
-                >
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section id="contacts" class="flex flex-col gap-3">
+      <section id="contacts" class="flex flex-col gap-3 min-w-62.5">
         <h2 class="font-inter font-bold text-lg">Контакты</h2>
         <div class="flex flex-col gap-2">
           <a
@@ -87,23 +68,23 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
         </div>
       </section>
 
-      <section id="documents" class="flex flex-col gap-3">
+      <section id="legal" class="flex flex-col gap-3 min-w-62.5">
         <h2 class="font-inter font-bold text-lg">Документы</h2>
         <div class="flex flex-col gap-2">
           <a
-            href="/documents/privacy-policy"
+            href="/legal/privacy-policy"
             class="hover:opacity-100 opacity-70 transition-opacity duration-300"
           >
             Политика конфиденциальности
           </a>
           <a
-            href="/documents/user-agreement"
+            href="/legal/user-agreement"
             class="hover:opacity-100 opacity-70 transition-opacity duration-300"
           >
             Пользовательское соглашение
           </a>
           <a
-            href="/documents/consent"
+            href="/legal/consent"
             class="hover:opacity-100 opacity-70 transition-opacity duration-300"
           >
             Согласие на обработку ПД
@@ -117,10 +98,29 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
         </div>
       </section>
 
+      <section id="footer-nav" class="flex flex-col gap-3 min-w-62.5">
+        <h2 class="font-inter font-bold text-lg">Навигация</h2>
+        <ul class="flex flex-col gap-2">
+          {
+            links.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class="flex gap-4 items-center w-full rounded-2xl group 
+        transition-all duration-300 opacity-70 hover:opacity-100"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
       <a
         href="#top"
         id="footer-logo-link"
-        class="flex items-center justify-center active:-translate-y-4 transition-all duration-300"
+        class="flex items-center flex-1 justify-center sm:justify-start md:justify-center active:-translate-y-4 transition-all duration-300 p-4 min-w-40"
       >
         <Picture
           src={logo}
@@ -131,27 +131,27 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
         />
       </a>
     </div>
-    <hr class="border-line" />
-    <div
-      class="text-[12px] text-center flex flex-col gap-3
-    sm:justify-between sm:flex-row-reverse sm:text-sm"
-    >
-      {
+    <hr class="border-html/10" />
+    {
+      // <div
+      //   class="text-[12px] text-center flex flex-col gap-3
+      // sm:justify-between sm:flex-row-reverse sm:text-sm"
+      // >
         // <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:justify-end">
         // <a
-        //   href="/documents/privacy-policy"
+        //   href="/legal/privacy-policy"
         //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
         // >
         //   Политика конфиденциальности
         // </a>
         // <a
-        //   href="/documents/user-agreement"
+        //   href="/legal/user-agreement"
         //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
         // >
         //   Пользовательское соглашение
         // </a>
         // <a
-        //   href="/documents/consent"
+        //   href="/legal/consent"
         //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
         // >
         //   Согласие на обработку ПД
@@ -163,9 +163,9 @@ pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
         //   Настройки cookie
         // </button>
         // </div>
+      // </div>
       }
-      <p>© {new Date().getFullYear()} ПланкенАрт</p>
-    </div>
+    <p class="opacity-50 text-center">© {new Date().getFullYear()} ПланкенАрт</p>
   </div>
 </footer>
 <script>

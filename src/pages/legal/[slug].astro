@@ -3,7 +3,7 @@ import { getCollection, render } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const docs = await getCollection("documents");
+  const docs = await getCollection("legal");
   return docs.map((doc) => ({
     params: { slug: doc.data.slug },
     props: { doc },
@@ -30,7 +30,7 @@ const formattedDate = new Date(doc.data.lastUpdated).toLocaleDateString(
   <section class="px-4 lg:px-6 py-12 md:py-16 lg:py-20 min-h-screen">
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
-      <header class="mb-10 md:mb-14 mt-4 sm:mt-8 lg:mt-12">
+      <header class="mb-10 md:mb-14 mt-16 md:mt-12 text-center">
         {
           // <a
           //   href="/"
@@ -69,10 +69,10 @@ const formattedDate = new Date(doc.data.lastUpdated).toLocaleDateString(
         prose-ul:my-3 prose-ul:pl-6
         prose-li:my-1 prose-li:text-sm prose-li:md:text-base
         prose-strong:text-foreground prose-strong:font-semibold
-        prose-a:text-text-gradient-top prose-a:underline
-        prose-a:underline-offset-2 prose-a:decoration-text-gradient-top/30
-        hover:prose-a:decoration-text-gradient-top
-        prose-hr:border-border/30 prose-hr:my-8"
+        prose-a:text-amber-fade prose-a:underline
+        prose-a:underline-offset-2 prose-a:decoration-text-amber-fade/30
+        hover:prose-a:decoration-text-amber-fade
+        prose-hr:border-border/30 prose-hr:my-8 prose-table:overflow-auto"
       >
         <Content />
       </article>
@@ -82,19 +82,19 @@ const formattedDate = new Date(doc.data.lastUpdated).toLocaleDateString(
         class="mt-14 pt-8 border-t border-border/30 flex flex-col sm:flex-row gap-4 sm:gap-6"
       >
         <a
-          href="/documents/privacy-policy"
+          href="/legal/privacy-policy"
           class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
         >
           Политика конфиденциальности
         </a>
         <a
-          href="/documents/user-agreement"
+          href="/legal/user-agreement"
           class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
         >
           Пользовательское соглашение
         </a>
         <a
-          href="/documents/consent"
+          href="/legal/consent"
           class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
         >
           Согласие на обработку ПД
