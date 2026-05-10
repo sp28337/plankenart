@@ -50,7 +50,7 @@ const isArray = Array.isArray(title);
       <div class={wrapperClasses}>
         <h1
           class="tracking-tighter text-[clamp(1.7rem,4.5vw,3.2rem)] font-bold
-              leading-6 sm:leading-8 md:leading-10 lg:leading-12"
+              leading-6 sm:leading-8 md:leading-10 lg:leading-14"
         >
           {
             isArray && title.length === 2 ? (
@@ -87,34 +87,34 @@ const isArray = Array.isArray(title);
           )
         }
       </div>
-      <div class="w-full flex flex-col gap-1 xl:w-auto 2xl:mr-25">
+      <div class="w-full flex flex-col gap-1 xl:w-auto 2xl:mr-25 bg-nav p-1 rounded-3xl backdrop-blur-xl">
         <a
           href="tel:+79525433716"
           aria-label="Позвоните нам по номеру +79525433716"
           rel="noopener noreferrer"
           class="w-full lg:max-w-190 xl:w-auto flex justify-center items-center group shadow-md
-                 transition-colors duration-300 gap-4 rounded-t-[20px] rounded-b-md h-12.5
-                 bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:text-amber-fade
-                 active:scale-98 border-4 border-nav/50 hover:border-4 hover:border-html"
+                 transition-colors duration-300 gap-4 rounded-[20px] h-12.5 hover:bg-btn
+                 bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:text-html
+                 active:scale-98"
         >
           <Phone
             stroke-width={2.5}
-            class="text-nav group-hover:text-amber-fade transition-all duration-300 group-hover:scale-110"
+            class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
           />
-          <span class="font-bold">+7 (952) 543 37 16</span>
+          <span class="font-bold text-xl">+7 (952) 543 37 16</span>
         </a>
         <div class="flex gap-1 lg:max-w-190">
           <button
             data-modal-open="modal-test"
             tabindex={0}
-            class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-amber-fade
-                 transition-colors duration-300 gap-4 rounded-bl-[20px] rounded-tl-md rounded-tr-sm h-12.5 group
-                 bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl rounded-br-sm hover:border-html
-                 active:scale-98 font-bold border-4 border-nav/50 hover:border-4 cursor-pointer shadow-md"
+            class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-html
+                 transition-colors duration-300 gap-4 rounded-[20px] h-12.5 group
+                 bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:bg-btn
+                 active:scale-98 font-bold cursor-pointer shadow-md"
           >
             <Paintbrush
               stroke-width={2.5}
-              class="text-nav group-hover:text-amber-fade transition-all duration-300 group-hover:scale-110"
+              class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
             />
             <div class="flex gap-2">
               <span class="hidden xs:block"> Заказать </span>
@@ -124,14 +124,14 @@ const isArray = Array.isArray(title);
           <button
             data-modal-open="modal-calc"
             tabindex={0}
-            class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-amber-fade
-                  transition-colors duration-300 gap-4 rounded-br-[20px] rounded-tr-md rounded-tl-sm h-12.5 group
-                  bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl rounded-bl-sm hover:border-html
-                  active:scale-98 font-bold border-4 border-nav/50 hover:border-4 cursor-pointer shadow-md"
+            class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-html
+                  transition-colors duration-300 gap-4 rounded-[20px] h-12.5 group
+                  bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:bg-btn
+                  active:scale-98 font-bold cursor-pointer shadow-md"
           >
             <DraftingCompass
               stroke-width={2.5}
-              class="text-nav group-hover:text-amber-fade transition-all duration-300 group-hover:scale-110"
+              class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
             />
             <div class="flex gap-2">
               <span class="hidden xs:block"> Заказать </span>
