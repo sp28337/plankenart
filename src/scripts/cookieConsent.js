@@ -66,7 +66,7 @@ function loadYandexMetrika() {
   window._ymLoaded = true;
 
   // Replace YOUR_COUNTER_ID with real Yandex Metrika counter ID
-  const COUNTER_ID = 109130750 // window.__YM_COUNTER_ID;
+  const COUNTER_ID = window.__YM_COUNTER_ID;
   if (!COUNTER_ID) return;
 
   (function (m, e, t, r, i, k, a) {

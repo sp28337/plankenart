@@ -113,7 +113,6 @@ const errId = (field: string) => `${formId}-${field}-error`;
                     required
                     errorId={errId("articles")}
                   />
-                  {/* Класс articlesError — исправлен с oilArticleError, чтобы совпадал с ключом validation.js */}
                   <p
                     id={errId("articles")}
                     class="error-msg articlesError mt-1 text-sm text-red-600 hidden"
@@ -152,7 +151,6 @@ const errId = (field: string) => `${formId}-${field}-error`;
                     required
                     errorId={errId("area")}
                   />
-                  {/* Класс areaError — исправлен с treatmentAreaError */}
                   <p
                     id={errId("area")}
                     class="error-msg areaError mt-1 text-sm text-red-600 hidden"

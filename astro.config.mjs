@@ -20,8 +20,7 @@ export default defineConfig({
       }
   },
 
-  // site: 'https://plankenart.ru',
-  site: 'https://plankenart.sp28337.site',
+  site: 'https://plankenart.ru',
 
   integrations: [
       sitemap(), 

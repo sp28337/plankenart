@@ -10,7 +10,7 @@ const { oil } = Astro.props;
 const isExterior = oil.data.category === "exterior";
 ---
 
-<a href={`/oils/${oil.id}`}>
+<a href={`/oils/${oil.id}/`}>
   <article
     class="relative flex flex-col gap-4 duration-300 translate-all
            border border-nav/20 hover:border-nav/70 rounded-[17px]

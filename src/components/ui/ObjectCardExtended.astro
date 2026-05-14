@@ -29,7 +29,7 @@ const { object, variant = "default" } = Astro.props;
     .join(" ")}
 >
   <a
-    href={`/objects/${object.id}`}
+    href={`/objects/${object.id}/`}
     class:list={[variant === "default" && "", "flex flex-col gap-2"]}
   >
     <div class="relative flex-1">

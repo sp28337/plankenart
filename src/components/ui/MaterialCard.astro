@@ -21,7 +21,7 @@ const { material } = Astro.props;
   data-wood={tagsDictionary[material.data.woodType]}
   data-material={tagsDictionary[material.data.materialType]}
 >
-  <a href={`/materials/${material.id}`} class="flex flex-col h-full group">
+  <a href={`/materials/${material.id}/`} class="flex flex-col h-full group">
     <div class="flex items-center justify-center">
       <Image
         src={material.data.coverImage}
