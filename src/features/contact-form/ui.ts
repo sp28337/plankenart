@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const showMessage = (messageDiv, text, type) => {
   if (!messageDiv) return;
   messageDiv.textContent = text

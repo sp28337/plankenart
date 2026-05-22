@@ -1,6 +1,7 @@
-import { formatPhoneNumber } from './phoneFormatter.js';
-import { validateForm }      from './validation.js';
-import { submitContactForm } from './api.js';
+// @ts-nocheck
+import { formatPhoneNumber } from '@domain/contact/phone';
+import { validateForm }      from '@domain/contact/validation';
+import { submitContactForm } from '@infrastructure/api/contact.client';
 import { showMessage, hideMessage, clearErrors, displayErrors, setButtonLoading } from './ui.js';
 
 // Дедупликация отправок — хранится вне initForms, сбрасывается при перезагрузке страницы

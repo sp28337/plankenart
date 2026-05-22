@@ -3,8 +3,8 @@ import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import Fence from "@assets/svg/fence.svg";
 import Trees from "@assets/svg/trees.svg";
-import { tagsDictionary } from "../../lib/mappers";
-import { tagsTitleDictionary } from "../../lib/titleMappers";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import { tagsTitleDictionary } from "@domain/tags/dictionary";
 
 interface Props {
   material: CollectionEntry<"materials">;

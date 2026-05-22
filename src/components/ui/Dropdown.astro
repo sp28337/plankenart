@@ -3,8 +3,8 @@ import { getCollection } from "astro:content";
 import X from "@assets/svg/x.svg";
 import ChevronDown from "@assets/svg/chevron-down.svg";
 import type { SvgComponent } from "astro/types";
-import { tagsDictionary } from "../../lib/mappers";
-import { tagsTitleDictionary } from "../../lib/titleMappers";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import { tagsTitleDictionary } from "@domain/tags/dictionary";
 
 interface Props {
   collection: "objectType" | "woodTypes" | "materialTypes";

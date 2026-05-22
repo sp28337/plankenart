@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Tag from "./Tag.astro";
-import { tagsDictionary } from "../../lib/mappers";
+import { tagsDictionary } from "@domain/tags/dictionary";
 import Heading from "./Heading.astro";
 
 const allMaterials = await getCollection("materials");

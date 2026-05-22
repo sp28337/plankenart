@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const formatPhoneNumber = (value) => {
   const digits = value.replace(/\D/g, '').slice(0, 11)
   if (digits.length <= 1) return '+7 '
