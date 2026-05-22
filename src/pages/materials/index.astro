@@ -1,0 +1,92 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import heroImg from "@assets/objects/banya-norvezhskiy-zamok/17.jpg";
+import heroImgMobile from "@assets/objects/banya-norvezhskiy-zamok/17.jpg";
+import FilterOverlay from "@components/catalog/filters/FilterOverlay.astro";
+import MaterialsFilter from "@components/catalog/filters/MaterialsFilter.astro";
+import { getCollection } from "astro:content";
+import MaterialCard from "@components/catalog/cards/MaterialCard.astro";
+import ElementsNotFound from "@components/layout/ElementsNotFound.astro";
+
+const allMaterials = await getCollection("materials");
+---
+
+<Layout
+  pageTitle="Материалы и изделия из дерева"
+  pageDescription="Информационный раздел по породам древесины и видам изделий. Помогаем
+    разобраться в материалах для качественной отделки вашего дома."
+  ogImg={heroImg.src}
+>
+  <FilterOverlay />
+  <Hero
+    title="Материалы"
+    excerpt="Информационный раздел по породам древесины и видам изделий. Помогаем
+    разобраться в материалах для качественной отделки вашего дома."
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-8">
+    <MaterialsFilter />
+
+    <div
+      class="mx-auto max-w-7xl p-1 md:p-1.5 border reveal
+              border-nav/20 rounded-[20px] lg:rounded-[25px] mt-2.5"
+    >
+      <div
+        id="grid"
+        class="grid gap-2
+                grid-cols-2
+                sm:grid-cols-3
+                md:grid-cols-4
+                lg:grid-cols-5"
+      >
+        {allMaterials.map((m) => <MaterialCard material={m} />)}
+      </div>
+      <ElementsNotFound />
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { setupOverlay, setupCatalogFilter } from "@features/catalog-filter/dropdown";
+
+  const { initDropdown } = setupOverlay("filter-overlay");
+
+  const woodDD = initDropdown(
+    "wood-btn",
+    "wood-panel",
+    "filter-wood",
+    "wood-label",
+    "wood-chevron",
+    "wood",
+  );
+  const materialDD = initDropdown(
+    "material-btn",
+    "material-panel",
+    "filter-material",
+    "material-label",
+    "material-chevron",
+    "material",
+  );
+
+  setupCatalogFilter({
+    gridId: "grid",
+    emptyId: "empty",
+    cardSelector: ".material-card",
+    dropdowns: [
+      {
+        handle: woodDD,
+        inputId: "filter-wood",
+        paramKey: "wood",
+        dataAttr: "wood",
+      },
+      {
+        handle: materialDD,
+        inputId: "filter-material",
+        paramKey: "material",
+        dataAttr: "material",
+      },
+    ],
+  });
+</script>

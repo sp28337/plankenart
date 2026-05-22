@@ -1,0 +1,86 @@
+---
+import Button from "@components/common/Button.astro";
+import plankenPL from "@assets/materials/planken-listvennitsa.png";
+import plankenKL from "@assets/materials/planken-kosoy-listvennitsa.png";
+import palubnayaL from "@assets/materials/palubnaya-listvennitsa.png";
+import brusL from "@assets/materials/brus-imitation-termoyasen.png";
+import shtilS from "@assets/materials/shtil-sosna.png";
+import terrasnayaT from "@assets/materials/terrasnaya-termoyasen.png";
+import brus from "@assets/materials/kleenyy-brus-sosna.png";
+import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
+
+import H2 from "@components/common/H2.astro";
+
+const row_1 = [
+  {
+    href: "/materials?material=planken-straight",
+    img: plankenPL,
+    title: "Планкен прямой",
+  },
+  {
+    href: "/materials?material=planken-angled",
+    img: plankenKL,
+    title: "Планкен скошенный",
+  },
+  {
+    href: "/materials?material=deck-board",
+    img: palubnayaL,
+    title: "Палубная доска",
+  },
+];
+const row_2 = [
+  {
+    href: "/materials?material=terrace-board",
+    img: terrasnayaT,
+    title: "Террасная доска",
+  },
+  {
+    href: "/materials?material=lining-shtil",
+    img: shtilS,
+    title: "Вагонка штиль",
+  },
+  {
+    href: "/materials?material=timber-imitation",
+    img: brusL,
+    title: "Имитация бруса",
+  },
+];
+---
+
+<section
+  aria-labelledby="materials-heading"
+  class="flex flex-col gap-6 md:gap-10 lg:gap-14 justify-between items-center max-w-7xl w-full"
+>
+  <H2 id="materials-heading" title="Материалы" />
+  <p class="text-foreground/70 text-center max-w-2xl -mt-4 mb-4 reveal">
+    Информационный раздел по породам древесины и видам изделий. Помогаем
+    разобраться в материалах для качественной отделки вашего дома.
+  </p>
+  <div class="flex flex-col gap-4 w-full">
+    <div class="flex flex-col gap-4 sm:flex-row lg:flex-col">
+      <div class="flex flex-col gap-4 lg:flex-row w-full">
+        {
+          row_1.map(({ href, img, title }) => (
+            <MaterialCardSmall route={href} img={img} title={title} />
+          ))
+        }
+      </div>
+      <div class="flex flex-col gap-4 lg:flex-row w-full">
+        {
+          row_2.map(({ href, img, title }) => (
+            <MaterialCardSmall route={href} img={img} title={title} />
+          ))
+        }
+      </div>
+    </div>
+    <div class="flex flex-col gap-4 sm:flex-row justify-center">
+      <MaterialCardSmall
+        variant="decor"
+        route="/materials?type=kleenyy-brus-sosna"
+        img={brus}
+        title="Клееный брус"
+      />
+      <Button href="/materials" title="все материалы" variant="catalog" />
+    </div>
+  </div>
+</section>

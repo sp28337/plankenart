@@ -1,12 +1,33 @@
 ---
-import '../styles/global.css';
 import BaseLayout from './BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FormModal from '../components/contact/FormModal.astro';
 
-const { pageTitle, pageDescription } = Astro.props;
+interface Props {
+  pageTitle: string;
+  pageDescription: string;
+  ogImg?: string;
+}
+
+const { 
+  pageTitle,
+  pageDescription,
+  ogImg,
+} = Astro.props;
 ---
 <BaseLayout
   pageTitle={pageTitle}
   pageDescription={pageDescription}
+  ogImg={ogImg}
 >
-  <slot />
+	<Header/>
+	<main class="w-full" id="top">
+    <slot />
+	</main>
+  <Footer/>
+  <FormModal />
 </BaseLayout>
+<script>
+  import "@features/animations/reveal"
+</script>

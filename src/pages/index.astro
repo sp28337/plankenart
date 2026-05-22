@@ -1,12 +1,46 @@
 ---
-import '../styles/global.css';
-import Layout from '../layouts/Layout.astro';
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import Feedback from "@components/sections/Feedback.astro";
+import AboutBlock from "@components/sections/AboutBlock.astro";
+import MaterialsBlock from "@components/sections/MaterialsBlock.astro";
+import ServiceBlock from "@components/sections/Services.astro";
+import heroImg from "@assets/objects/naves-barbekyu-zona/hero.jpg";
+import heroImgMobile from "@assets/objects/naves-barbekyu-zona/hero-mobile.jpg";
+import FAQ from "@components/sections/FAQ.astro";
+import NumbersBlock from "@components/sections/NumbersBlock.astro";
+import ObjectsBlock from "@components/sections/ObjectsBlock.astro";
+import OilsBlock from "@components/sections/OilsBlock.astro";
+import DiscountSlider from "@components/sections/DiscountSlider.astro";
+import PartnersBlock from "@components/sections/PartnersBlock.astro";
+import WorkSteps from "@components/sections/WorkSteps.astro";
 ---
 
 <Layout
-	pageTitle="Обработка погонажных изделий различных пород древесины под ключ"
-  pageDescription="Шлифовка древесины на проф-оборудовании, защита натуральными составами — масло, лазурь, краска"
+  pageTitle="Профессиональная шлифовка и покрытие маслом OSMO в Нижнем Новгороде"
+  pageDescription="Восстанавливаем фасады, террасы и другие деревянные поверхности в Нижнем Новгороде. Защита, долговечность и премиальный результат."
 >
-	<div>
-	</div>
+  <Hero
+    title={"Профессиональная шлифовка и покрытие маслом OSMO"}
+    excerpt={"Восстанавливаем и защищаем деревянные фасады, террасы в Нижнем Новгороде"}
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-8">
+    <div
+      class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22"
+    >
+      <AboutBlock />
+      <NumbersBlock />
+      <WorkSteps short={true}/>
+      <ServiceBlock />
+      <ObjectsBlock />
+      <MaterialsBlock />
+      <OilsBlock />
+      <Feedback />
+      <DiscountSlider />
+      <FAQ />
+      <PartnersBlock />
+    </div>
+  </div>
 </Layout>

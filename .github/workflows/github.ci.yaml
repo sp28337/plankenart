@@ -1,0 +1,167 @@
+name: CI Planken Art
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 10
+
+      - name: Install Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Создаём .env для DEV
+      - name: Create .env file for DEV
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          cat > .env << EOF
+          API_BASE_URL=${{ secrets.API_DEV_URL }}
+          NOTIFY_TEST_PATH=${{ secrets.NOTIFY_TEST_PATH }}
+          NOTIFY_CALC_PATH=${{ secrets.NOTIFY_CALC_PATH }}
+          EOF
+          echo "✅ .env for DEV created"
+
+      # Создаём .env для PROD
+      - name: Create .env file for PROD
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cat > .env << EOF
+          API_BASE_URL=${{ secrets.API_PROD_URL }}
+          NOTIFY_TEST_PATH=${{ secrets.NOTIFY_TEST_PATH }}
+          NOTIFY_CALC_PATH=${{ secrets.NOTIFY_CALC_PATH }}
+          EOF
+          echo "✅ .env for PROD created"
+
+      - name: Cache Astro build
+        uses: actions/cache@v5
+        with:
+          path: |
+            .astro
+            node_modules/.cache
+          key: astro-${{ runner.os }}-${{ hashFiles('src/content/**', 'astro.config.mjs', 'package.json', 'pnpm-lock.yaml') }}
+          restore-keys: |
+            astro-${{ runner.os }}-
+
+      - name: Build Astro project
+        run: pnpm build
+        env:
+          PUBLIC_ROBOTS_POLICY: ${{ github.ref == 'refs/heads/main' && 'allow' || 'disallow' }}
+
+      - name: Check dist size
+        run: du -sh dist
+
+      # ─── DEV DEPLOY ─────────────────────────────────────────────
+
+      - name: Deploy to DEV via rsync
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          echo "${{ secrets.DEV_SSH_PRIVATE_KEY }}" > key.pem
+          chmod 600 key.pem
+
+          rsync -avz --delete \
+            -e "ssh -i key.pem -p ${{ secrets.DEV_PORT }} -o StrictHostKeyChecking=no" \
+            dist/ \
+            ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }}:/var/sp28337/plankenart/dist/
+
+          ssh -i key.pem -p ${{ secrets.DEV_PORT }} -o StrictHostKeyChecking=no \
+            ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} << 'EOF'
+              set -euo pipefail
+
+              DEPLOY_DIR="/var/sp28337/plankenart"
+              BACKUP_DIR="/var/sp28337/backups"
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+              sudo mkdir -p "$BACKUP_DIR"
+
+              if [ -d "$DEPLOY_DIR/dist" ]; then
+                sudo cp -r "$DEPLOY_DIR/dist" "$BACKUP_DIR/dist_$TIMESTAMP"
+              fi
+
+              ls -dt "$BACKUP_DIR"/dist_* 2>/dev/null | tail -n +4 | xargs sudo rm -rf || true
+
+              sudo chmod -R 755 "$DEPLOY_DIR/dist"
+              sudo chown -R sp28337:sp28337 "$DEPLOY_DIR/dist"
+
+              sudo nginx -t
+              sudo systemctl reload nginx
+              sudo systemctl restart plankenart
+              
+              sleep 3
+              systemctl is-active --quiet plankenart || exit 1
+              
+              echo "✅ DEV deployed at $TIMESTAMP"
+          EOF
+
+          rm -f key.pem
+
+      # ─── PROD DEPLOY ────────────────────────────────────────────
+
+      - name: Deploy to PROD via rsync
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.PROD_SSH_PRIVATE_KEY }}" > key.pem
+          chmod 600 key.pem
+
+          rsync -avz --delete \
+            -e "ssh -i key.pem -p ${{ secrets.PROD_PORT }} -o StrictHostKeyChecking=no" \
+            dist/ \
+            ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }}:/var/www/plankenart/dist/
+
+          ssh -i key.pem -p ${{ secrets.PROD_PORT }} -o StrictHostKeyChecking=no \
+            ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }} << 'EOF'
+              set -euo pipefail
+
+              DEPLOY_DIR="/var/www/plankenart"
+              BACKUP_DIR="/var/www/backups/plankenart"
+              TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+              sudo mkdir -p "$BACKUP_DIR"
+
+              if [ -d "$DEPLOY_DIR/dist" ]; then
+                sudo cp -r "$DEPLOY_DIR/dist" "$BACKUP_DIR/dist_$TIMESTAMP"
+              fi
+
+              ls -dt "$BACKUP_DIR"/dist_* 2>/dev/null | tail -n +4 | xargs sudo rm -rf || true
+
+              sudo chmod -R 755 "$DEPLOY_DIR/dist"
+              sudo chown -R www:www "$DEPLOY_DIR/dist"
+
+              sudo nginx -t
+              sudo systemctl reload nginx
+              sudo systemctl restart plankenart
+
+              echo "✅ PROD deployed at $TIMESTAMP"
+          EOF
+
+          rm -f key.pem
+
+      - name: Notify deployment
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment completed successfully"
+          else
+            echo "❌ Deployment failed"
+          fi

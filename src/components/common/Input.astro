@@ -1,0 +1,73 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"input"> {
+  label?: string;
+  error?: string;
+  id?: string;
+  /** ID элемента с текстом ошибки для aria-describedby */
+  errorId?: string;
+}
+
+const {
+  id,
+  type = "text",
+  name,
+  placeholder,
+  required,
+  label,
+  autocomplete,
+  errorId,
+  ...rest
+} = Astro.props;
+
+const inputId =
+  id ?? `${name ?? "input"}-${Math.random().toString(36).slice(2, 8)}`;
+
+const base = `bg-html text-foreground
+              placeholder:text-foreground/50 focus:outline-none 
+              transition-all duration-300 placeholder:text-sm`;
+
+const inputStyles = `
+  ${type == "checkbox" && "custom-checkbox cursor-pointer checked:bg-emerald-600 border border-nav/50 appearance-none h-8 w-8 shrink-0 relative rounded-lg mt-1"}
+  ${type != "checkbox" && "w-full px-4 py-2 border border-html border-nav/50 rounded-2xl"}
+`;
+
+const labelStyles = `block text-md font-semibold text-foreground mb-2 pl-4`;
+
+const classes = `${base} ${inputStyles}`;
+---
+
+{
+  label && type !== "checkbox" && (
+    <label for={inputId} class={labelStyles}>
+      {label}
+    </label>
+  )
+}
+
+{
+  type === "checkbox" ? (
+    <input
+      id={inputId}
+      type={type}
+      name={name}
+      required={required ?? undefined}
+      aria-describedby={errorId ?? undefined}
+      class={classes}
+      {...rest}
+    />
+  ) : (
+    <input
+      id={inputId}
+      type={type}
+      autocomplete={autocomplete}
+      name={name}
+      placeholder={placeholder}
+      required={required ?? undefined}
+      aria-describedby={errorId ?? undefined}
+      class={classes}
+      {...rest}
+    />
+  )
+}

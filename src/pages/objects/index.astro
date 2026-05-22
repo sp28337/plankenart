@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import heroImg from "@assets/objects/avtonomnaya-barbekyu-zona/1-hero.jpg";
+import heroImgMobile from "@assets/objects/avtonomnaya-barbekyu-zona/8-hero-mobile.jpg";
+import ObjectCardExtended from "@components/catalog/cards/ObjectCardExtended.astro";
+import ObjectsFilter from "@components/catalog/filters/ObjectsFilter.astro";
+import FilterOverlay from "@components/catalog/filters/FilterOverlay.astro";
+import ElementsNotFound from "@components/layout/ElementsNotFound.astro";
+const allObjects = await getCollection("objects");
+---
+
+<Layout
+  pageTitle="Объекты реализованные командой ПланкенАрт"
+  pageDescription="Полный список объектов, реализованных командой ПланкенАрт"
+  ogImg={heroImg.src}
+>
+  <FilterOverlay />
+  <Hero
+    title="Объекты ПланкенАрт"
+    excerpt="Деревянные фасады и строения, которые выглядят дорого и служат десятилетиями."
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-4">
+    <ObjectsFilter />
+    <div class="mx-auto max-w-7xl mt-2.5">
+      <div
+        id="grid"
+        class="grid gap-2
+                grid-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3"
+      >
+        {
+          allObjects.map((o) => (
+            <ObjectCardExtended variant="column" object={o} />
+          ))
+        }
+      </div>
+      <ElementsNotFound />
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import { setupOverlay, setupCatalogFilter } from "@features/catalog-filter/dropdown";
+
+  const { initDropdown } = setupOverlay("filter-overlay");
+
+  const objectDD = initDropdown(
+    "object-btn",
+    "object-panel",
+    "filter-object",
+    "object-label",
+    "object-chevron",
+    "object",
+  );
+  const woodDD = initDropdown(
+    "wood-btn",
+    "wood-panel",
+    "filter-wood",
+    "wood-label",
+    "wood-chevron",
+    "wood",
+  );
+  const materialDD = initDropdown(
+    "material-btn",
+    "material-panel",
+    "filter-material",
+    "material-label",
+    "material-chevron",
+    "material",
+  );
+
+  setupCatalogFilter({
+    gridId: "grid",
+    emptyId: "empty",
+    cardSelector: ".object-card",
+    dropdowns: [
+      {
+        handle: objectDD,
+        inputId: "filter-object",
+        paramKey: "object",
+        dataAttr: "object",
+        multiValue: true,
+      },
+      {
+        handle: woodDD,
+        inputId: "filter-wood",
+        paramKey: "wood",
+        dataAttr: "wood",
+        multiValue: true,
+      },
+      {
+        handle: materialDD,
+        inputId: "filter-material",
+        paramKey: "material",
+        dataAttr: "material",
+        multiValue: true,
+      },
+    ],
+  });
+</script>

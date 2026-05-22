@@ -1,0 +1,201 @@
+---
+import { getCollection } from "astro:content";
+import Tag from "@components/common/Tag.astro";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import Heading from "@components/common/Heading.astro";
+
+const allMaterials = await getCollection("materials");
+const allObjects = await getCollection("objects");
+
+const items = [...allMaterials, ...allObjects];
+const uniqueTags = [...new Set(items.flatMap((item) => item.data.tags ?? []))];
+const uniqueMaterialTypes = [
+  ...new Set(allMaterials.map((item) => item.data.materialType)),
+];
+const uniqueObjectTypes = [
+  ...new Set([
+    ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
+    ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+  ]),
+];
+const uniqueWoodTypes = [
+  ...new Set(allMaterials.map((item) => item.data.woodType)),
+];
+
+const allTagsPool = [
+  ...uniqueTags,
+  ...uniqueMaterialTypes,
+  ...uniqueObjectTypes,
+  ...uniqueWoodTypes,
+].filter((tag) => tag && tagsDictionary[tag]);
+
+// Shuffle and split into 3 rows
+const shuffled = [...allTagsPool].sort(() => Math.random() - 0.5);
+const row1 = shuffled.slice(0, Math.ceil(shuffled.length / 3));
+const row2 = shuffled.slice(
+  Math.ceil(shuffled.length / 3),
+  Math.ceil((2 * shuffled.length) / 3),
+);
+const row3 = shuffled.slice(Math.ceil((2 * shuffled.length) / 3));
+
+const rows = [
+  { tags: row1, direction: 1 },
+  { tags: row2, direction: -1 },
+  { tags: row3, direction: 1 },
+];
+---
+
+<section class="w-full flex flex-col gap-8 md:gap-12 py-8 overflow-hidden">
+  <div class="px-4 mx-auto">
+    <Heading title="Темы" id="tags-marquee-heading" variant="h2" />
+  </div>
+
+  <div
+    class="tags-marquee-container reveal relative w-full group"
+    id="marquee-root"
+  >
+    {/* Fade overlay edges */}
+    <div
+      class="absolute inset-y-0 left-0 w-12 md:w-32 bg-linear-to-r from-bg-primary to-transparent z-10 pointer-events-none"
+    >
+    </div>
+    <div
+      class="absolute inset-y-0 right-0 w-12 md:w-32 bg-linear-to-l from-bg-primary to-transparent z-10 pointer-events-none"
+    >
+    </div>
+
+    <div class="flex flex-col gap-3 py-2">
+      {
+        rows.map((row, idx) => (
+          <div
+            class="marquee-row overflow-hidden flex whitespace-nowrap select-none"
+            data-direction={row.direction}
+            data-row-idx={idx}
+          >
+            <div class="marquee-content flex gap-3 px-3 md:px-5 w-max">
+              {/* We repeat tags multiple times to ensure the line is long enough and infinite */}
+              {[...Array(4)].map(() =>
+                row.tags.map((tag) => (
+                  <Tag
+                    href={`/tags/${tagsDictionary[tag]}`}
+                    tag={tag}
+                    variant="alternative"
+                  />
+                )),
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .tags-marquee-container {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+  }
+
+  .marquee-content {
+    will-change: transform;
+  }
+
+  .marquee-row {
+    touch-action: auto;
+  }
+</style>
+
+<script>
+  class MarqueeManager {
+    container: HTMLElement;
+    rows: HTMLElement[];
+    rowStates: any[];
+    isHovered: boolean = false;
+    currentSpeedFactor: number = 1;
+    targetSpeedFactor: number = 1;
+
+    constructor(rootId: string) {
+      this.container = document.getElementById(rootId)!;
+      this.rows = Array.from(this.container.querySelectorAll(".marquee-row"));
+
+      this.rowStates = this.rows.map((row) => {
+        const content = row.querySelector(".marquee-content") as HTMLElement;
+        const direction = parseInt(row.getAttribute("data-direction") || "1");
+        const contentWidth = content.offsetWidth / 4; // We duplicated 4 times
+
+        return {
+          row,
+          content,
+          direction,
+          width: contentWidth,
+          offset: Math.random() * contentWidth * -1,
+        };
+      });
+
+      this.initEvents();
+      this.animate();
+    }
+
+    initEvents() {
+      this.container.addEventListener("mouseenter", () => {
+        this.targetSpeedFactor = 0.25; // Slow down but not stop
+      });
+
+      this.container.addEventListener("mouseleave", () => {
+        this.targetSpeedFactor = 0.75;
+      });
+    }
+
+    animate() {
+      // Smoothly interpolate speed factor
+      this.currentSpeedFactor +=
+        (this.targetSpeedFactor - this.currentSpeedFactor) * 0.05;
+
+      this.rowStates.forEach((state) => {
+        const speed = 0.5 * state.direction * this.currentSpeedFactor;
+        state.offset += speed;
+
+        // Infinite wrap logic
+        const wrapLimit = state.width;
+        if (state.offset > 0) {
+          state.offset -= wrapLimit;
+        } else if (state.offset < -wrapLimit * 2) {
+          state.offset += wrapLimit;
+        }
+
+        state.content.style.transform = `translate3d(${state.offset}px, 0, 0)`;
+      });
+
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+
+  // Single initializer guarded by data-initialized attribute.
+  // The attribute lives on the DOM element, so after Astro view-transition
+  // navigation the new element won't have it — safe to re-init.
+  function initMarquee() {
+    const root = document.getElementById("marquee-root");
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized = "true";
+    new MarqueeManager("marquee-root");
+  }
+
+  // Covers view-transition navigations
+  document.addEventListener("astro:page-load", initMarquee);
+
+  // Covers the very first load (fires before astro:page-load on initial page)
+  initMarquee();
+</script>

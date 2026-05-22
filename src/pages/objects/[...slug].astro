@@ -1,0 +1,486 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import H2 from "@components/common/H2.astro";
+import Tag from "@components/common/Tag.astro";
+import {
+  getCollection,
+  getEntries,
+  render,
+  type CollectionEntry,
+} from "astro:content";
+import { Image } from "astro:assets";
+import DiscountSlider from "@components/sections/DiscountSlider.astro";
+import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
+import Heading from "@components/common/Heading.astro";
+import CheckIcon from "@components/svg/CheckIcon.astro";
+import { tagsDictionary } from "@domain/tags/dictionary";
+
+interface Props {
+  object: CollectionEntry<"objects">;
+}
+
+export async function getStaticPaths() {
+  const allObjects = await getCollection("objects");
+  return allObjects.map((object) => ({
+    params: { slug: object.id },
+    props: { object },
+  }));
+}
+
+const { object } = Astro.props;
+const { Content } = await render(object);
+
+const usedOils = object.data.usedOils
+  ? await Promise.all(
+      object.data.usedOils.map(async (item) => {
+        const oilEntry = await getEntries([item.oil]);
+        const oil = oilEntry[0];
+        const selectedColors = oil.data.colors.filter((color) =>
+          item.code.includes(color.code),
+        );
+        return { surface: item.surface, oil, colors: selectedColors };
+      }),
+    )
+  : [];
+
+const materials = await getEntries(object.data.materials);
+
+const allTags = [
+  ...object.data.tags,
+  ...object.data.materialTypes,
+  ...object.data.woodTypes,
+  ...object.data.objectTypes,
+];
+
+const INITIAL_COUNT = 10;
+const totalImages = object.data.images.length;
+---
+
+<Layout
+  pageTitle={object.data.metaTitle}
+  pageDescription={object.data.metaDescription}
+  ogImg={object.data.heroImage.src}
+>
+  <article>
+    <Hero
+      title={object.data.title}
+      excerpt={object.data.excerpt}
+      img={object.data.heroImage}
+      imgMobile={object.data.heroImageMobile}
+    />
+
+    <div class="px-2 lg:px-4 text-foreground mt-8">
+      <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18">
+        <div class="w-full">
+
+          <!-- Теги -->
+          <section class="flex flex-col justify-center items-center gap-2">
+            <Heading styles="text-nav" title="связанные темы:" variant="h3" />
+            <ul class="flex flex-wrap justify-center gap-2 h-fit mb-5 md:mb-10 lg:mb-14 reveal max-w-4xl">
+              {allTags.map((tag) => (
+                <li class="flex">
+                  <Tag
+                    href={`/tags/${tagsDictionary[tag]}`}
+                    tag={tag}
+                    variant="alternative"
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <div class="flex flex-col gap-10 md:gap-18 lg:gap-22">
+
+            <!-- История объекта -->
+            <section class="flex flex-col gap-6 md:gap-10 lg:gap-14">
+              <H2 title="История объекта" page="object" />
+              <div class="flex flex-col gap-2 w-full reveal">
+                {object.data.description
+                  .split("\n\n")
+                  .map((p) => p.trim() && <p>{p.trim()}</p>)}
+                {object.data.conclusion && object.data.conclusion}
+                <div class="text-foreground flex flex-col gap-2 reveal">
+                  <Content />
+                </div>
+              </div>
+            </section>
+
+            <!-- Технические особенности -->
+            {object.data.technicalFeatures && (
+              <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 items-center">
+                <H2 title="Технические особенности" />
+                <ul class="list-none flex flex-col md:w-full w-[94%]">
+                  {object.data.technicalFeatures.map((feat) => (
+                    <li class="flex gap-3 items-center text-[0.93rem] leading-normal reveal py-2 md:px-4 rounded-2xl transition-all duration-300">
+                      <CheckIcon />
+                      <p>{feat}</p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            <!-- Материалы -->
+            {materials && (
+              <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+                <H2 title="Материалы" />
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
+                  {materials.map((material) => (
+                    <li>
+                      <MaterialCardSmall
+                        route={`/materials/${material.id}/`}
+                        title={material.data.title}
+                        img={material.data.coverImage}
+                        variant="tags"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            <!-- Масла -->
+            {usedOils.length > 0 && (
+              <section class="w-full flex flex-col items-center gap-6 md:gap-10 lg:gap-14">
+                <H2 title="Масло" />
+                <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+                  {usedOils.map(({ oil, colors, surface }) => (
+                    <li class="flex flex-col gap-4 duration-300 border border-nav/20 hover:border-nav/70 rounded-[17px] reveal p-2">
+                      <a href={`/oils/${oil.id}`}>
+                        {surface && <p class="text-sm opacity-70">{surface}</p>}
+                        <div class="flex flex-col gap-4 w-full">
+                          <h3 class="text-lg font-semibold items-center tracking-tighter leading-5 flex flex-col p-2">
+                            {oil.data.title}
+                            <span class="font-normal text-foreground/50 text-sm">
+                              {oil.data.titleRu}
+                            </span>
+                          </h3>
+                          <Image
+                            src={oil.data.coverImage}
+                            alt={oil.data.title}
+                            class="w-46 h-46 object-cover rounded-xl mx-auto"
+                          />
+                          <div class="flex flex-col gap-2">
+                            {colors.map((color) => (
+                              <div class="items-center flex gap-2 bg-nav/20 p-2 rounded-2xl">
+                                <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                  <Image
+                                    src={color.image}
+                                    alt={`${color.name} (${color.code})`}
+                                    class="w-full h-full object-cover rounded-xl"
+                                  />
+                                </div>
+                                <div class="flex relative flex-col">
+                                  <span class="text-md top-2 font-inter font-bold">{color.code}</span>
+                                  <i class="text-sm text-foreground/50 text-center">{color.name}</i>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            <!-- Фотографии -->
+            {totalImages > 0 && (
+              <section class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full">
+                <H2 title="Фотографии проекта" page="object" />
+
+                <ul
+                  class="grid grid-cols-1 sm:grid-cols-2 gap-2"
+                  id="lightbox-gallery"
+                >
+                  {object.data.images.map((img, i) => (
+                    <li
+                      class:list={[
+                        "rounded-2xl lg:rounded-3xl overflow-hidden border border-nav/20 p-2",
+                        "group hover:border-nav/70 transition-all duration-300 cursor-zoom-in reveal",
+                        i >= INITIAL_COUNT ? "gallery-hidden" : "",
+                      ]}
+                      data-lightbox-index={i}
+                    >
+                      <Image
+                        src={img}
+                        alt={`${object.data.title} — фото ${i + 1}`}
+                        class="w-full aspect-3/2 object-cover transition-all duration-300 group-hover:scale-101 rounded-2xl lg:rounded-3xl pointer-events-none"
+                        loading="lazy"
+                        widths={[400, 900]}
+                      />
+                    </li>
+                  ))}
+                </ul>
+
+                {totalImages > INITIAL_COUNT && (
+                  <button
+                    id="show-more-btn"
+                    class="w-full flex gap-4 font-inter justify-center items-center text-[20px] uppercase
+                           font-bold border rounded-[20px] h-12.5 border-nav/20
+                           hover:border-nav/70 transition-colors duration-300 reveal active:scale-98"
+                    data-total={totalImages}
+                    data-shown={INITIAL_COUNT}
+                  >
+                    <span class="text-amber-fade tracking-tighter">
+                      Показать ещё ({totalImages - INITIAL_COUNT})
+                    </span>
+                  </button>
+                )}
+              </section>
+            )}
+
+          </div>
+        </div>
+
+        <div class="w-full flex flex-col items-center">
+          <DiscountSlider />
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<!-- Lightbox -->
+<div
+  id="lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Просмотр фото"
+  aria-hidden="true"
+  class="fixed inset-0 z-9999 flex items-center justify-center
+         opacity-0 pointer-events-none bg-black/90
+         transition-opacity duration-300"
+>
+  <button
+    id="lb-close"
+    aria-label="Закрыть"
+    class="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center
+           rounded-full bg-white/10 hover:bg-white/25 transition-colors duration-300
+           text-white cursor-pointer"
+  >
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M1 1L17 17M17 1L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
+
+  <button
+    id="lb-prev"
+    aria-label="Предыдущее фото"
+    class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center
+           rounded-full bg-white/10 hover:bg-white/25 transition-colors duration-300
+           text-white cursor-pointer"
+  >
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M11 2L4 9L11 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <button
+    id="lb-next"
+    aria-label="Следующее фото"
+    class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center
+           rounded-full bg-white/10 hover:bg-white/25 transition-colors duration-300
+           text-white cursor-pointer"
+  >
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+      <path d="M7 2L14 9L7 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <img
+    id="lb-img"
+    src=""
+    alt=""
+    class="w-full h-full object-contain select-none transition-opacity duration-300"
+    draggable="false"
+  />
+
+  <div
+    id="lb-counter"
+    class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm font-inter"
+  ></div>
+
+  <div
+    id="lb-spinner"
+    class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300"
+  >
+    <div class="w-10 h-10 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+  </div>
+</div>
+
+<style>
+  .gallery-hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  // ─── Elements ────────────────────────────────────────────────────────────────
+
+  const lightbox  = document.getElementById("lightbox") as HTMLDivElement;
+  const lbImg     = document.getElementById("lb-img") as HTMLImageElement;
+  const lbSpinner = document.getElementById("lb-spinner") as HTMLDivElement;
+  const lbCounter = document.getElementById("lb-counter") as HTMLDivElement;
+  const btnClose  = document.getElementById("lb-close") as HTMLButtonElement;
+  const btnPrev   = document.getElementById("lb-prev") as HTMLButtonElement;
+  const btnNext   = document.getElementById("lb-next") as HTMLButtonElement;
+  const gallery   = document.getElementById("lightbox-gallery") as HTMLUListElement;
+
+  // Guard — бросаем до того как любая функция успеет запуститься
+  if (!lightbox || !lbImg || !lbSpinner || !gallery || !btnClose) {
+    throw new Error("Lightbox: required elements not found");
+  }
+
+  // ─── State ───────────────────────────────────────────────────────────────────
+
+  const allItems = Array.from(
+    gallery.querySelectorAll<HTMLLIElement>("[data-lightbox-index]"),
+  );
+  const srcs = allItems.map((li) => (li.querySelector("img") as HTMLImageElement).src);
+
+  let current: number = 0;
+  let isOpen: boolean = false;
+  let loadingTimer: ReturnType<typeof setTimeout> | null = null;
+  let touchStartX: number = 0;
+  let touchDeltaX: number = 0;
+  let isPinching: boolean = false;
+
+  // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+  function setOpacity(el: HTMLElement | null, value: "0" | "1"): void {
+    if (el) el.style.opacity = value;
+  }
+
+  function updateCounter(): void {
+    if (lbCounter) lbCounter.textContent = `${current + 1} / ${srcs.length}`;
+  }
+
+  function updateNavButtons(): void {
+    if (btnPrev) btnPrev.disabled = current === 0;
+    if (btnNext) btnNext.disabled = current === srcs.length - 1;
+  }
+
+  // ─── Lightbox core ───────────────────────────────────────────────────────────
+
+  function loadImage(index: number): void {
+    const probe = new window.Image();
+    probe.src = srcs[index];
+
+    if (probe.complete) {
+      lbImg.src = srcs[index];
+      setOpacity(lbImg, "1");
+      setOpacity(lbSpinner, "0");
+      return;
+    }
+
+    setOpacity(lbImg, "0");
+    loadingTimer = setTimeout(() => setOpacity(lbSpinner, "1"), 150);
+
+    probe.onload = () => {
+      if (loadingTimer) clearTimeout(loadingTimer);
+      lbImg.src = srcs[index];
+      lbImg.alt = `Фото ${index + 1}`;
+      setOpacity(lbImg, "1");
+      setOpacity(lbSpinner, "0");
+    };
+
+    probe.onerror = () => {
+      if (loadingTimer) clearTimeout(loadingTimer);
+      setOpacity(lbSpinner, "0");
+      setOpacity(lbImg, "1");
+    };
+  }
+
+  function open(index: number): void {
+    current = index;
+    isOpen  = true;
+    document.body.style.overflow = "hidden";
+    lightbox.classList.remove("opacity-0", "pointer-events-none");
+    lightbox.classList.add("opacity-100");
+    lightbox.setAttribute("aria-hidden", "false");
+    updateCounter();
+    updateNavButtons();
+    loadImage(index);
+  }
+
+  function close(): void {
+    isOpen = false;
+    if (loadingTimer) clearTimeout(loadingTimer);
+    setOpacity(lbSpinner, "0");
+    document.body.style.overflow = "";
+    lightbox.classList.add("opacity-0", "pointer-events-none");
+    lightbox.classList.remove("opacity-100");
+    lightbox.setAttribute("aria-hidden", "true");
+  }
+
+  function prev(): void { if (current > 0) open(current - 1); }
+  function next(): void { if (current < srcs.length - 1) open(current + 1); }
+
+  // ─── Events ──────────────────────────────────────────────────────────────────
+
+  allItems.forEach((li) => {
+    const idx = Number(li.dataset.lightboxIndex);
+    li.addEventListener("click", () => open(idx));
+  });
+
+  lightbox.addEventListener("click", (e: MouseEvent) => {
+    if (e.target === lightbox) close();
+  });
+
+  btnClose.addEventListener("click", close);
+  btnPrev?.addEventListener("click", prev);
+  btnNext?.addEventListener("click", next);
+
+  document.addEventListener("keydown", (e: KeyboardEvent) => {
+    if (!isOpen) return;
+    if (e.key === "Escape")     close();
+    if (e.key === "ArrowLeft")  prev();
+    if (e.key === "ArrowRight") next();
+  });
+
+  lightbox.addEventListener("touchstart", (e: TouchEvent) => {
+    if (e.touches.length >= 2) { isPinching = true; touchDeltaX = 0; return; }
+    if (!isPinching) { touchStartX = e.touches[0].clientX; touchDeltaX = 0; }
+  }, { passive: true });
+
+  lightbox.addEventListener("touchmove", (e: TouchEvent) => {
+    if (e.touches.length >= 2) { isPinching = true; touchDeltaX = 0; return; }
+    if (!isPinching) touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  lightbox.addEventListener("touchend", (e: TouchEvent) => {
+    if (e.touches.length > 0) { touchDeltaX = 0; return; }
+    if (isPinching) { isPinching = false; touchDeltaX = 0; return; }
+    if (touchDeltaX < -60) next();
+    else if (touchDeltaX > 60) prev();
+    touchDeltaX = 0;
+  });
+
+  // ─── Show more ───────────────────────────────────────────────────────────────
+
+  const showMoreBtn = document.getElementById("show-more-btn") as HTMLButtonElement | null;
+
+  if (showMoreBtn) {
+    const BATCH = 10;
+
+    showMoreBtn.addEventListener("click", () => {
+      const hidden = Array.from(
+        gallery.querySelectorAll<HTMLElement>(".gallery-hidden"),
+      );
+
+      hidden.slice(0, BATCH).forEach((el) => el.classList.remove("gallery-hidden"));
+
+      const remaining = gallery.querySelectorAll(".gallery-hidden").length;
+
+      if (remaining === 0) {
+        showMoreBtn.style.display = "none";
+      } else {
+        const span = showMoreBtn.querySelector("span");
+        if (span) span.textContent = `Показать ещё (${remaining})`;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,190 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import H2 from "@components/common/H2.astro";
+import Heading from "@components/common/Heading.astro";
+import CheckIcon from "@components/svg/CheckIcon.astro";
+import ShieldCheck from "@assets/svg/shield-check.svg";
+import AdvantagesCard from "@components/sections/AdvantagesCard.astro";
+import FeedbackForm from "@components/contact/FeedbackForm.astro";
+import DiscountSlider from "@components/sections/DiscountSlider.astro";
+import heroImg from "@assets/objects/fasad-doma-planken/3.jpg";
+import heroImgMobile from "@assets/objects/fasad-doma-planken/3.jpg";
+import FAQ from "@components/sections/FAQ.astro";
+import PartnersBlock from "@components/sections/PartnersBlock.astro";
+import WorkSteps from "@components/sections/WorkSteps.astro";
+
+
+const oilBenefits = [
+  {
+    title: "Защищает от влаги",
+    exerpt: "дерево перестаёт активно впитывать воду и набухать",
+  },
+  {
+    title: "Предотвращает растрескивание",
+    exerpt: "натуральные масла и воски сохраняют эластичность волокон",
+  },
+  {
+    title: "Блокирует УФ-излучение",
+    exerpt: "замедляет выгорание и серение на солнце",
+  },
+  {
+    title: "Сохраняет «дыхание»",
+    exerpt: "дерево остаётся паропроницаемым, не преет под покрытием",
+  },
+  {
+    title: "Подчёркивает текстуру",
+    exerpt: "натуральный рисунок дерева становится выразительнее",
+  },
+  {
+    title: "Безопасно",
+    exerpt: "масла OSMO сертифицированы по европейским стандартам",
+  },
+]
+
+const advantages = [
+  {
+    title: "Профессиональный станок",
+    content:
+      "Beaver SR-RP 400 — промышленный калибровально-шлифовальный станок. Стабильная геометрия и идеально ровная поверхность, которую невозможно получить ручными инструментами.",
+    size: "auto" as const,
+  },
+  {
+    title: "10+ лет с маслом OSMO",
+    content:
+      "Знаем, как ведёт себя масло на разных породах, как наносить в разное время года и какой артикул подойдёт под конкретную задачу. Опыт, который нельзя получить по инструкции.",
+    size: "auto" as const,
+  },
+  {
+    title: "Официальный дилер",
+    content:
+      "Работаем с официальным представителем OSMO в регионе. Только оригинальные продукты — без разбавителей и аналогов.",
+    size: "auto" as const,
+  },
+  {
+    title: "Полный цикл на одном производстве",
+    content:
+      "Доска проходит все этапы — от калибровки до финального слоя масла — в одном месте, под контролем одной команды.",
+    size: "auto" as const,
+  },
+];
+---
+
+<Layout
+  pageTitle="Обработка доски маслом OSMO — профессиональная шлифовка в Нижнем Новгороде"
+  pageDescription="Двухэтапная шлифовка и двойное покрытие маслом OSMO на профессиональном оборудовании. Защита фасадной и террасной доски, планкена, вагонки. Нижний Новгород."
+>
+  <Hero
+    title="Обработка доски маслом OSMO"
+    excerpt="Профессиональная шлифовка и масляная пропитка для долговечной защиты и красивого вида древесины. Двойная подготовка + двойное покрытие — всё на одном производстве."
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+
+  <div class="px-2 lg:px-4 text-foreground mt-8">
+    <div class="max-w-7xl flex flex-col items-center mx-auto gap-10 md:gap-18 lg:gap-22">
+
+      <!-- ── Почему дерево без защиты — риск ───────────────────── -->
+      <section
+        aria-labelledby="risk-heading"
+        class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+      >
+        <div class="flex flex-col items-center gap-4 text-center max-w-3xl reveal my-6 sm:my-10">
+          <Heading
+            variant="h2"
+            id="about-heading"
+            title={["Почему дерево без защиты — ", "это риск"]}
+          />
+          <!-- <H2 id="risk-heading" title="Почему дерево без защиты — это риск" /> -->
+          <p class="text-foreground/70 text-sm md:text-[1.05rem] leading-relaxed">
+            Без защитного покрытия древесина активно поглощает влагу, пересыхает, трескается
+            и теряет внешний вид уже через один-два сезона. <a href="/oils" class="text-amber-fade font-bold hover:underline">Масло OSMO</a> — не краска и не лак.
+            Оно глубоко проникает в поры и работает изнутри.
+          </p>
+        </div>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 w-full">
+          {oilBenefits.map(benefit => (
+            <li class="flex flex-col gap-4 items-start bg-nav/20 hover:bg-nav/40
+                      rounded-2xl md:rounded-3xl py-4 px-6
+                      shadow-xl/2 hover:shadow-xl/6
+                      transition-all duration-300 reveal group">
+              <div class="flex gap-4 items-center ">
+                <CheckIcon />
+                <h3 class="font-bold group-hover:text-amber-fade transition-all duration-300">
+                  {benefit.title}
+                </h3>
+              </div>
+              <p class="text-[0.93rem] leading-relaxed text-foreground/80 italic
+                        group-hover:text-foreground transition-colors duration-300 ">
+                {benefit.exerpt}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <div class="w-full border border-nav/20 hover:border-nav/70 transition-all duration-300
+                    rounded-2xl md:rounded-3xl p-6 md:p-8 reveal flex gap-4 items-center justify-center">
+          <div class="">
+            <ShieldCheck />
+          </div>
+          <p class="text-foreground/70 text-xl leading-relaxed">
+            В результате правильно обработанная доска служит{" "}
+            <strong class="text-foreground">десятилетиями</strong>{" "}
+            без необходимости полной перекраски.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── Шаги обработки ─────────────────────────────────────── -->
+      <WorkSteps/>
+
+      <!-- ── Почему доверить нам ────────────────────────────────── -->
+      <section
+        aria-labelledby="why-heading"
+        class="flex flex-col items-center w-full gap-6 md:gap-10 lg:gap-14"
+      >
+        <H2 id="why-heading" title="Почему стоит доверить обработку нам" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full gap-2">
+          {advantages.map(({ title, content, size }) => (
+            <AdvantagesCard title={title} content={content} size={size} />
+          ))}
+        </div>
+      </section>
+
+      <!-- ── Стоимость ─────────────────────────────────────────── -->
+      <section
+        aria-labelledby="price-heading"
+        class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+      >
+        <div class="flex flex-col items-center gap-4 text-center max-w-3xl reveal">
+          <H2 id="price-heading" title="Стоимость услуги" />
+          <p class="text-foreground/70 text-sm md:text-[1.05rem] leading-relaxed">
+            Стоимость зависит от объёма партии, породы древесины и выбранного масла OSMO.
+            Разброс между прозрачными составами и цветными тонировками может быть{" "}
+            <strong class="text-foreground">в 2–3 раза</strong>. Также учитывается,
+            нужна ли обработка тыльной стороны — актуально для фасадов.
+          </p>
+          <p class="text-foreground/50 text-sm leading-relaxed">
+            Сообщите площадь обработки, породу и артикул масла — расчёт пришлём за несколько часов.
+            Если с артикулом не определились, поможем выбрать.
+          </p>
+        </div>
+
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full max-w-7xl mx-auto items-stretch"
+        >
+          <FeedbackForm type="calc" />
+          <FeedbackForm type="test" />
+        </div>
+      </section>
+
+      <div class="w-full flex flex-col items-center">
+        <DiscountSlider />
+      </div>
+
+      <FAQ/>
+      <PartnersBlock/>
+
+    </div>
+  </div>
+</Layout>

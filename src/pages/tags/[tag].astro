@@ -1,0 +1,185 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
+import H2 from "@components/common/H2.astro";
+import Heading from "@components/common/Heading.astro";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import { tagsTitleDictionary } from "@domain/tags/dictionary";
+import Fence from "@assets/svg/fence.svg";
+import Scan from "@assets/svg/scan.svg";
+import Droplet from "@assets/svg/droplet.svg";
+import Button from "@components/common/Button.astro";
+import ObjectCardExtended from "@components/catalog/cards/ObjectCardExtended.astro";
+import OilCard from "@components/catalog/cards/OilCard.astro";
+
+export async function getStaticPaths() {
+  const [allMaterials, allObjects, allOils] = await Promise.all([
+    getCollection("materials"),
+    getCollection("objects"),
+    getCollection("oils"),
+  ]);
+
+  const tags = [
+    ...new Set(
+      [...allMaterials, ...allObjects, ...allOils].flatMap((item) => item.data.tags ?? []),
+    ),
+  ];
+  const materialTypes = [
+    ...new Set(allMaterials.map((item) => item.data.materialType)),
+  ];
+  const objectTypes = [
+    ...new Set([
+      ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
+      ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+    ]),
+  ];
+  const woodTypes = [
+    ...new Set(allMaterials.map((item) => item.data.woodType)),
+  ];
+
+  const uniqueTags = [
+    ...new Set([...tags, ...materialTypes, ...objectTypes, ...woodTypes]),
+  ].filter((tag) => tagsDictionary[tag] !== undefined);
+
+  return uniqueTags.map((tag) => {
+    const materials = allMaterials.filter(
+      (item) =>
+        (item.data.tags ?? []).includes(tag) ||
+        (item.data.objectTypes ?? []).includes(tag) ||
+        item.data.woodType === tag ||
+        item.data.materialType === tag,
+    );
+
+    const objects = allObjects.filter(
+      (item) =>
+        (item.data.tags ?? []).includes(tag) ||
+        (item.data.objectTypes ?? []).includes(tag) ||
+        (item.data.woodTypes ?? []).includes(tag) ||
+        (item.data.materialTypes ?? []).includes(tag),
+    );
+
+    const oils = allOils.filter(
+      (item) => (item.data.tags ?? []).includes(tag)
+    );
+
+    const url = tagsDictionary[tag];
+
+    return {
+      params: { tag: url },
+      props: { materials, objects, oils },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { materials, objects, oils } = Astro.props;
+const pageTitle = tagsTitleDictionary[tag] ?? tag;
+---
+
+<Layout
+  pageTitle={pageTitle}
+  pageDescription={`Все материалы и объекты по теме: ${pageTitle}`}
+>
+  <!-- Hero Section -->
+  <div
+    class="w-full relative overflow-hidden rounded-b-[25px] lg:rounded-b-[40px] pt-32 lg:pt-40 pb-16 lg:pb-20
+           bg-nav/20"
+  >
+    <div
+      class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,var(--color-html)_0%,transparent_70%)] opacity-40"
+    >
+    </div>
+    <div
+      class="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center reveal"
+    >
+      <Heading
+        styles="capitalize mx-auto text-amber-fade mb-4 lg:mb-6"
+        title={pageTitle}
+        variant="h1"
+      />
+      <p
+        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed "
+      >
+        Объекты, материалы и масла связанные с темой: <b class="text-foreground"
+          >"{pageTitle}"</b
+        >
+      </p>
+    </div>
+  </div>
+
+  <div class="px-2 lg:px-4 min-h-[70svh]">
+    <div
+      class="my-8 lg:my-12 mx-auto max-w-7xl flex flex-col items-center
+           text-foreground gap-8 md:gap-12 lg:gap-16"
+    >
+      {
+        materials.length > 0 && (
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 hover:border-nav/70 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-300">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Fence class="w-5 h-5 opacity-70 reveal" />
+              </div>
+              <H2 title="Материалы" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 w-full">
+              {materials.map((material) => (
+                <li>
+                  <MaterialCardSmall
+                    route={`/materials/${material.id}/`}
+                    title={material.data.title}
+                    img={material.data.coverImage}
+                    variant="tags"
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      {
+        objects.length > 0 && (
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 hover:border-nav/70 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-300">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Scan class="w-5 h-5 opacity-70 reveal" />
+              </div>
+              <H2 title="Объекты" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-full">
+              {objects.map((object) => (
+                <li>
+                  <ObjectCardExtended object={object} variant="tags"/>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      {
+        oils.length > 0 && (
+          <section class="w-full flex flex-col gap-6 md:gap-8 lg:gap-10 border border-nav/20 hover:border-nav/70 rounded-[20px] p-2 sm:p-4 md:p-8 lg:p-10 reveal transition-all duration-300">
+            <div class="flex flex-row sm:items-center gap-4 pb-4 lg:pb-6">
+              <div class="w-12 h-12 rounded-[14px] border border-nav/20 flex flex-col items-center justify-center shrink-0 text-foreground">
+                <Droplet class="w-5 h-5 opacity-70 reveal" />
+              </div>
+              <H2 title="Масла" />
+            </div>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 w-full">
+              {oils.map((oil) => (
+                <li>
+                  <OilCard oil={oil}/>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+      {
+        // <div class="w-full flex justify-start reveal">
+        //   <Button href="/tags" title="Все темы" />
+        // </div>
+      }
+    </div>
+  </div>
+</Layout>

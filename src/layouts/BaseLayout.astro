@@ -1,22 +1,107 @@
 ---
-import '../styles/global.css';
-const { pageTitle, pageDescription } = Astro.props;
+import '../styles/base.css';
+import { Font } from 'astro:assets';
+import CookieBanner from '../components/layout/CookieBanner.astro';
+
+interface Props {
+  pageDescription: string;
+  pageTitle: string;
+  ogImg?: string;
+}
+
+const {
+  pageDescription,
+  pageTitle,
+  ogImg = '/og-image.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname + Astro.url.search, Astro.site);
+const isBlogPost =
+  Astro.url.pathname.startsWith('/objects/') ||
+  Astro.url.pathname.startsWith('/materials/');
+const ogType = isBlogPost ? 'article' : 'website';
+const fullOgImage = new URL(ogImg, Astro.site).href;
+const isDefaultOg = ogImg === '/og-image.png';
+
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'ПланкенАрт',
+  description:
+    'Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Работаем по Нижнему Новгороду и области.',
+  url: Astro.site?.toString(),
+  telephone: '+79525433716',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Октябрьская ул., д. 1',
+    addressLocality: 'Нижний Новгород',
+    addressRegion: 'Нижегородская область',
+    postalCode: '603000',
+    addressCountry: 'RU',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: '56.321766',
+    longitude: '43.997731',
+  },
+  sameAs: ['https://t.me/Spedd87', 'https://vk.ru/id511687461'],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+  },
+};
 ---
+
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Планкен Арт" />
+    <meta name="author" content="ПланкенАрт" />
     <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href={canonicalURL.href} />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="ПланкенАрт" />
+
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={fullOgImage} />
+    {isDefaultOg && <meta property="og:image:width" content="1200" />}
+    {isDefaultOg && <meta property="og:image:height" content="630" />}
+    <meta property="og:image:alt" content={pageTitle} />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="ПланкенАрт" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={fullOgImage} />
 
     <title>{pageTitle}</title>
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+
+    <!-- Yandex Metrika counter ID — script loads only after cookie consent -->
+    <script is:inline>
+      window.__YM_COUNTER_ID = 109130750;
+    </script>
+
+    <Font cssVariable="--font-manrope" preload />
+    <Font cssVariable="--font-inter" preload />
   </head>
 
-  <body>
-    <div class="min-h-screen">
-      <slot />
-    </div>
+  <body class="bg-html mx-auto font-manrope text-white" ontouchstart="">
+    <slot />
+    <CookieBanner />
   </body>
 </html>

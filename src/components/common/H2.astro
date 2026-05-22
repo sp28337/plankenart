@@ -1,0 +1,21 @@
+---
+/**
+ * @deprecated Use <Heading variant="h2" /> instead.
+ * This file exists only for backward compatibility.
+ */
+import Heading from './Heading.astro';
+
+interface Props {
+  id?: string;
+  title: string | string[];
+  page?: 'default' | 'about' | 'object';
+}
+
+const { title, id, page = 'default' } = Astro.props;
+---
+<Heading
+  variant="h2"
+  id={id}
+  title={title}
+  page={page}
+/>

@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import heroImg from "@assets/oils/hero.jpg";
+import heroImgMobile from "@assets/oils/hero.jpg";
+import OilCard from "@components/catalog/cards/OilCard.astro";
+import FilterOverlay from "@components/catalog/filters/FilterOverlay.astro";
+import H2 from "@components/common/H2.astro";
+const allOils = await getCollection("oils");
+const interiorOils = allOils.filter((oil) => oil.data.category === "interior");
+const exteriorOils = allOils.filter((oil) => oil.data.category === "exterior");
+---
+
+<Layout
+  pageTitle="Каталог масел OSMO с примерами цветов и описанием"
+  pageDescription="Каталог продукции используемой в работе: фотографии и названия масел, цветовые выкрасы и коды, описание и назначение масел."
+  ogImg={heroImg.src}
+>
+  <FilterOverlay />
+  <Hero
+    title="Каталог масел OSMO с примерами цветов и описанием"
+    excerpt="Каталог продукции используемой в работе: фотографии и названия масел, цветовые выкрасы и коды, описание и назначение масел."
+    img={heroImg}
+    imgMobile={heroImgMobile}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-4 md:mt-10">
+    <div class="mx-auto max-w-7xl mt-2.5 space-y-8">
+      <section
+        class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+      >
+        <H2 title="Масло для внутренних работ" />
+        <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {interiorOils.map((oil) => <OilCard oil={oil} />)}
+        </div>
+      </section>
+      <section
+        class="flex flex-col gap-6 md:gap-10 lg:gap-14 w-full items-center"
+      >
+        <H2 title="Масло для наружных работ" />
+        <div class="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {exteriorOils.map((oil) => <OilCard oil={oil} />)}
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

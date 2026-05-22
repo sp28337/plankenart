@@ -1,0 +1,105 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("legal");
+  return docs.map((doc) => ({
+    params: { slug: doc.data.slug },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+
+const formattedDate = new Date(doc.data.lastUpdated).toLocaleDateString(
+  "ru-RU",
+  {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  },
+);
+---
+
+<Layout
+  pageTitle={doc.data.metaTitle}
+  pageDescription={doc.data.metaDescription}
+>
+  <section class="px-4 lg:px-6 py-12 md:py-16 lg:py-20 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+      <!-- Header -->
+      <header class="mb-10 md:mb-14 mt-16 md:mt-12 text-center">
+        {
+          // <a
+          //   href="/"
+          //   class="inline-flex items-center gap-2 text-sm text-foreground/60
+          //         hover:text-foreground transition-colors duration-300 mb-6"
+          // >
+          //   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+          //       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          //     <path d="m15 18-6-6 6-6"/>
+          //   </svg>
+          //   На главную
+          // </a>
+        }
+        <h1
+          class="text-3xl md:text-4xl lg:text-5xl font-inter font-bold text-amber-fade tracking-tight leading-tight"
+        >
+          {doc.data.title}
+        </h1>
+
+        <p class="mt-4 text-sm text-foreground/50 font-medium">
+          Последнее обновление: {formattedDate}
+        </p>
+      </header>
+
+      <!-- Document Content -->
+      <article
+        class="document-content prose prose-lg max-w-none
+        text-foreground/85 leading-relaxed
+        prose-headings:font-inter prose-headings:font-bold
+        prose-headings:text-foreground prose-headings:tracking-tight
+        prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mt-10 prose-h2:mb-4
+        prose-h2:pt-6 prose-h2:border-t prose-h2:border-border/30
+        first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
+        prose-h3:text-lg prose-h3:md:text-xl prose-h3:mt-6 prose-h3:mb-3
+        prose-p:my-3 prose-p:text-sm prose-p:md:text-base
+        prose-ul:my-3 prose-ul:pl-6
+        prose-li:my-1 prose-li:text-sm prose-li:md:text-base
+        prose-strong:text-foreground prose-strong:font-semibold
+        prose-a:text-amber-fade prose-a:underline
+        prose-a:underline-offset-2 prose-a:decoration-text-amber-fade/30
+        hover:prose-a:decoration-text-amber-fade
+        prose-hr:border-border/30 prose-hr:my-8 prose-table:overflow-auto"
+      >
+        <Content />
+      </article>
+
+      <!-- Footer navigation -->
+      <nav
+        class="mt-14 pt-8 border-t border-border/30 flex flex-col sm:flex-row gap-4 sm:gap-6"
+      >
+        <a
+          href="/legal/privacy-policy"
+          class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
+        >
+          Политика конфиденциальности
+        </a>
+        <a
+          href="/legal/user-agreement"
+          class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
+        >
+          Пользовательское соглашение
+        </a>
+        <a
+          href="/legal/consent"
+          class="text-sm text-foreground/60 hover:text-foreground transition-colors duration-300"
+        >
+          Согласие на обработку ПД
+        </a>
+      </nav>
+    </div>
+  </section>
+</Layout>

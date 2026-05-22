@@ -1,0 +1,123 @@
+---
+import { getCollection } from "astro:content";
+import X from "@assets/svg/x.svg";
+import ChevronDown from "@assets/svg/chevron-down.svg";
+import type { SvgComponent } from "astro/types";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import { tagsTitleDictionary } from "@domain/tags/dictionary";
+
+interface Props {
+  collection: "objectType" | "woodTypes" | "materialTypes";
+  label: string;
+  title: string;
+  Icon: SvgComponent & ImageMetadata;
+}
+
+const { label, title, collection, Icon } = Astro.props;
+
+const allMaterials = await getCollection("materials");
+const allObjects = await getCollection("objects");
+
+let type = collection.replace("Types", "");
+let tags: Array<string> = [];
+
+if (collection == "materialTypes") {
+  tags = [
+    ...new Set(allMaterials.map((item) => item.data.materialType).flat()),
+  ];
+  type = collection.replace("Types", "");
+} else if (collection == "woodTypes") {
+  tags = [...new Set(allMaterials.map((item) => item.data.woodType).flat())];
+  type = collection.replace("Types", "");
+} else if (collection == "objectType") {
+  tags = [
+    ...new Set([
+      ...allObjects.flatMap((item) => item.data.objectTypes ?? []),
+      // ...allMaterials.flatMap((item) => item.data.objectTypes ?? []),
+    ]),
+  ];
+  type = collection.replace("Type", "");
+}
+---
+
+<div class="relative flex h-full w-full" id=`${type}-dropdown`>
+  <span id=`${type}-listbox-label` class="sr-only">{label}</span>
+  <button
+    type="button"
+    id=`${type}-btn`
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls=`${type}-panel`
+    aria-labelledby=`${type}-listbox-label ${type}-btn`
+    class="w-full flex items-center gap-2.5 py-1.5 px-5.5 bg-nav/45 rounded-xl md:rounded-[14px] lg:rounded-[17px]
+            cursor-pointer transition-colors duration-300 hover:bg-nav/70
+            font-semibold tracking-tight text-sm"
+  >
+    <Icon class="w-4.5 h-4.5 shrink-0 pointer-events-none opacity-45" />
+    <span id=`${type}-label` class="flex-1 text-left truncate">
+      {title}
+    </span>
+    <ChevronDown
+      id=`${type}-chevron`
+      class="w-4 h-4 shrink-0 pointer-events-none transition-transform duration-300"
+    />
+  </button>
+  <div
+    id=`${type}-panel`
+    role="listbox"
+    aria-hidden="true"
+    aria-labelledby=`${type}-listbox-label`
+    class:list={[
+      "absolute left-0 w-full z-99 sm:top-[calc(100%+0.55rem)] md:top-[calc(100%+0.8rem)]",
+      "opacity-0 pointer-events-none transition-opacity duration-300",
+      "bg-bg-primary",
+      collection == "objectType" && "top-[calc(100%+5.05rem)]",
+      collection == "woodTypes" && "top-[calc(100%+2.8rem)]",
+      collection == "materialTypes" && "top-[calc(100%+0.55rem)]",
+    ]}
+  >
+    <div class="flex flex-col gap-1 font-semibold">
+      {
+        tags.map((tag) => (
+          <div class="overflow-hidden">
+            <button
+              type="button"
+              id={`${type}-option-${tagsDictionary[tag]}`}
+              role="option"
+              aria-selected="false"
+              data-value={tagsTitleDictionary[tagsDictionary[tag]]}
+              data-slug={tagsDictionary[tag]}
+              data-group={type}
+              class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+                    text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                    transition-colors duration-300 hover:bg-nav/70 bg-nav/45 flex items-center gap-3"
+              style="transform:translateY(-110%)"
+            >
+              <Icon class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />
+              {tagsTitleDictionary[tagsDictionary[tag]]}
+            </button>
+          </div>
+        ))
+      }
+      <div class="overflow-hidden">
+        <button
+          id=`${type}-option-reset`
+          role="option"
+          aria-selected="false"
+          type="button"
+          data-value=""
+          data-slug=""
+          data-group={type}
+          class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
+                  text-xs md:text-sm tracking-tight transform-gpu will-change-transform
+                  transition-colors duration-300 hover:bg-nav/70 bg-nav/45 gap-3 flex items-center"
+          style="transform:translateY(-110%)"
+        >
+          <X class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />
+          <span> Сбросить фильтр </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" id=`filter-${type}` name={type} value="" />
+</div>
