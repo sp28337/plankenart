@@ -1,0 +1,197 @@
+---
+import { Picture } from "astro:assets";
+import logo from "@assets/logo.png";
+import { footerLinks } from "@config/navigation";
+
+const links = footerLinks;
+---
+
+<footer
+  class="bg-footer w-full h-fit relative z-97
+           pt-10 pb-4 sm:pb-6 px-2 lg:px-4"
+>
+  <div
+    class="max-w-7xl flex flex-col gap-4 sm:gap-6 mx-auto px-4 2xl:px-0 pt-4 text-sm font-medium"
+  >
+    <div
+      class="flex flex-wrap  gap-8"
+    >
+      <section id="contacts" class="flex flex-col gap-3 min-w-62.5">
+        <h2 class="font-inter font-bold text-lg">Контакты</h2>
+        <div class="flex flex-col gap-2">
+          <a
+            href="tel:+79525433716"
+            class="flex gap-4 items-center w-full rounded-2xl group
+          transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            +7 (952) 543 37 16
+          </a>
+          <a
+            href="https://t.me/Spedd87"
+            class="flex gap-4 w-full
+          items-center rounded-2xl group
+          transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            Написать в Телеграм
+          </a>
+          <a
+            href="https://max.ru/u/f9LHodD0cOInrf1oW7eLIoFR6qmccy8q6dGH2T_Yg5FkK5P9mj7BI-0J5uc"
+            class="flex gap-4
+          items-center w-full rounded-2xl group
+          transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            Написать в Mакс
+          </a>
+          <a
+            href="https://vk.ru/id511687461"
+            class="flex gap-4
+          items-center w-full rounded-2xl group
+          transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            Группа Вконтакте
+          </a>
+          <a
+            href="https://yandex.ru/maps/47/nizhny-novgorod/?indoorLevel=1&ll=44.002375%2C56.322055&mode=routes&rtext=~56.321766%2C43.997731&rtt=auto&ruri=~ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1Njk4MTE2NxJR0KDQvtGB0YHQuNGPLCDQndC40LbQvdC40Lkg0J3QvtCy0LPQvtGA0L7QtCwg0J7QutGC0Y_QsdGA0YzRgdC60LDRjyDRg9C70LjRhtCwLCAxIgoNrv0vQhV9SWFC&z=17"
+            class="flex gap-4
+            items-center w-full rounded-2xl group
+            transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            Нижний Новгород, Октябрьская д 1
+          </a>
+          <a
+            href="mailto:89107446995@mail.ru"
+            class="flex gap-4
+          items-center w-full rounded-2xl group
+          transition-all duration-300 opacity-70 hover:opacity-100"
+          >
+            89107446995@mail.ru
+          </a>
+        </div>
+      </section>
+
+      <section id="legal" class="flex flex-col gap-3 min-w-62.5">
+        <h2 class="font-inter font-bold text-lg">Документы</h2>
+        <div class="flex flex-col gap-2">
+          <a
+            href="/legal/privacy-policy"
+            class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >
+            Политика конфиденциальности
+          </a>
+          <a
+            href="/legal/user-agreement"
+            class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >
+            Пользовательское соглашение
+          </a>
+          <a
+            href="/legal/consent"
+            class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+          >
+            Согласие на обработку ПД
+          </a>
+          <button
+            id="cookie-settings-trigger"
+            class="hover:opacity-100 opacity-70 transition-opacity duration-300 cursor-pointer text-left"
+          >
+            Настройки cookie
+          </button>
+        </div>
+      </section>
+
+      <section id="footer-nav" class="flex flex-col gap-3 min-w-62.5">
+        <h2 class="font-inter font-bold text-lg">Навигация</h2>
+        <ul class="flex flex-col gap-2">
+          {
+            links.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class="flex gap-4 items-center w-full rounded-2xl group 
+        transition-all duration-300 opacity-70 hover:opacity-100"
+                >
+                  {label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <a
+        href="#top"
+        id="footer-logo-link"
+        class="flex items-center flex-1 justify-center sm:justify-start md:justify-center active:-translate-y-4 transition-all duration-300 p-4 min-w-40"
+      >
+        <Picture
+          src={logo}
+          formats={["avif", "webp"]}
+          alt="Логотип ПланкенАрт"
+          class="size-40 object-contain mx-auto"
+          loading="eager"
+        />
+      </a>
+    </div>
+    <hr class="border-html/10" />
+    {
+      // <div
+      //   class="text-[12px] text-center flex flex-col gap-3
+      // sm:justify-between sm:flex-row-reverse sm:text-sm"
+      // >
+        // <div class="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:justify-end">
+        // <a
+        //   href="/legal/privacy-policy"
+        //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+        // >
+        //   Политика конфиденциальности
+        // </a>
+        // <a
+        //   href="/legal/user-agreement"
+        //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+        // >
+        //   Пользовательское соглашение
+        // </a>
+        // <a
+        //   href="/legal/consent"
+        //   class="hover:opacity-100 opacity-70 transition-opacity duration-300"
+        // >
+        //   Согласие на обработку ПД
+        // </a>
+        // <button
+        //   id="cookie-settings-trigger"
+        //   class="hover:opacity-100 opacity-70 transition-opacity duration-300 cursor-pointer"
+        // >
+        //   Настройки cookie
+        // </button>
+        // </div>
+      // </div>
+      }
+    <p class="opacity-50 text-center">© {new Date().getFullYear()} ПланкенАрт</p>
+  </div>
+</footer>
+<script>
+  function initFooterAnimation() {
+    const logoLink = document.getElementById("footer-logo-link");
+    if (!logoLink) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("animate-footer-bounce");
+            }, 800);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(logoLink);
+  }
+
+  document.addEventListener("astro:page-load", initFooterAnimation);
+  // Initial call for the first load
+  initFooterAnimation();
+</script>

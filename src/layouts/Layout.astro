@@ -1,8 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import FormModal from '../components/ui/FormModal.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import FormModal from '../components/contact/FormModal.astro';
 
 interface Props {
   pageTitle: string;
@@ -29,5 +29,5 @@ const {
   <FormModal />
 </BaseLayout>
 <script>
-  import "@scripts/reveal.js"
+  import "@features/animations/reveal"
 </script>

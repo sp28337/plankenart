@@ -1,8 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Hero from "@components/Hero.astro";
-import H2 from "@components/ui/H2.astro";
-import Tag from "@components/ui/Tag.astro";
+import Hero from "@components/sections/Hero.astro";
+import H2 from "@components/common/H2.astro";
+import Tag from "@components/common/Tag.astro";
 import {
   getCollection,
   getEntries,
@@ -10,11 +10,11 @@ import {
   type CollectionEntry,
 } from "astro:content";
 import { Image } from "astro:assets";
-import DiscountSlider from "@components/ui/DiscountSlider.astro";
-import MaterialCardSmall from "@components/ui/MaterialCardSmall.astro";
-import Heading from "@components/ui/Heading.astro";
+import DiscountSlider from "@components/sections/DiscountSlider.astro";
+import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
+import Heading from "@components/common/Heading.astro";
 import CheckIcon from "@components/svg/CheckIcon.astro";
-import { tagsDictionary } from "../../lib/mappers";
+import { tagsDictionary } from "@domain/tags/dictionary";
 
 interface Props {
   object: CollectionEntry<"objects">;
