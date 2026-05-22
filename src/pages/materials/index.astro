@@ -1,13 +1,13 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Hero from "@components/Hero.astro";
+import Hero from "@components/sections/Hero.astro";
 import heroImg from "@assets/objects/banya-norvezhskiy-zamok/17.jpg";
 import heroImgMobile from "@assets/objects/banya-norvezhskiy-zamok/17.jpg";
-import FilterOverlay from "@components/ui/FilterOverlay.astro";
-import MaterialsFilter from "@components/ui/MaterialsFilter.astro";
+import FilterOverlay from "@components/catalog/filters/FilterOverlay.astro";
+import MaterialsFilter from "@components/catalog/filters/MaterialsFilter.astro";
 import { getCollection } from "astro:content";
-import MaterialCard from "@components/ui/MaterialCard.astro";
-import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
+import MaterialCard from "@components/catalog/cards/MaterialCard.astro";
+import ElementsNotFound from "@components/layout/ElementsNotFound.astro";
 
 const allMaterials = await getCollection("materials");
 ---
@@ -49,7 +49,7 @@ const allMaterials = await getCollection("materials");
 </Layout>
 
 <script>
-  import { setupOverlay, setupCatalogFilter } from "@scripts/dropdown";
+  import { setupOverlay, setupCatalogFilter } from "@features/catalog-filter/dropdown";
 
   const { initDropdown } = setupOverlay("filter-overlay");
 

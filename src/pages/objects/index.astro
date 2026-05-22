@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import Hero from "@components/Hero.astro";
+import Hero from "@components/sections/Hero.astro";
 import heroImg from "@assets/objects/avtonomnaya-barbekyu-zona/1-hero.jpg";
 import heroImgMobile from "@assets/objects/avtonomnaya-barbekyu-zona/8-hero-mobile.jpg";
-import ObjectCardExtended from "@components/ui/ObjectCardExtended.astro";
-import ObjectsFilter from "@components/ui/ObjectsFilter.astro";
-import FilterOverlay from "@components/ui/FilterOverlay.astro";
-import ElementsNotFound from "@components/ui/ElementsNotFound.astro";
+import ObjectCardExtended from "@components/catalog/cards/ObjectCardExtended.astro";
+import ObjectsFilter from "@components/catalog/filters/ObjectsFilter.astro";
+import FilterOverlay from "@components/catalog/filters/FilterOverlay.astro";
+import ElementsNotFound from "@components/layout/ElementsNotFound.astro";
 const allObjects = await getCollection("objects");
 ---
 
@@ -45,7 +45,7 @@ const allObjects = await getCollection("objects");
 </Layout>
 
 <script>
-  import { setupOverlay, setupCatalogFilter } from "@scripts/dropdown";
+  import { setupOverlay, setupCatalogFilter } from "@features/catalog-filter/dropdown";
 
   const { initDropdown } = setupOverlay("filter-overlay");
 

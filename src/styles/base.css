@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "./utilities.css";
+@import "./animations.css";
+
+@theme {
+  --font-inter: 'Inter', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+}
