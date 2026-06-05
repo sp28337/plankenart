@@ -4,8 +4,7 @@ import Layout from "../../layouts/Layout.astro";
 import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
 import H2 from "@components/common/H2.astro";
 import Heading from "@components/common/Heading.astro";
-import { tagsDictionary } from "@domain/tags/dictionary";
-import { tagsTitleDictionary } from "@domain/tags/dictionary";
+import { tagsDictionary, tagsTitleDictionary, tagSeoData } from "@domain/tags/dictionary";
 import Fence from "@assets/svg/fence.svg";
 import Scan from "@assets/svg/scan.svg";
 import Droplet from "@assets/svg/droplet.svg";
@@ -73,12 +72,19 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.params;
 const { materials, objects, oils } = Astro.props;
-const pageTitle = tagsTitleDictionary[tag] ?? tag;
+
+const tagLabel = tagsTitleDictionary[tag] ?? tag;
+const seo = tagSeoData[tag];
+
+// Fallback for tags without explicit SEO data
+const h1Title = seo?.h1 ?? `${tagLabel.charAt(0).toUpperCase() + tagLabel.slice(1)} — материалы и объекты`;
+const metaTitle = seo?.metaTitle ?? `${tagLabel.charAt(0).toUpperCase() + tagLabel.slice(1)} — обработка дерева | ПланкенАрт`;
+const metaDescription = seo?.metaDescription ?? `Материалы, объекты и масла по теме «${tagLabel}». Шлифовка и покрытие маслом OSMO в Нижнем Новгороде.`;
 ---
 
 <Layout
-  pageTitle={pageTitle}
-  pageDescription={`Все материалы и объекты по теме: ${pageTitle}`}
+  pageTitle={metaTitle}
+  pageDescription={metaDescription}
 >
   <!-- Hero Section -->
   <div
@@ -93,15 +99,15 @@ const pageTitle = tagsTitleDictionary[tag] ?? tag;
       class="relative z-10 max-w-4xl mx-auto px-4 text-center flex flex-col items-center reveal"
     >
       <Heading
-        styles="capitalize mx-auto text-amber-fade mb-4 lg:mb-6"
-        title={pageTitle}
+        styles="mx-auto text-amber-fade mb-4 lg:mb-6"
+        title={h1Title}
         variant="h1"
       />
       <p
-        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed "
+        class="max-w-xl mx-auto text-foreground/70 text-sm md:text-base leading-relaxed"
       >
         Объекты, материалы и масла связанные с темой: <b class="text-foreground"
-          >"{pageTitle}"</b
+          >«{tagLabel}»</b
         >
       </p>
     </div>

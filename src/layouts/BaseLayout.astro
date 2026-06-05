@@ -15,6 +15,8 @@ const {
   ogImg = '/og-image.png',
 } = Astro.props;
 
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+
 const canonicalURL = new URL(Astro.url.pathname + Astro.url.search, Astro.site);
 const isBlogPost =
   Astro.url.pathname.startsWith('/objects/') ||
@@ -27,8 +29,7 @@ const businessSchema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'ПланкенАрт',
-  description:
-    'Профессиональная шлифовка и покрытие погонажных изделий натуральными маслами OSMO. Работаем по Нижнему Новгороду и области.',
+  description: pageDescription,
   url: Astro.site?.toString(),
   telephone: '+79525433716',
   priceRange: '$$',
@@ -62,13 +63,14 @@ const businessSchema = {
     <meta name="author" content="ПланкенАрт" />
     <meta name="description" content={pageDescription} />
     <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#1a1a1a" />
 
     <link rel="canonical" href={canonicalURL.href} />
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/png" href={`${siteUrl}/favicon-96x96.png`} sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href={`${siteUrl}/favicon.svg`} />
+    <link rel="shortcut icon" href={`${siteUrl}/favicon.ico`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${siteUrl}/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${siteUrl}/site.webmanifest`} />
     <meta name="apple-mobile-web-app-title" content="ПланкенАрт" />
 
     <meta property="og:url" content={canonicalURL.href} />
