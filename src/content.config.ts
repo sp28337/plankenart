@@ -1,12 +1,13 @@
 import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { KNOWLEDGE_CATEGORIES } from "./domain/knowledge/categories";
 
 const materials = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/materials" }),
   schema: ({ image }) => z.object({
-    metaTitle:       z.string().max(60),
-    metaDescription: z.string().max(160),
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
 
     title:           z.string(),
     name:            z.string(),
@@ -32,8 +33,8 @@ const materials = defineCollection({
 const objects = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/objects" }),
   schema: ({ image }) => z.object({
-    metaTitle:         z.string().max(60),
-    metaDescription:   z.string().max(160),
+    metaTitle:         z.string().max(70),
+    metaDescription:   z.string().max(170),
     title:             z.string(),
     excerpt:           z.string(),
     description:       z.string(),
@@ -74,8 +75,8 @@ const legal = defineCollection({
 const oils = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/oils" }),
   schema: ({ image }) => z.object({
-    metaTitle:       z.string().max(60),
-    metaDescription: z.string().max(160),
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
     brand:           z.string(),
     label:           z.string().optional(),
     title:           z.string(),
@@ -95,9 +96,32 @@ const oils = defineCollection({
   }),
 });
 
+const knowledge = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/knowledge" }),
+  schema: ({ image }) => z.object({
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
+
+    title:           z.string(),
+    excerpt:         z.string(),
+    category:        z.enum(
+      KNOWLEDGE_CATEGORIES.map((c) => c.slug) as [string, ...string[]],
+    ),
+    tags:            z.array(z.string()).optional(),
+
+    publishDate:     z.string(),
+    updatedDate:     z.string().optional(),
+    sortOrder:       z.number().default(99),
+    coverImage:      image(),
+    heroImage:       image(),
+    heroImageMobile: image(),
+  }),
+});
+
 export const collections = { 
   materials,
   objects,
   oils,
   legal,
+  knowledge,
 };

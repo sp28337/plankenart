@@ -7,11 +7,12 @@ const current = Astro.url.pathname;
 
 <nav
   aria-label="Основная навигация"
-  class="font-inter font-semibold
-  tracking-tight h-12.5
+  class="font-inter font-semibold p-0.75 
+  tracking-tight h-12.5 overflow-y-hidden scroll-hidden
   bg-nav backdrop-blur-xl rounded-[20px] translate-y-5 shadow-xl/7"
 >
-  <ul class="flex p-0.75 items-center justify-between gap-0.75 my-auto h-full">
+  <ul class="flex items-center justify-between gap-0.75 my-auto 
+             h-full overflow-y-hidden scroll-hidden rounded-[20px]">
     {
       links.map(({ href, label }) => (
         <li
@@ -24,6 +25,7 @@ const current = Astro.url.pathname;
           <a
             href={href}
             aria-current={current.startsWith(href) ? "page" : undefined}
+            class="whitespace-nowrap "
           >
             {label}
           </a>

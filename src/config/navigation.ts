@@ -5,6 +5,7 @@ import {
   Scan,
   Droplet,
   Fence,
+  BookOpen,
   PhoneOutgoing,
 } from "@lucide/astro";
 
@@ -23,6 +24,7 @@ export const navLinks: NavLink[] = [
   { href: "/objects/",         label: "Объекты", SvgIcon: Scan           },
   { href: "/oils/",            label: "Масло", SvgIcon: Droplet          },
   { href: "/materials/",       label: "Материалы", SvgIcon: Fence        },
+  { href: "/knowledge/",       label: "База знаний", SvgIcon: BookOpen   },
   { href: "#contacts",         label: "Контакты", SvgIcon: PhoneOutgoing },
 ];
 
@@ -34,4 +36,5 @@ export const footerLinks: NavLink[] = [
   { href: '/objects/',         label: 'Объекты'        },
   { href: '/oils/',            label: 'Масло'          },
   { href: '/materials/',       label: 'Материалы'      },
+  { href: '/knowledge/',       label: 'База знаний'    },
 ];

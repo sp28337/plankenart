@@ -1,0 +1,60 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import Prose from "@components/common/Prose.astro";
+import H2 from "@components/common/H2.astro";
+import Tag from "@components/common/Tag.astro";
+import {
+  getCollection,
+  getEntries,
+  render,
+  type CollectionEntry,
+} from "astro:content";
+import Heading from "@components/common/Heading.astro";
+import CheckIcon from "@components/svg/CheckIcon.astro";
+import { tagsDictionary } from "@domain/tags/dictionary";
+import ObjectCardExtended from "@components/catalog/cards/ObjectCardExtended.astro";
+import KnowledgeCard from "@components/catalog/cards/KnowledgeCard.astro";
+
+interface Props {
+  knowledge: CollectionEntry<"knowledge">;
+}
+
+export async function getStaticPaths() {
+  const allKnowledges = await getCollection("knowledge");
+  return allKnowledges.map((knowledge) => ({
+    params: { slug: knowledge.id },
+    props: { knowledge },
+  }));
+}
+
+const { knowledge } = Astro.props;
+const { Content } = await render(knowledge);
+
+---
+
+<Layout
+  pageTitle={knowledge.data.metaTitle}
+  pageDescription={knowledge.data.metaDescription}
+  ogImg={knowledge.data.coverImage.src}
+>
+  <article>
+    <Hero
+      title={knowledge.data.title}
+      excerpt={knowledge.data.excerpt}
+      img={knowledge.data.heroImage}
+      imgMobile={knowledge.data.heroImageMobile}
+    />
+    <div class="px-2 lg:px-4 text-foreground mt-8">
+      <div
+        class="max-w-7xl flex flex-col items-center mx-auto gap-10 lg:gap-18"
+      >
+
+      </div>
+    </div>
+    <div></div>
+    <Prose>
+      <Content/>
+    </Prose>
+  </article>
+</Layout>
