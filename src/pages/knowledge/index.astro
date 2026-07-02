@@ -3,18 +3,16 @@ import Layout from "@layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import KnowledgeCard from "@components/catalog/cards/KnowledgeCard.astro";
 import { KNOWLEDGE_CATEGORIES } from "@domain/knowledge/categories";
-import ElementsNotFound from "@components/layout/ElementsNotFound.astro";
 import Hero from "@components/sections/Hero.astro";
-import heroImg from "@assets/knowledge/hero.jpeg"
+import heroImg from "@assets/knowledge/hero.jpeg";
 
-const allArticles = (await getCollection("knowledge"))
-  .sort((a, b) => {
-    // Sort by publishDate descending, then sortOrder
-    const dateA = new Date(a.data.publishDate).getTime();
-    const dateB = new Date(b.data.publishDate).getTime();
-    if (dateB !== dateA) return dateB - dateA;
-    return (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99);
-  });
+const allArticles = (await getCollection("knowledge")).sort((a, b) => {
+  // Sort by publishDate descending, then sortOrder
+  const dateA = new Date(a.data.publishDate).getTime();
+  const dateB = new Date(b.data.publishDate).getTime();
+  if (dateB !== dateA) return dateB - dateA;
+  return (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99);
+});
 ---
 
 <Layout
@@ -39,9 +37,11 @@ const allArticles = (await getCollection("knowledge"))
   />
   <div class="px-2 lg:px-4 text-foreground mt-8 h-screen">
     <div class="max-w-7xl mx-auto flex flex-col gap-8">
-
       <!-- Category filter pills -->
-      <div class="flex flex-wrap justify-center gap-2 reveal" id="category-filter">
+      <div
+        class="flex flex-wrap justify-center gap-2 reveal"
+        id="category-filter"
+      >
         <button
           class="category-btn active text-[0.8rem] px-4 py-2 font-bold
                  rounded-xl transition-all duration-300 whitespace-nowrap cursor-pointer
@@ -50,51 +50,48 @@ const allArticles = (await getCollection("knowledge"))
         >
           Все статьи
         </button>
-        {KNOWLEDGE_CATEGORIES.map((cat) => (
-          <button
-            class="category-btn text-[0.8rem] px-4 py-2 font-bold
+        {
+          KNOWLEDGE_CATEGORIES.map((cat) => (
+            <button
+              class="category-btn text-[0.8rem] px-4 py-2 font-bold
                    bg-nav/15 text-foreground/60 rounded-xl
                    hover:text-amber-fade hover:bg-nav/30
                    transition-all duration-300 whitespace-nowrap cursor-pointer"
-            data-category={cat.slug}
-          >
-            {cat.icon} {cat.label}
-          </button>
-        ))}
+              data-category={cat.slug}
+            >
+              {cat.icon} {cat.label}
+            </button>
+          ))
+        }
       </div>
 
       <!-- Articles grid -->
-      {allArticles.length > 0 ? (
-        <div id="knowledge-grid" class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {allArticles.map((article) => (
-            <KnowledgeCard article={article} />
-          ))}
-        </div>
-      ) : (
-        <div class="flex flex-col items-center gap-4 py-20 reveal">
-          <p class="text-6xl">📝</p>
-          <p class="text-foreground/50 text-center text-xl font-inter font-bold">
-            Статьи скоро появятся
-          </p>
-          <p class="text-foreground/40 text-center max-w-md">
-            Мы уже работаем над контентом — практические советы по выбору
-            древесины, обработке и монтажу появятся здесь в ближайшее время.
-          </p>
-        </div>
-      )}
+      <div
+        id="knowledge-grid"
+        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {allArticles.map((article) => <KnowledgeCard article={article} />)}
+      </div>
 
-      <ElementsNotFound />
+      <div id="empty" class="hidden flex-col items-center gap-3 py-20 reveal">
+        <p class="text-foreground/50 text-center text-lg font-inter font-bold">
+          Ничего не найдено по выбранной теме
+        </p>
+      </div>
     </div>
   </div>
 </Layout>
 
 <script>
   function initCategoryFilter() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>(".category-btn");
+    const buttons =
+      document.querySelectorAll<HTMLButtonElement>(".category-btn");
     const grid = document.getElementById("knowledge-grid");
     if (!grid || buttons.length === 0) return;
 
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".knowledge-card"));
+    const cards = Array.from(
+      grid.querySelectorAll<HTMLElement>(".knowledge-card"),
+    );
     const empty = document.getElementById("empty");
 
     // Read initial category from URL
@@ -121,7 +118,8 @@ const allArticles = (await getCollection("knowledge"))
       });
 
       if (empty) {
-        empty.style.display = visibleCount === 0 ? "" : "none";
+        empty.classList.toggle("hidden", visibleCount > 0);
+        empty.classList.toggle("flex", visibleCount === 0);
       }
 
       // Update URL without page reload

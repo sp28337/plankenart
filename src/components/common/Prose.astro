@@ -2,23 +2,25 @@
 
 ---
 
-<div
-  class="document-content prose prose-lg max-w-7xl mx-auto
-        text-foreground/85 leading-relaxed
-        prose-headings:font-inter prose-headings:font-bold
-        prose-headings:text-foreground prose-headings:tracking-tight
-        prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mt-10 prose-h2:mb-4
-        prose-h2:pt-6 prose-h2:border-t prose-h2:border-border/30
-        first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
-        prose-h3:text-lg prose-h3:md:text-xl prose-h3:mt-6 prose-h3:mb-3
-        prose-p:my-3 prose-p:text-sm prose-p:md:text-base
-        prose-ul:my-3 prose-ul:pl-6
-        prose-li:my-1 prose-li:text-sm prose-li:md:text-base
-        prose-strong:text-foreground prose-strong:font-semibold
-        prose-a:text-amber-fade prose-a:underline
-        prose-a:underline-offset-2 prose-a:decoration-text-amber-fade/30
-        hover:prose-a:decoration-text-amber-fade
-        prose-hr:border-border/30 prose-hr:my-8 prose-table:overflow-auto"
->
-  <slot />
+<div class="px-2 lg:px-4 mb-4">
+  <div
+    class="document-content prose prose-lg max-w-7xl mx-auto
+          text-foreground/85 leading-relaxed
+          prose-headings:font-inter prose-headings:font-bold
+          prose-headings:text-foreground prose-headings:tracking-tight
+          prose-h2:text-xl prose-h2:md:text-2xl prose-h2:mt-10 prose-h2:mb-4
+          prose-h2:pt-6 prose-h2:border-t prose-h2:border-border/30
+          first:prose-h2:border-t-0 first:prose-h2:pt-0 first:prose-h2:mt-0
+          prose-h3:text-lg prose-h3:md:text-xl prose-h3:mt-6 prose-h3:mb-3
+          prose-p:mt-3 prose-p:text-sm prose-p:md:text-base
+          prose-ul:mt-3 prose-ul:pl-6 prose-h2:text-amber-fade
+          prose-li:my-1 prose-li:text-sm prose-li:md:text-base
+          prose-strong:text-foreground prose-strong:font-semibold
+          prose-a:text-amber-fade prose-a:underline
+          prose-a:underline-offset-2 prose-a:decoration-text-amber-fade/30
+          hover:prose-a:decoration-text-amber-fade
+          prose-hr:border-border/30 prose-hr:my-8 prose-table:overflow-auto"
+  >
+    <slot />
+  </div>
 </div>

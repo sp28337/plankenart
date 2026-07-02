@@ -8,7 +8,7 @@ interface Props {
   variant?: "default" | "column" | "tags";
 }
 
-const { article, variant = "default"  } = Astro.props;
+const { article, variant = "default" } = Astro.props;
 const { title, excerpt, category, publishDate, coverImage } = article.data;
 const cat = categoryBySlug[category as keyof typeof categoryBySlug];
 
@@ -18,18 +18,18 @@ const formattedDate = new Date(publishDate).toLocaleDateString("ru-RU", {
   year: "numeric",
 });
 ---
+
 <article
-  class="object-card p-1 md:p-1.5 border hover:border-nav/70 transition-all items-between
+  class="knowledge-card p-1 md:p-1.5 border hover:border-nav/70 transition-all items-between
          duration-300 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden
          w-full group flex flex-col justify-between"
 >
   <a
     href={`/knowledge/${article.id}/`}
-    
     class:list={[variant === "default" && "", "flex flex-col gap-2"]}
     data-category={category}
   >
-  <!-- 
+    <!-- 
     <div class="relative h-48 overflow-hidden">
       <Picture
         src={coverImage}
@@ -42,7 +42,6 @@ const formattedDate = new Date(publishDate).toLocaleDateString("ru-RU", {
     </div>
   -->
     <div class="relative flex-1">
-
       <div
         class="transition-all w-full
               duration-300
@@ -78,7 +77,8 @@ const formattedDate = new Date(publishDate).toLocaleDateString("ru-RU", {
           class="text-[0.7rem] font-bold uppercase tracking-wider
                 bg-nav/15 text-foreground/70 px-2.5 py-1 rounded-lg"
         >
-          {cat?.icon} {cat?.label}
+          {cat?.icon}
+          {cat?.label}
         </span>
       </div>
       <h3
@@ -97,16 +97,12 @@ const formattedDate = new Date(publishDate).toLocaleDateString("ru-RU", {
         {excerpt}
       </p>
 
-      <div class="flex items-center justify-between mt-auto pt-2 border-t border-nav/10">
+      <div
+        class="flex items-center justify-between mt-auto pt-2 border-t border-nav/10"
+      >
         <time class="text-xs text-foreground/40" datetime={publishDate}>
           {formattedDate}
         </time>
-        <!-- <span
-          class="text-xs font-semibold text-amber-fade opacity-0 group-hover:opacity-100
-                transition-opacity duration-300 flex items-center gap-1"
-        >
-          Читать →
-        </span> -->
       </div>
     </div>
   </a>
