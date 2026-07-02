@@ -1,0 +1,58 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Hero from "@components/sections/Hero.astro";
+import Prose from "@components/common/Prose.astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+
+interface Props {
+  knowledge: CollectionEntry<"knowledge">;
+}
+
+export async function getStaticPaths() {
+  const allKnowledges = await getCollection("knowledge");
+  return allKnowledges.map((knowledge) => ({
+    params: { slug: knowledge.id },
+    props: { knowledge },
+  }));
+}
+
+const { knowledge } = Astro.props;
+const { Content } = await render(knowledge);
+const formattedDate = new Date(knowledge.data.publishDate).toLocaleDateString(
+  "ru-RU",
+  {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  },
+);
+---
+
+<Layout
+  pageTitle={knowledge.data.metaTitle}
+  pageDescription={knowledge.data.metaDescription}
+  ogImg={knowledge.data.coverImage.src}
+>
+  <div>
+    <Hero
+      title={knowledge.data.title}
+      excerpt={knowledge.data.excerpt}
+      img={knowledge.data.heroImage}
+      imgMobile={knowledge.data.heroImageMobile}
+      isCTA={false}
+    />
+    <div class="px-2 lg:px-4 text-foreground mt-8">
+      <div class="max-w-7xl flex flex-col mx-auto gap-10 lg:gap-18">
+        <time
+          class="text-foreground/50 mb-4"
+          datetime={knowledge.data.publishDate}
+        >
+          {formattedDate}
+        </time>
+      </div>
+    </div>
+    <Prose>
+      <Content />
+    </Prose>
+  </div>
+</Layout>
