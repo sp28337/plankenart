@@ -18,14 +18,14 @@ export async function getStaticPaths() {
 
 const { knowledge } = Astro.props;
 const { Content } = await render(knowledge);
-const formattedDate = new Date(knowledge.data.publishDate).toLocaleDateString(
-  "ru-RU",
-  {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  },
-);
+// const formattedDate = new Date(knowledge.data.publishDate).toLocaleDateString(
+//   "ru-RU",
+//   {
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   },
+// );
 ---
 
 <Layout
@@ -37,17 +37,16 @@ const formattedDate = new Date(knowledge.data.publishDate).toLocaleDateString(
     <Hero
       title={knowledge.data.title}
       excerpt={knowledge.data.excerpt}
-      img={knowledge.data.heroImage}
-      imgMobile={knowledge.data.heroImageMobile}
+      img={knowledge.data.coverImage}
+      imgMobile={knowledge.data.coverImage}
       isCTA={false}
     />
     <div class="px-2 lg:px-4 text-foreground mt-8">
       <div class="max-w-7xl flex flex-col mx-auto gap-10 lg:gap-18">
         <time
           class="text-foreground/50 mb-4"
-          datetime={knowledge.data.publishDate}
         >
-          {formattedDate}
+          {knowledge.data.publishDate}
         </time>
       </div>
     </div>

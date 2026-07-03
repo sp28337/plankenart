@@ -109,12 +109,10 @@ const knowledge = defineCollection({
     ),
     tags:            z.array(z.string()).optional(),
 
-    publishDate:     z.string(),
+    publishDate:     z.date(),
     updatedDate:     z.string().optional(),
     sortOrder:       z.number().default(99),
     coverImage:      image(),
-    heroImage:       image(),
-    heroImageMobile: image(),
   }),
 });
 
