@@ -44,18 +44,17 @@ jobs:
 
       - name: Create release archive
         run: |
-          tar -czf release.tar.gz dist package.json
+          tar -czf release.tar.gz dist/* package.json
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
 
-      - name: Configure known hosts
+      - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEV_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.DEV_PORT }} ${{ secrets.DEV_HOST }} >> ~/.ssh/known_hosts
 
       - name: Upload release
         run: |
@@ -67,6 +66,6 @@ jobs:
       - name: Deploy
         run: |
           ssh \
-            -p ${{ secrets.PROD_PORT }} \
+            -p ${{ secrets.DEV_PORT }} \
             ${{ secrets.DEV_USER }}@${{ secrets.DEV_HOST }} \
             "/var/www/plankenart/scripts/deploy.sh /tmp/release.tar.gz"
