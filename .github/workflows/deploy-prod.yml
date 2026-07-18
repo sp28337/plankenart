@@ -51,11 +51,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
 
-      - name: Configure known hosts
+      - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.PROD_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.PROD_PORT }} ${{ secrets.PROD_HOST }} >> ~/.ssh/known_hosts
 
       - name: Upload release
         run: |
