@@ -44,7 +44,7 @@ jobs:
 
       - name: Create release archive
         run: |
-          tar -czf release.tar.gz dist package.json
+          tar -czf release.tar.gz dist/* package.json
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
