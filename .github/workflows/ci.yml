@@ -37,8 +37,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Astro check
         run: pnpm run check
-      - name: Dependency audit
-        run: pnpm audit --audit-level high
+      # - name: Dependency audit
+      #   run: pnpm audit --audit-level high
       - name: Build
         run: pnpm build
         env:

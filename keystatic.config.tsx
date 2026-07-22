@@ -1,21 +1,65 @@
-// keystatic.config.ts
+// keystatic.config.tsx
 import { config, fields, collection } from '@keystatic/core';
 
-const isProd = import.meta.env.PROD;
+const env = import.meta.env.PUBLIC_ENV ?? 'development';
 
 export default config({
-  storage: isProd
+  locale: 'ru-RU',
+  storage: env === 'production'
     ? {
         kind: 'github',
         repo: { owner: 'sp28337', name: 'plankenart' },
       }
     : { kind: 'local' },
-
   ui: {
-    brand: { name: 'ПланкенАрт' },
+    brand: {
+      name: 'ПланкенАрт',
+      mark: ({ colorScheme }) => {
+        let path = colorScheme === 'dark'
+          ? 'https://plankenart.ru/favicon.ico'
+          : 'https://plankenart.ru/favicon.ico';
+        
+        return <img src={path} height={24} />
+      },
+    },
   },
 
   collections: {
+
+    knowledge: collection({
+      label: 'База знаний',
+      path: 'src/content/knowledge/*',
+      slugField: 'title',
+      columns: ['title', 'publishDate', 'updatedDate'],
+      format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Заголовок' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+        metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
+        excerpt: fields.text({ label: 'Краткое описание', multiline: true }),
+        category: fields.select({
+          label: 'Категория',
+          options: [
+            { label: 'Материалы', value: 'materials' },
+            { label: 'Профили доски', value: 'profiles' },
+            { label: 'Обработка и покраска', value: 'finishing' },
+            { label: 'Монтаж', value: 'installation' },
+            { label: 'Уход и обновление', value: 'maintenance' },
+          ],
+          defaultValue: 'materials',
+        }),
+        tags: fields.array(fields.text({ label: 'Тег' }), {
+          label: 'Теги',
+          itemLabel: (props) => props.value || 'Тег',
+        }),
+        publishDate: fields.date({ label: 'Дата публикации', defaultValue: { kind: 'today' } }),
+        updatedDate: fields.date({ label: 'Дата обновления' }),
+        sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
+        coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/knowledge/', publicPath: '@assets/knowledge/' }),
+        content: fields.markdoc({ label: 'Текст статьи' }),
+      },
+    }),
+
     materials: collection({
       label: 'Материалы',
       path: 'src/content/materials/*',
@@ -23,11 +67,11 @@ export default config({
       columns: ['title'],
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: 'Title (slug)' } }),
-        metaTitle: fields.text({ label: 'Meta Title', validation: { length: { max: 70 } } }),
-        metaDescription: fields.text({ label: 'Meta Description', validation: { length: { max: 170 } } }),
+        title: fields.slug({ name: { label: 'Заголовок' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+        metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
         name: fields.text({ label: 'Название (короткое)' }),
-        excerpt: fields.text({ label: 'Excerpt', multiline: true }),
+        excerpt: fields.text({ label: 'Краткое описание', multiline: true }),
         description: fields.text({ label: 'Описание', multiline: true }),
         advantages: fields.array(fields.text({ label: 'Пункт' }), {
           label: 'Преимущества',
@@ -55,9 +99,9 @@ export default config({
         isInterior: fields.checkbox({ label: 'Интерьер', defaultValue: false }),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
         imageAlt: fields.text({ label: 'Alt изображения' }),
-        coverImage: fields.image({ label: 'Cover Image', directory: 'src/assets/materials', publicPath: '../../assets/materials/' }),
-        heroImage: fields.image({ label: 'Hero Image', directory: 'src/assets/materials', publicPath: '../../assets/materials/' }),
-        heroImageMobile: fields.image({ label: 'Hero Image (mobile)', directory: 'src/assets/materials', publicPath: '../../assets/materials/' }),
+        coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/materials', publicPath: '@assets/materials/' }),
+        heroImage: fields.image({ label: 'Главное фото', directory: 'src/assets/materials/', publicPath: '@assets/materials/' }),
+        heroImageMobile: fields.image({ label: 'Главное фото (mobile)', directory: 'src/assets/materials/', publicPath: '@assets/materials/' }),
         content: fields.markdoc({ label: 'Дополнительный текст (после описания)' }),
       },
     }),
@@ -69,10 +113,10 @@ export default config({
       columns: ['title'],
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: 'Title (slug)' } }),
-        metaTitle: fields.text({ label: 'Meta Title', validation: { length: { max: 70 } } }),
-        metaDescription: fields.text({ label: 'Meta Description', validation: { length: { max: 170 } } }),
-        excerpt: fields.text({ label: 'Excerpt', multiline: true }),
+        title: fields.slug({ name: { label: 'Заголовок' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+        metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
+        excerpt: fields.text({ label: 'Краткое описание', multiline: true }),
         description: fields.text({ label: 'Описание', multiline: true }),
         technicalFeatures: fields.array(fields.text({ label: 'Пункт' }), { label: 'Технические особенности' }),
         conclusion: fields.text({ label: 'Заключение', multiline: true }),
@@ -103,11 +147,11 @@ export default config({
         ),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
         imageAlt: fields.text({ label: 'Alt изображения' }),
-        coverImage: fields.image({ label: 'Cover Image', directory: 'src/assets/objects', publicPath: '../../assets/objects/' }),
-        heroImage: fields.image({ label: 'Hero Image', directory: 'src/assets/objects', publicPath: '../../assets/objects/' }),
-        heroImageMobile: fields.image({ label: 'Hero Image (mobile)', directory: 'src/assets/objects', publicPath: '../../assets/objects/' }),
+        coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/objects', publicPath: '@assets/objects/' }),
+        heroImage: fields.image({ label: 'Главное фото', directory: 'src/assets/objects', publicPath: '@assets/objects/' }),
+        heroImageMobile: fields.image({ label: 'Главное фото (mobile)', directory: 'src/assets/objects', publicPath: '@assets/objects/' }),
         images: fields.array(
-          fields.image({ label: 'Фото', directory: 'src/assets/objects', publicPath: '../../assets/objects/' }),
+          fields.image({ label: 'Фото', directory: 'src/assets/objects', publicPath: '@assets/objects/' }),
           { label: 'Галерея' },
         ),
         content: fields.markdoc({ label: 'Дополнительный текст' }),
@@ -121,13 +165,13 @@ export default config({
       columns: ['title'],
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: 'Title (slug)' } }),
-        metaTitle: fields.text({ label: 'Meta Title', validation: { length: { max: 70 } } }),
-        metaDescription: fields.text({ label: 'Meta Description', validation: { length: { max: 170 } } }),
+        title: fields.slug({ name: { label: 'Заголовок' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+        metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
         brand: fields.text({ label: 'Бренд' }),
         label: fields.text({ label: 'Подзаголовок (label)' }),
         titleRu: fields.text({ label: 'Название на русском' }),
-        excerpt: fields.text({ label: 'Excerpt', multiline: true }),
+        excerpt: fields.text({ label: 'Краткое описание', multiline: true }),
         description: fields.text({ label: 'Описание', multiline: true }),
         category: fields.select({
           label: 'Категория',
@@ -150,64 +194,30 @@ export default config({
           fields.object({
             code: fields.text({ label: 'Код' }),
             name: fields.text({ label: 'Название' }),
-            image: fields.image({ label: 'Изображение', directory: 'src/assets/oils', publicPath: '../../assets/oils/' }),
+            image: fields.image({ label: 'Изображение', directory: 'src/assets/oils', publicPath: '@assets/oils/' }),
           }),
           { label: 'Цвета', itemLabel: (props) => props.fields.code.value || 'Цвет' },
         ),
-        coverImage: fields.image({ label: 'Cover Image', directory: 'src/assets/oils', publicPath: '../../assets/oils/' }),
+        coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/oils', publicPath: '@assets/oils/' }),
         content: fields.markdoc({ label: 'Текст (необязательно)' }),
       },
     }),
 
-    knowledge: collection({
-      label: 'База знаний',
-      path: 'src/content/knowledge/*',
-      slugField: 'title',
-      columns: ['title'],
-      format: { contentField: 'content' },
-      schema: {
-        title: fields.slug({ name: { label: 'Title (slug)' } }),
-        metaTitle: fields.text({ label: 'Meta Title', validation: { length: { max: 70 } } }),
-        metaDescription: fields.text({ label: 'Meta Description', validation: { length: { max: 170 } } }),
-        excerpt: fields.text({ label: 'Excerpt', multiline: true }),
-        category: fields.select({
-          label: 'Категория',
-          options: [
-            { label: 'Материалы', value: 'materials' },
-            { label: 'Профили доски', value: 'profiles' },
-            { label: 'Обработка и покраска', value: 'finishing' },
-            { label: 'Монтаж', value: 'installation' },
-            { label: 'Уход и обновление', value: 'maintenance' },
-          ],
-          defaultValue: 'materials',
-        }),
-        tags: fields.array(fields.text({ label: 'Тег' }), {
-          label: 'Теги',
-          itemLabel: (props) => props.value || 'Тег',
-        }),
-        publishDate: fields.date({ label: 'Дата публикации', defaultValue: { kind: 'today' } }),
-        updatedDate: fields.date({ label: 'Дата обновления' }),
-        sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
-        coverImage: fields.image({ label: 'Cover Image', directory: 'src/assets/knowledge', publicPath: '../../assets/knowledge/' }),
-        content: fields.markdoc({ label: 'Текст статьи' }),
-      },
-    }),
-
-    legal: collection({
-      label: 'Юридические документы',
-      path: 'src/content/legal/*',
-      slugField: 'slug',
-      columns: ['title'],
-      format: { contentField: 'content' },
-      schema: {
-        title: fields.text({ label: 'Заголовок' }),
-        slug: fields.slug({ name: { label: 'Slug' } }),
-        metaTitle: fields.text({ label: 'Meta Title', validation: { length: { max: 70 } } }),
-        metaDescription: fields.text({ label: 'Meta Description', validation: { length: { max: 170 } } }),
-        lastUpdated: fields.date({ label: 'Дата обновления', defaultValue: { kind: 'today' } }),
-        content: fields.markdoc({ label: 'Текст документа' }),
-      },
-    }),
+    // legal: collection({
+    //   label: 'Юридические документы',
+    //   path: 'src/content/legal/*',
+    //   slugField: 'slug',
+    //   columns: ['title'],
+    //   format: { contentField: 'content' },
+    //   schema: {
+    //     title: fields.text({ label: 'Заголовок' }),
+    //     slug: fields.slug({ name: { label: 'Slug' } }),
+    //     metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+    //     metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
+    //     lastUpdated: fields.date({ label: 'Дата обновления', defaultValue: { kind: 'today' } }),
+    //     content: fields.markdoc({ label: 'Текст документа' }),
+    //   },
+    // }),
 
     // photos: collection({
     //   label: 'Фото',

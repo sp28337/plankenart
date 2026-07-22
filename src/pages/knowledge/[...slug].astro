@@ -45,8 +45,13 @@ const { Content } = await render(knowledge);
       <div class="max-w-7xl flex flex-col mx-auto gap-10 lg:gap-18">
         <time
           class="text-foreground/50 mb-4"
+          datetime={knowledge.data.publishDate.toISOString()}
         >
-          {knowledge.data.publishDate}
+          {knowledge.data.publishDate.toLocaleDateString("ru-RU", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
         </time>
       </div>
     </div>

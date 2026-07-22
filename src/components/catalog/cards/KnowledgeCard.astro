@@ -100,7 +100,7 @@ const formattedDate = new Date(publishDate).toLocaleDateString("ru-RU", {
       <div
         class="flex items-center justify-between mt-auto pt-2 border-t border-nav/10"
       >
-        <time class="text-xs text-foreground/40" datetime={publishDate}>
+        <time class="text-xs text-foreground/40" datetime={publishDate.toISOString()}>
           {formattedDate}
         </time>
       </div>

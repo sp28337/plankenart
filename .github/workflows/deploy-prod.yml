@@ -41,6 +41,7 @@ jobs:
         run: pnpm build
         env:
           PUBLIC_ROBOTS_POLICY: allow
+          PUBLIC_ENV: production
 
       - name: Create release archive
         run: |

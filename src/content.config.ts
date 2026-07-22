@@ -110,7 +110,7 @@ const knowledge = defineCollection({
     tags:            z.array(z.string()).optional(),
 
     publishDate:     z.date(),
-    updatedDate:     z.string().optional(),
+    updatedDate:     z.date().optional(),
     sortOrder:       z.number().default(99),
     coverImage:      image(),
   }),
