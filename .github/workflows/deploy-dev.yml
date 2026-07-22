@@ -4,8 +4,8 @@ on:
   workflow_run:
     workflows:
       - CI
-    branches:
-      - dev
+    # branches:
+    #   - dev
     types:
       - completed
 
@@ -18,6 +18,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  debug:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          echo "ref: ${{ github.event.workflow_run.head_branch }}"
+          echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   deploy:
     if: >
       github.event.workflow_run.conclusion == 'success'
