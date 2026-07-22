@@ -41,10 +41,11 @@ jobs:
         run: pnpm build
         env:
           PUBLIC_ROBOTS_POLICY: allow
+          PUBLIC_ENV: production
 
       - name: Create release archive
         run: |
-          tar -czf release.tar.gz dist/* package.json
+          tar -czf release.tar.gz dist package.json
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
