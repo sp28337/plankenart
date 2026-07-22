@@ -1,13 +1,19 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getEntries } from "astro:content";
 import { Image } from "astro:assets";
-import { tagsDictionary } from "@domain/tags/dictionary";
 
 interface Props {
   object: CollectionEntry<"objects">;
 }
 
 const { object } = Astro.props;
+
+const [objectTags, woodTags, materialTags] = await Promise.all([
+  getEntries(object.data.objectTypes),
+  getEntries(object.data.woodTypes),
+  getEntries(object.data.materialTypes),
+]);
 ---
 
 <a
@@ -15,11 +21,11 @@ const { object } = Astro.props;
   class="object-card group flex flex-col rounded-2xl
          relative w-full reveal after:scale-98
          transition-all duration-300 no-underline"
-  data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
-  data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
-  data-material={object.data.materialTypes
-    .map((m) => tagsDictionary[m])
-    .join(" ")}
+  data-object={objectTags.map((t) => t.id).join(" ")}
+  data-wood={woodTags.map((w) => w.id).join(" ")}
+  data-material={materialTags
+    .map((m) => m.id).join(" ")
+  }
 >
   <div
     class="p-1 md:p-1.5 border hover:border-nav/70

@@ -48,10 +48,7 @@ export default config({
           ],
           defaultValue: 'materials',
         }),
-        tags: fields.array(fields.text({ label: 'Тег' }), {
-          label: 'Теги',
-          itemLabel: (props) => props.value || 'Тег',
-        }),
+        tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
         publishDate: fields.date({ label: 'Дата публикации', defaultValue: { kind: 'today' } }),
         updatedDate: fields.date({ label: 'Дата обновления' }),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
@@ -87,10 +84,7 @@ export default config({
         }),
         materialType: fields.text({ label: 'Тип материала (напр. "планкен прямой")' }),
         woodType: fields.text({ label: 'Порода дерева (напр. "сосна")' }),
-        tags: fields.array(fields.text({ label: 'Тег' }), {
-          label: 'Теги',
-          itemLabel: (props) => props.value || 'Тег',
-        }),
+        tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
         objectTypes: fields.array(fields.text({ label: 'Тип объекта' }), { 
           label: 'Типы объектов',
           itemLabel: (props) => props.value || 'Тип объекта'
@@ -120,22 +114,12 @@ export default config({
         description: fields.text({ label: 'Описание', multiline: true }),
         technicalFeatures: fields.array(fields.text({ label: 'Пункт' }), { label: 'Технические особенности' }),
         conclusion: fields.text({ label: 'Заключение', multiline: true }),
-        tags: fields.array(fields.text({ label: 'Тег' }), {
-          label: 'Теги',
-          itemLabel: (props) => props.value || 'Тег',
-        }),
-        objectTypes: fields.array(fields.text({ label: 'Тип объекта' }), { 
-          label: 'Типы объектов',
-          itemLabel: (props) => props.value || 'Тип объекта'
-        }),
-        woodTypes: fields.array(fields.text({ label: 'Порода' }), { 
-          label: 'Породы дерева',
-          itemLabel: (props) => props.value || 'Порода', 
-        }),
-        materialTypes: fields.array(fields.text({ label: 'Материал' }), { 
-          label: 'Типы материалов',
-          itemLabel: (props) => props.value || 'Материал',
-        }),
+        
+        tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
+        objectTypes: fields.array(fields.relationship({ label: 'Тип объекта', collection: 'tags' }), { label: 'Типы объектов' }),
+        woodTypes: fields.array(fields.relationship({ label: 'Порода дерева', collection: 'tags' }), { label: 'Породы древесины' }),
+        materialTypes: fields.array(fields.relationship({ label: 'Тип материала', collection: 'tags' }), { label: 'Типы материалов' }),
+                
         materials: fields.multiRelationship({ label: 'Материалы', collection: 'materials' }),
         usedOils: fields.array(
           fields.object({
@@ -186,10 +170,7 @@ export default config({
           itemLabel: (props) => props.value || 'Преимущества',
         }),
         relatedObjects: fields.multiRelationship({ label: 'Связанные объекты', collection: 'objects' }),
-        tags: fields.array(fields.text({ label: 'Тег' }), {
-          label: 'Теги',
-          itemLabel: (props) => props.value || 'Тег',
-        }),
+        tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
         colors: fields.array(
           fields.object({
             code: fields.text({ label: 'Код' }),
@@ -200,6 +181,29 @@ export default config({
         ),
         coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/oils', publicPath: '@assets/oils/' }),
         content: fields.markdoc({ label: 'Текст (необязательно)' }),
+      },
+    }),
+
+    tags: collection({
+      label: 'Теги',
+      path: 'src/content/tags/*',
+      slugField: 'label',
+      columns: ['label', 'kind'],
+      schema: {
+        label: fields.slug({ name: { label: 'Название (рус.)' } }),
+        kind: fields.select({
+          label: 'Тип тега',
+          options: [
+            { label: 'Порода дерева', value: 'wood' },
+            { label: 'Тип материала', value: 'material' },
+            { label: 'Тип объекта', value: 'object' },
+            { label: 'Стиль/категория', value: 'style' },
+          ],
+          defaultValue: 'style',
+        }),
+        h1: fields.text({ label: 'H1 страницы тега' }),
+        metaTitle: fields.text({ label: 'Meta Title' }),
+        metaDescription: fields.text({ label: 'Meta Description' }),
       },
     }),
 
