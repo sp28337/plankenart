@@ -4,8 +4,16 @@ on:
   push:
     branches:
       - dev
+  workflow_run:
+    workflows:
+      - CI
+    branches:
+      - dev
+    types:
+      - completed
 
 permissions:
+  actions: read
   contents: read
 
 concurrency:
@@ -14,38 +22,26 @@ concurrency:
 
 jobs:
   deploy:
+    # if: >
+    #   github.event.workflow_run.conclusion == 'success'
+
     runs-on: ubuntu-24.04
 
     environment:
       name: development
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v5
-        # with:
-        #   version: 11.13.0
-
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - name: Download release artifact
+        uses: dawidd6/action-download-artifact@v11
         with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build
-        env:
-          PUBLIC_ROBOTS_POLICY: disallow
-          PUBLIC_ENV: production
+          workflow: ci.yml
+          run_id: ${{ github.event.workflow_run.id }}
+          name: plankenart-release
+          path: release
 
       - name: Create release archive
         run: |
-          tar -czf release.tar.gz dist package.json
+          tar -czf release.tar.gz -C release .
 
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
@@ -55,7 +51,9 @@ jobs:
       - name: Add server to known_hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -p ${{ secrets.DEV_PORT }} ${{ secrets.DEV_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan \
+            -p ${{ secrets.DEV_PORT }} \
+            ${{ secrets.DEV_HOST }} >> ~/.ssh/known_hosts
 
       - name: Upload release
         run: |
