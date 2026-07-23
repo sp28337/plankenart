@@ -1,13 +1,9 @@
 name: Deploy Development
 
 on:
-  workflow_run:
-    workflows:
-      - CI
+  pull_request:
     branches:
       - dev
-    types:
-      - completed
 
 permissions:
   actions: read
@@ -18,15 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  debug:
-    runs-on: ubuntu-24.04
-    steps:
-      - run: |
-          echo "ref: ${{ github.event.workflow_run.head_branch }}"
-          echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   deploy:
-    if: >
-      github.event.workflow_run.conclusion == 'success'
 
     runs-on: ubuntu-24.04
 
