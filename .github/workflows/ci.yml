@@ -58,6 +58,7 @@ jobs:
 
           cp package.json release/
           cp pnpm-lock.yaml release/
+          cp pnpm-workspace.yaml release/
 
           cp -R dist release/
 
