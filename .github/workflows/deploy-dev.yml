@@ -1,9 +1,6 @@
 name: Deploy Development
 
 on:
-  push:
-    branches:
-      - dev
   workflow_run:
     workflows:
       - CI
@@ -28,8 +25,8 @@ jobs:
           echo "ref: ${{ github.event.workflow_run.head_branch }}"
           echo "conclusion: ${{ github.event.workflow_run.conclusion }}"
   deploy:
-    # if: >
-    #   github.event.workflow_run.conclusion == 'success'
+    if: >
+      github.event.workflow_run.conclusion == 'success'
 
     runs-on: ubuntu-24.04
 
