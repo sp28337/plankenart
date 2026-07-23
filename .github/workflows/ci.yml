@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  pull_request:
+    branches:
+      - main
+      - dev
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & Test
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Astro check
+        run: pnpm check
+
+      - name: Dependency audit
+        run: pnpm audit --audit-level high
+
+      - name: Build
+        env:
+          PUBLIC_ROBOTS_POLICY: ${{ github.ref == 'refs/heads/main' && 'allow' || 'disallow' }}
+          PUBLIC_ENV: production
+        run: pnpm build
+
+      - name: Prepare release
+        run: |
+          mkdir release
+
+          cp package.json release/
+          cp pnpm-lock.yaml release/
+
+          cp -R dist release/
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: plankenart-release
+          path: release
+          if-no-files-found: error
+          retention-days: 7
