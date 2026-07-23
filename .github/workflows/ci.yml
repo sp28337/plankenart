@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - dev
+  # push:
+  #   branches:
+  #     - main
+  #     - dev
 
   pull_request:
     branches:
@@ -58,6 +58,7 @@ jobs:
 
           cp package.json release/
           cp pnpm-lock.yaml release/
+          cp pnpm-workspace.yaml release/
 
           cp -R dist release/
 
