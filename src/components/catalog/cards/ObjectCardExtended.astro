@@ -1,8 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getEntries } from "astro:content";
 import { Image } from "astro:assets";
-import { tagsDictionary } from "@domain/tags/dictionary";
-// import Tag from "./Tag.astro";
 
 interface Props {
   object: CollectionEntry<"objects">;
@@ -11,22 +10,22 @@ interface Props {
 
 const { object, variant = "default" } = Astro.props;
 
-// const tags = [
-//   ...object.data.objectTypes,
-//   ...object.data.woodTypes,
-//   ...object.data.materialTypes,
-// ];
+const [objectTags, woodTags, materialTags] = await Promise.all([
+  getEntries(object.data.objectTypes),
+  getEntries(object.data.woodTypes),
+  getEntries(object.data.materialTypes),
+]);
 ---
 
 <article
   class="object-card p-1 md:p-1.5 border hover:border-nav/70 transition-all items-between
          duration-300 border-nav/20 rounded-2xl h-fit sm:h-full reveal overflow-hidden
          w-full group flex flex-col justify-between"
-  data-object={object.data.objectTypes.map((t) => tagsDictionary[t]).join(" ")}
-  data-wood={object.data.woodTypes.map((t) => tagsDictionary[t]).join(" ")}
-  data-material={object.data.materialTypes
-    .map((m) => tagsDictionary[m])
-    .join(" ")}
+  data-object={objectTags.map((t) => t.id).join(" ")}
+  data-wood={woodTags.map((w) => w.id).join(" ")}
+  data-material={materialTags
+    .map((m) => m.id).join(" ")
+  }
 >
   <a
     href={`/objects/${object.id}/`}
@@ -81,20 +80,4 @@ const { object, variant = "default" } = Astro.props;
       </p>
     </div>
   </a>
-  {
-    // <ul class="flex gap-2 m-2 overflow-x-auto scroll-hidden active:scale-105
-    //           transition-all duration-400 hover:opacity-100 active:opacity-100 opacity-70">
-    //   {
-    //     tags.map((tag) => (
-    //       <li>
-    //         <Tag
-    //           href={`/tags/${tagsDictionary[tag]}`}
-    //           tag={tag}
-    //           variant="alternative"
-    //         />
-    //       </li>
-    //     ))
-    //   }
-    // </ul>
-  }
 </article>

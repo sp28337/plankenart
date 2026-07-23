@@ -1,0 +1,56 @@
+---
+import { DraftingCompass, Paintbrush, Phone } from "@lucide/astro";
+---
+<div class="w-full flex flex-col gap-1 xl:w-auto lg:max-w-190 2xl:mr-25 bg-nav p-1 rounded-3xl backdrop-blur-xl">
+  <a
+    href="tel:+79525433716"
+    aria-label="Позвоните нам по номеру +79525433716"
+    rel="noopener noreferrer"
+    class="w-full lg:max-w-190 xl:w-auto flex justify-center items-center group shadow-md
+            transition-colors duration-300 gap-4 rounded-[20px] h-12.5 hover:bg-btn
+            bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:text-html
+            active:scale-98"
+  >
+    <Phone
+      stroke-width={2.5}
+      class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
+    />
+    <span class="font-bold text-xl">+7 (952) 543 37 16</span>
+  </a>
+  <div class="flex gap-1 lg:max-w-190">
+    <button
+      data-modal-open="modal-test"
+      tabindex={0}
+      class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-html
+            transition-colors duration-300 gap-4 rounded-[20px] h-12.5 group
+            bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:bg-btn
+            active:scale-98 font-bold cursor-pointer shadow-md"
+    >
+      <Paintbrush
+        stroke-width={2.5}
+        class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
+      />
+      <div class="flex gap-2">
+        <span class="hidden xs:block"> Заказать </span>
+        <span class="capitalize xs:lowercase"> выкрас </span>
+      </div>
+    </button>
+    <button
+      data-modal-open="modal-calc"
+      tabindex={0}
+      class="modal-test w-full lg:max-w-190 xl:w-auto flex justify-center items-center hover:text-html
+            transition-colors duration-300 gap-4 rounded-[20px] h-12.5 group
+            bg-html text-foreground px-2 sm:px-6 py-2.5 backdrop-blur-xl hover:bg-btn
+            active:scale-98 font-bold cursor-pointer shadow-md"
+    >
+      <DraftingCompass
+        stroke-width={2.5}
+        class="text-foreground group-hover:text-html transition-all duration-300 group-hover:scale-110"
+      />
+      <div class="flex gap-2">
+        <span class="hidden xs:block"> Заказать </span>
+        <span class="capitalize xs:lowercase"> расчет </span>
+      </div>
+    </button>
+  </div>
+</div>

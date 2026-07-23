@@ -1,0 +1,147 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import KnowledgeCard from "@components/catalog/cards/KnowledgeCard.astro";
+import { KNOWLEDGE_CATEGORIES } from "@domain/knowledge/categories";
+import Hero from "@components/sections/Hero.astro";
+import heroImg from "@assets/knowledge/hero.jpeg";
+
+const allArticles = (await getCollection("knowledge")).sort((a, b) => {
+  // Sort by publishDate descending, then sortOrder
+  const dateA = new Date(a.data.publishDate).getTime();
+  const dateB = new Date(b.data.publishDate).getTime();
+  if (dateB !== dateA) return dateB - dateA;
+  return (a.data.sortOrder ?? 99) - (b.data.sortOrder ?? 99);
+});
+---
+
+<Layout
+  pageTitle="База знаний — статьи по древесине, маслам и монтажу"
+  pageDescription="Практические советы по лиственнице, сосне, термодревесине, планкену, террасной доске, шлифовке, покраске и уходу за деревянными поверхностями."
+>
+  <Hero
+    title={"База знаний"}
+    excerpt={[
+      `Рассказываем простым языком, как выбрать древесину, чем обработать фасад
+            или террасу, какое масло использовать и каких ошибок избежать при монтаже.`,
+      `В этом разделе собраны практические советы по лиственнице, сосне,
+            термодревесине, планкену, террасной доске, шлифовке, покраске и уходу
+            за деревянными поверхностями.`,
+      `Материалы основаны на нашем опыте работы с фасадами, террасами и
+            наружной отделкой. Мы разбираем реальные ситуации, показываем примеры
+            с объектов и объясняем, как продлить срок службы древесины.`,
+    ]}
+    img={heroImg}
+    imgMobile={heroImg}
+    isCTA={false}
+  />
+  <div class="px-2 lg:px-4 text-foreground mt-8 h-screen">
+    <div class="max-w-7xl mx-auto flex flex-col gap-8">
+      <!-- Category filter pills -->
+      <div
+        class="flex flex-wrap justify-center gap-2 reveal"
+        id="category-filter"
+      >
+        <button
+          class="category-btn active text-[0.8rem] px-4 py-2 font-bold
+                 rounded-xl transition-all duration-300 whitespace-nowrap cursor-pointer
+                 bg-btn/80 text-foreground"
+          data-category="all"
+        >
+          Все статьи
+        </button>
+        {
+          KNOWLEDGE_CATEGORIES.map((cat) => (
+            <button
+              class="category-btn text-[0.8rem] px-4 py-2 font-bold
+                   bg-nav/15 text-foreground/60 rounded-xl
+                   hover:text-amber-fade hover:bg-nav/30
+                   transition-all duration-300 whitespace-nowrap cursor-pointer"
+              data-category={cat.slug}
+            >
+              {cat.icon} {cat.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Articles grid -->
+      <div
+        id="knowledge-grid"
+        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        {allArticles.map((article) => <KnowledgeCard article={article} />)}
+      </div>
+
+      <div id="empty" class="hidden flex-col items-center gap-3 py-20 reveal">
+        <p class="text-foreground/50 text-center text-lg font-inter font-bold">
+          Ничего не найдено по выбранной теме
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  function initCategoryFilter() {
+    const buttons =
+      document.querySelectorAll<HTMLButtonElement>(".category-btn");
+    const grid = document.getElementById("knowledge-grid");
+    if (!grid || buttons.length === 0) return;
+
+    const cards = Array.from(
+      grid.querySelectorAll<HTMLElement>(".knowledge-card"),
+    );
+    const empty = document.getElementById("empty");
+
+    // Read initial category from URL
+    const params = new URLSearchParams(window.location.search);
+    const initialCategory = params.get("category") || "all";
+
+    function filterByCategory(category: string) {
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const cardCategory = card.dataset.category;
+        const show = category === "all" || cardCategory === category;
+        card.style.display = show ? "" : "none";
+        if (show) visibleCount++;
+      });
+
+      buttons.forEach((btn) => {
+        const isActive = btn.dataset.category === category;
+        btn.classList.toggle("active", isActive);
+        btn.classList.toggle("bg-btn/80", isActive);
+        btn.classList.toggle("text-foreground", isActive);
+        btn.classList.toggle("bg-nav/15", !isActive);
+        btn.classList.toggle("text-foreground/60", !isActive);
+      });
+
+      if (empty) {
+        empty.classList.toggle("hidden", visibleCount > 0);
+        empty.classList.toggle("flex", visibleCount === 0);
+      }
+
+      // Update URL without page reload
+      const url = new URL(window.location.href);
+      if (category === "all") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", category);
+      }
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterByCategory(btn.dataset.category || "all");
+      });
+    });
+
+    // Apply initial filter
+    filterByCategory(initialCategory);
+  }
+
+  document.addEventListener("astro:page-load", initCategoryFilter);
+  initCategoryFilter();
+</script>

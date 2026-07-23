@@ -1,26 +1,35 @@
 import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { KNOWLEDGE_CATEGORIES } from "./domain/knowledge/categories";
+
+const tags = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/tags" }),
+  schema: z.object({
+    label: z.string(),        // русское название, напр. "лиственница"
+    kind: z.enum(["wood", "material", "object", "style"]),
+    h1: z.string().optional(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+  }),
+});
 
 const materials = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/materials" }),
   schema: ({ image }) => z.object({
-    metaTitle:       z.string().max(60),
-    metaDescription: z.string().max(160),
-
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
     title:           z.string(),
     name:            z.string(),
     excerpt:         z.string(),
     description:     z.string(),
     advantages:      z.array(z.string()),
     application:     z.array(z.string()),
-
     relatedObjects:  z.array(reference("objects")),
-    materialType:    z.string(),
-    woodType:        z.string(),
-    tags:            z.array(z.string()).optional(),
-    objectTypes:     z.array(z.string()).optional(),
-
+    materialType:    reference("tags"),
+    woodType:        reference("tags"),
+    tags:            z.array(reference("tags")).optional(),
+    objectTypes:     z.array(reference("tags")).optional(),
     sortOrder:       z.number().default(99),
     imageAlt:        z.string().optional(),
     coverImage:      image(),
@@ -32,31 +41,53 @@ const materials = defineCollection({
 const objects = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/objects" }),
   schema: ({ image }) => z.object({
-    metaTitle:         z.string().max(60),
-    metaDescription:   z.string().max(160),
+    metaTitle:         z.string().max(70),
+    metaDescription:   z.string().max(170),
     title:             z.string(),
     excerpt:           z.string(),
     description:       z.string(),
     technicalFeatures: z.array(z.string()).optional(),
     conclusion:        z.string().optional(),
-    tags:              z.array(z.string()),
-
-    objectTypes:       z.array(z.string()),
-    woodTypes:         z.array(z.string()),
-    materialTypes:     z.array(z.string()),
+    tags:              z.array(reference("tags")),
+    objectTypes:       z.array(reference("tags")),
+    woodTypes:         z.array(reference("tags")),
+    materialTypes:     z.array(reference("tags")),
     materials:         z.array(reference("materials")),
     usedOils:          z.array(z.object({
-      surface:           z.string().optional(), // Название поверхности
-      code:              z.array(z.string()),
-      oil:               reference('oils'),
+      surface: z.string().optional(),
+      code:    z.array(z.string()),
+      oil:     reference('oils'),
     })).optional(),
+    sortOrder:       z.number().default(99),
+    imageAlt:        z.string().optional(),
+    coverImage:      image(),
+    heroImage:       image(),
+    heroImageMobile: image(),
+    images:          z.array(image()),
+  }),
+});
 
-    sortOrder:         z.number().default(99),
-    imageAlt:          z.string().optional(),
-    coverImage:        image(),
-    heroImage:         image(),
-    heroImageMobile:   image(),
-    images:            z.array(image()),
+const oils = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/oils" }),
+  schema: ({ image }) => z.object({
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
+    brand:           z.string(),
+    label:           z.string().optional(),
+    title:           z.string(),
+    titleRu:         z.string(),
+    excerpt:         z.string().optional(),
+    description:     z.string().optional(),
+    category:        z.enum(['interior', 'exterior']),
+    advantages:      z.array(z.string()),
+    relatedObjects:  z.array(reference('objects')),
+    tags:            z.array(reference("tags")),
+    colors:          z.array(z.object({
+      code:  z.string(),
+      name:  z.string(),
+      image: image(),
+    })),
+    coverImage: image(),
   }),
 });
 
@@ -71,33 +102,20 @@ const legal = defineCollection({
   }),
 });
 
-const oils = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/oils" }),
+const knowledge = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/knowledge" }),
   schema: ({ image }) => z.object({
-    metaTitle:       z.string().max(60),
-    metaDescription: z.string().max(160),
-    brand:           z.string(),
-    label:           z.string().optional(),
+    metaTitle:       z.string().max(70),
+    metaDescription: z.string().max(170),
     title:           z.string(),
-    titleRu:         z.string(),
-    excerpt:         z.string().optional(),
-    description:     z.string().optional(),
-    category:        z.enum(['interior', 'exterior']),
-    advantages:     z.array(z.string()),
-    relatedObjects:  z.array(reference('objects')),
-    tags:            z.array(z.string()),
-    colors:          z.array(z.object({
-      code:            z.string(),
-      name:            z.string(),
-      image:           image(),
-    })),
+    excerpt:         z.string(),
+    category:        z.enum(KNOWLEDGE_CATEGORIES.map((c) => c.slug) as [string, ...string[]]),
+    tags:            z.array(reference("tags")).optional(),
+    publishDate:     z.date(),
+    updatedDate:     z.date().optional(),
+    sortOrder:       z.number().default(99),
     coverImage:      image(),
   }),
 });
 
-export const collections = { 
-  materials,
-  objects,
-  oils,
-  legal,
-};
+export const collections = { tags, materials, objects, oils, legal, knowledge };

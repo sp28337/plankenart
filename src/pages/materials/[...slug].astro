@@ -11,7 +11,6 @@ import {
 } from "astro:content";
 import Heading from "@components/common/Heading.astro";
 import CheckIcon from "@components/svg/CheckIcon.astro";
-import { tagsDictionary } from "@domain/tags/dictionary";
 import ObjectCardExtended from "@components/catalog/cards/ObjectCardExtended.astro";
 
 interface Props {
@@ -30,12 +29,14 @@ const { material } = Astro.props;
 const { Content } = await render(material);
 
 const relatedObjects = await getEntries(material.data.relatedObjects);
-const allTags = [
+
+// Резолвим все ссылки на теги за один вызов
+const allTags = await getEntries([
   ...(material.data.tags ?? []),
   ...(material.data.objectTypes ?? []),
   material.data.materialType,
   material.data.woodType,
-];
+]);
 ---
 
 <Layout
@@ -64,8 +65,8 @@ const allTags = [
                 allTags.map((tag) => (
                   <li class="flex">
                     <Tag
-                      href={`/tags/${tagsDictionary[tag]}`}
-                      tag={tag}
+                      href={`/tags/${tag.id}`}
+                      tag={tag.data.label}
                       variant="alternative"
                     />
                   </li>

@@ -4,6 +4,8 @@ import sitemap from '@astrojs/sitemap';
 import markdoc from '@astrojs/markdoc';
 
 import node from "@astrojs/node";
+import keystatic from '@keystatic/astro'
+import react from "@astrojs/react";
 
 export default defineConfig({
   vite: {
@@ -22,10 +24,7 @@ export default defineConfig({
 
   site: 'https://plankenart.ru',
 
-  integrations: [
-      sitemap(), 
-      markdoc(),
-  ],
+  integrations: [sitemap(), markdoc(), react(), keystatic()],
 
   fonts: [
       {

@@ -14,7 +14,6 @@ import DiscountSlider from "@components/sections/DiscountSlider.astro";
 import MaterialCardSmall from "@components/catalog/cards/MaterialCardSmall.astro";
 import Heading from "@components/common/Heading.astro";
 import CheckIcon from "@components/svg/CheckIcon.astro";
-import { tagsDictionary } from "@domain/tags/dictionary";
 
 interface Props {
   object: CollectionEntry<"objects">;
@@ -46,12 +45,13 @@ const usedOils = object.data.usedOils
 
 const materials = await getEntries(object.data.materials);
 
-const allTags = [
+// Резолвим все ссылки на теги за один вызов
+const allTags = await getEntries([
   ...object.data.tags,
   ...object.data.materialTypes,
   ...object.data.woodTypes,
   ...object.data.objectTypes,
-];
+]);
 
 const INITIAL_COUNT = 10;
 const totalImages = object.data.images.length;
@@ -81,8 +81,8 @@ const totalImages = object.data.images.length;
               {allTags.map((tag) => (
                 <li class="flex">
                   <Tag
-                    href={`/tags/${tagsDictionary[tag]}`}
-                    tag={tag}
+                    href={`/tags/${tag.id}`}
+                    tag={tag.data.label}
                     variant="alternative"
                   />
                 </li>
