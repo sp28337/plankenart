@@ -44,12 +44,12 @@ const [woodTag, materialTag] = await Promise.all([
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold">
         <Trees class="w-4 h-4 shrink-0 pointer-events-none opacity-45" aria-hidden="true" />
-        <i>{woodTag?.data.label}</i>
+        <i>{woodTag?.data.tag}</i>
       </div>
 
       <div class="flex items-center gap-1.5 text-[12px] font-semibold mb-0.5">
         <Fence class="w-4 h-4 shrink-0 pointer-events-none opacity-45" aria-hidden="true" />
-        <i>{materialTag?.data.label}</i>
+        <i>{materialTag?.data.tag}</i>
       </div>
     </div>
   </a>
