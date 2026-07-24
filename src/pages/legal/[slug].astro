@@ -5,7 +5,7 @@ import Layout from "@layouts/Layout.astro";
 export async function getStaticPaths() {
   const docs = await getCollection("legal");
   return docs.map((doc) => ({
-    params: { slug: doc.data.slug },
+    params: { slug: doc.id },
     props: { doc },
   }));
 }

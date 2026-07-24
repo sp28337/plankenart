@@ -17,22 +17,33 @@ const allMaterials = await getCollection("materials");
 const allObjects = await getCollection("objects");
 
 let type = collection.replace("Types", "");
-const seen = new Map<string, { collection: "tags"; id: string }>();
+type EntryRef =
+  | { collection: "materialTypes"; id: string }
+  | { collection: "woodTypes"; id: string }
+  | { collection: "objectTypes"; id: string };
 
-if (collection == "materialTypes") {
-  allMaterials.forEach((item) => seen.set(item.data.materialType.id, item.data.materialType));
-  type = collection.replace("Types", "");
-} else if (collection == "woodTypes") {
-  allMaterials.forEach((item) => seen.set(item.data.woodType.id, item.data.woodType));
-  type = collection.replace("Types", "");
-} else if (collection == "objectType") {
+const seen = new Map<string, EntryRef>();
+
+if (collection === "materialTypes") {
+  allMaterials.forEach((item) => {
+    seen.set(item.data.materialType.id, item.data.materialType);
+  });
+  type = "material";
+} else if (collection === "woodTypes") {
+  allMaterials.forEach((item) => {
+    seen.set(item.data.woodType.id, item.data.woodType);
+  });
+  type = "wood";
+} else if (collection === "objectType") {
   allObjects
     .flatMap((item) => item.data.objectTypes ?? [])
-    .forEach((ref) => seen.set(ref.id, ref));
-  type = collection.replace("Type", "");
+    .forEach((ref) => {
+      seen.set(ref.id, ref);
+    });
+  type = "object";
 }
 
-const tags = seen.size > 0 ? await getEntries([...seen.values()]) : [];
+const tags = seen.size ? await getEntries([...seen.values()]) : [];
 ---
 
 <div class="relative flex h-full w-full" id=`${type}-dropdown`>
@@ -80,7 +91,7 @@ const tags = seen.size > 0 ? await getEntries([...seen.values()]) : [];
               id={`${type}-option-${tag.id}`}
               role="option"
               aria-selected="false"
-              data-value={tag.data.label}
+              data-value={tag.data.tag}
               data-slug={tag.id}
               data-group={type}
               class="dd-item w-full lg:max-w-[70%] text-left px-5.5 rounded-xl cursor-pointer h-7.5
@@ -89,7 +100,7 @@ const tags = seen.size > 0 ? await getEntries([...seen.values()]) : [];
               style="transform:translateY(-110%)"
             >
               <Icon class="w-4 h-4 shrink-0 pointer-events-none opacity-45" />
-              {tag.data.label}
+              {tag.data.tag}
             </button>
           </div>
         ))
