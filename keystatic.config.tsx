@@ -86,10 +86,10 @@ export default config({
           label: 'Связанные объекты',
           collection: 'objects',
         }),
-        materialType: fields.relationship({ label: 'Тип материала', collection: 'tags' }),
-        woodType: fields.relationship({ label: 'Порода дерева', collection: 'tags' }),
+        materialType: fields.relationship({ label: 'Тип материала', collection: 'materialTypes' }),
+        woodType: fields.relationship({ label: 'Порода дерева', collection: 'woodTypes' }),
         tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
-        objectTypes: fields.multiRelationship({ label: 'Типы объекта', collection: 'tags' }),
+        objectTypes: fields.multiRelationship({ label: 'Типы объекта', collection: 'objectTypes' }),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
         imageAlt: fields.text({ label: 'Alt изображения' }),
         coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/materials', publicPath: '@assets/materials/' }),
@@ -115,9 +115,9 @@ export default config({
         conclusion: fields.text({ label: 'Заключение', multiline: true }),
         
         tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
-        objectTypes: fields.multiRelationship({ label: 'Тип объекта', collection: 'tags' }),
-        woodTypes: fields.multiRelationship({ label: 'Порода дерева', collection: 'tags' }),
-        materialTypes: fields.multiRelationship({ label: 'Тип материала', collection: 'tags' }),
+        objectTypes: fields.multiRelationship({ label: 'Тип объекта', collection: 'objectTypes' }),
+        woodTypes: fields.multiRelationship({ label: 'Порода дерева', collection: 'woodTypes' }),
+        materialTypes: fields.multiRelationship({ label: 'Тип материала', collection: 'materialTypes' }),
                 
         materials: fields.multiRelationship({ label: 'Материалы', collection: 'materials' }),
         usedOils: fields.array(
