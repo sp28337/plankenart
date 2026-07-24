@@ -6,9 +6,34 @@ import { KNOWLEDGE_CATEGORIES } from "./domain/knowledge/categories";
 const tags = defineCollection({
   loader: glob({ pattern: "**/*.yaml", base: "./src/content/tags" }),
   schema: z.object({
-    label: z.string(),        // русское название, напр. "лиственница"
-    kind: z.enum(["wood", "material", "object", "style"]),
-    h1: z.string().optional(),
+    tag: z.string(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+  }),
+});
+
+const objectTypes = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/objectTypes" }),
+  schema: z.object({
+    tag: z.string(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+  }),
+});
+
+const woodTypes = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/woodTypes" }),
+  schema: z.object({
+    tag: z.string(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string().optional(),
+  }),
+});
+
+const materialTypes = defineCollection({
+  loader: glob({ pattern: "**/*.yaml", base: "./src/content/materialTypes" }),
+  schema: z.object({
+    tag: z.string(),
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
   }),
@@ -26,10 +51,10 @@ const materials = defineCollection({
     advantages:      z.array(z.string()),
     application:     z.array(z.string()),
     relatedObjects:  z.array(reference("objects")),
-    materialType:    reference("tags"),
-    woodType:        reference("tags"),
+    materialType:    reference("materialTypes"),
+    woodType:        reference("woodTypes"),
     tags:            z.array(reference("tags")).optional(),
-    objectTypes:     z.array(reference("tags")).optional(),
+    objectTypes:     z.array(reference("objectTypes")).optional(),
     sortOrder:       z.number().default(99),
     imageAlt:        z.string().optional(),
     coverImage:      image(),
@@ -49,9 +74,9 @@ const objects = defineCollection({
     technicalFeatures: z.array(z.string()).optional(),
     conclusion:        z.string().optional(),
     tags:              z.array(reference("tags")),
-    objectTypes:       z.array(reference("tags")),
-    woodTypes:         z.array(reference("tags")),
-    materialTypes:     z.array(reference("tags")),
+    objectTypes:       z.array(reference("objectTypes")),
+    woodTypes:         z.array(reference("woodTypes")),
+    materialTypes:     z.array(reference("materialTypes")),
     materials:         z.array(reference("materials")),
     usedOils:          z.array(z.object({
       surface: z.string().optional(),
@@ -95,7 +120,6 @@ const legal = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/legal" }),
   schema: z.object({
     title:           z.string(),
-    slug:            z.string(),
     metaTitle:       z.string().max(70),
     metaDescription: z.string().max(170),
     lastUpdated:     z.string(),
@@ -110,7 +134,7 @@ const knowledge = defineCollection({
     title:           z.string(),
     excerpt:         z.string(),
     category:        z.enum(KNOWLEDGE_CATEGORIES.map((c) => c.slug) as [string, ...string[]]),
-    tags:            z.array(reference("tags")).optional(),
+    // tags:            z.array(reference("tags")).optional(),
     publishDate:     z.date(),
     updatedDate:     z.date().optional(),
     sortOrder:       z.number().default(99),
@@ -118,4 +142,14 @@ const knowledge = defineCollection({
   }),
 });
 
-export const collections = { tags, materials, objects, oils, legal, knowledge };
+export const collections = { 
+  tags,
+  objectTypes,
+  woodTypes,
+  materialTypes,
+  materials,
+  objects,
+  oils,
+  legal,
+  knowledge,
+};

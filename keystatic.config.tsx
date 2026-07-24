@@ -12,6 +12,10 @@ export default config({
       }
     : { kind: 'local' },
   ui: {
+    navigation: {
+      'КОЛЛЕКЦИИ': ['knowledge', 'materials', 'objects', 'oils', 'legal'],
+      'ТЕГИ': ['tags', 'objectTypes', 'woodTypes', 'materialTypes'],
+    },
     brand: {
       name: 'ПланкенАрт',
       mark: ({ colorScheme }) => {
@@ -48,7 +52,7 @@ export default config({
           ],
           defaultValue: 'materials',
         }),
-        tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
+        // tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
         publishDate: fields.date({ label: 'Дата публикации', defaultValue: { kind: 'today' } }),
         updatedDate: fields.date({ label: 'Дата обновления' }),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
@@ -82,15 +86,10 @@ export default config({
           label: 'Связанные объекты',
           collection: 'objects',
         }),
-        materialType: fields.text({ label: 'Тип материала (напр. "планкен прямой")' }),
-        woodType: fields.text({ label: 'Порода дерева (напр. "сосна")' }),
+        materialType: fields.relationship({ label: 'Тип материала', collection: 'tags' }),
+        woodType: fields.relationship({ label: 'Порода дерева', collection: 'tags' }),
         tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
-        objectTypes: fields.array(fields.text({ label: 'Тип объекта' }), { 
-          label: 'Типы объектов',
-          itemLabel: (props) => props.value || 'Тип объекта'
-        }),
-        isExterior: fields.checkbox({ label: 'Экстерьер', defaultValue: false }),
-        isInterior: fields.checkbox({ label: 'Интерьер', defaultValue: false }),
+        objectTypes: fields.multiRelationship({ label: 'Типы объекта', collection: 'tags' }),
         sortOrder: fields.integer({ label: 'Порядок сортировки', defaultValue: 99 }),
         imageAlt: fields.text({ label: 'Alt изображения' }),
         coverImage: fields.image({ label: 'Фото обложки', directory: 'src/assets/materials', publicPath: '@assets/materials/' }),
@@ -116,9 +115,9 @@ export default config({
         conclusion: fields.text({ label: 'Заключение', multiline: true }),
         
         tags: fields.multiRelationship({ label: 'Теги', collection: 'tags' }),
-        objectTypes: fields.array(fields.relationship({ label: 'Тип объекта', collection: 'tags' }), { label: 'Типы объектов' }),
-        woodTypes: fields.array(fields.relationship({ label: 'Порода дерева', collection: 'tags' }), { label: 'Породы древесины' }),
-        materialTypes: fields.array(fields.relationship({ label: 'Тип материала', collection: 'tags' }), { label: 'Типы материалов' }),
+        objectTypes: fields.multiRelationship({ label: 'Тип объекта', collection: 'tags' }),
+        woodTypes: fields.multiRelationship({ label: 'Порода дерева', collection: 'tags' }),
+        materialTypes: fields.multiRelationship({ label: 'Тип материала', collection: 'tags' }),
                 
         materials: fields.multiRelationship({ label: 'Материалы', collection: 'materials' }),
         usedOils: fields.array(
@@ -138,7 +137,7 @@ export default config({
           fields.image({ label: 'Фото', directory: 'src/assets/objects', publicPath: '@assets/objects/' }),
           { label: 'Галерея' },
         ),
-        content: fields.markdoc({ label: 'Дополнительный текст' }),
+        content: fields.markdoc({ label: 'Дополнительный текст (необязательно)' }),
       },
     }),
 
@@ -149,12 +148,12 @@ export default config({
       columns: ['title'],
       format: { contentField: 'content' },
       schema: {
-        title: fields.slug({ name: { label: 'Заголовок' } }),
+        title: fields.slug({ name: { label: 'Заголовок (название)' } }),
+        titleRu: fields.text({ label: 'Заголовок (категория)' }),
         metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
         metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
         brand: fields.text({ label: 'Бренд' }),
         label: fields.text({ label: 'Подзаголовок (label)' }),
-        titleRu: fields.text({ label: 'Название на русском' }),
         excerpt: fields.text({ label: 'Краткое описание', multiline: true }),
         description: fields.text({ label: 'Описание', multiline: true }),
         category: fields.select({
@@ -185,56 +184,66 @@ export default config({
     }),
 
     tags: collection({
-      label: 'Теги',
+      label: 'Общие',
       path: 'src/content/tags/*',
-      slugField: 'label',
-      columns: ['label', 'kind'],
+      slugField: 'tag',
+      columns: ['tag'],
       schema: {
-        label: fields.slug({ name: { label: 'Название (рус.)' } }),
-        kind: fields.select({
-          label: 'Тип тега',
-          options: [
-            { label: 'Порода дерева', value: 'wood' },
-            { label: 'Тип материала', value: 'material' },
-            { label: 'Тип объекта', value: 'object' },
-            { label: 'Стиль/категория', value: 'style' },
-          ],
-          defaultValue: 'style',
-        }),
-        h1: fields.text({ label: 'H1 страницы тега' }),
-        metaTitle: fields.text({ label: 'Meta Title' }),
-        metaDescription: fields.text({ label: 'Meta Description' }),
+        tag: fields.slug({ name: { label: 'Тег' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок' }),
+        metaDescription: fields.text({ label: 'Мета описание' }),
       },
     }),
 
-    // legal: collection({
-    //   label: 'Юридические документы',
-    //   path: 'src/content/legal/*',
-    //   slugField: 'slug',
-    //   columns: ['title'],
-    //   format: { contentField: 'content' },
-    //   schema: {
-    //     title: fields.text({ label: 'Заголовок' }),
-    //     slug: fields.slug({ name: { label: 'Slug' } }),
-    //     metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
-    //     metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
-    //     lastUpdated: fields.date({ label: 'Дата обновления', defaultValue: { kind: 'today' } }),
-    //     content: fields.markdoc({ label: 'Текст документа' }),
-    //   },
-    // }),
+    objectTypes: collection({
+      label: 'Типы объектов',
+      path: 'src/content/objectTypes/*',
+      slugField: 'tag',
+      columns: ['tag'],
+      schema: {
+        tag: fields.slug({ name: { label: 'Тег' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок' }),
+        metaDescription: fields.text({ label: 'Мета описание' }),
+      },
+    }),
 
-    // photos: collection({
-    //   label: 'Фото',
-    //   path: 'src/assets/photos/*',
-    //   slugField: 'title',
-    //   schema: {
-    //     title: fields.slug({ name: { label: 'Название' } }),
-    //     image: fields.image({
-    //       label: 'Файл изображения',
-    //       directory: 'src/assets/photos',
-    //       publicPath: '/src/assets/photos/',
-    //     }),
-    //   },
-    // }),
+    woodTypes: collection({
+      label: 'Виды древесины',
+      path: 'src/content/woodTypes/*',
+      slugField: 'tag',
+      columns: ['tag',],
+      schema: {
+        tag: fields.slug({ name: { label: 'Тег' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок' }),
+        metaDescription: fields.text({ label: 'Мета описание' }),
+      },
+    }),
+
+    materialTypes: collection({
+      label: 'Категории материалов',
+      path: 'src/content/materialTypes/*',
+      slugField: 'tag',
+      columns: ['tag'],
+      schema: {
+        tag: fields.slug({ name: { label: 'Тег' } }),
+        metaTitle: fields.text({ label: 'Мета заголовок' }),
+        metaDescription: fields.text({ label: 'Мета описание' }),
+      },
+    }),
+
+    legal: collection({
+      label: 'Юридические документы',
+      path: 'src/content/legal/*',
+      slugField: 'title',
+      columns: ['title'],
+      format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Заголовок'} }),
+        metaTitle: fields.text({ label: 'Мета заголовок', validation: { length: { max: 70 } } }),
+        metaDescription: fields.text({ label: 'Мета описание', validation: { length: { max: 170 } } }),
+        lastUpdated: fields.date({ label: 'Дата обновления', defaultValue: { kind: 'today' } }),
+        content: fields.markdoc({ label: 'Текст документа' }),
+      },
+    }),
   },
 });

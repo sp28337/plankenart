@@ -12,43 +12,106 @@ import OilCard from "@components/catalog/cards/OilCard.astro";
 import type { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const [allTags, allMaterials, allObjects, allOils] = await Promise.all([
+  const [
+    allTags,
+    allMaterialTypes,
+    allWoodTypes,
+    allObjectTypes,
+    allMaterials,
+    allObjects,
+    allOils,
+  ] = await Promise.all([
     getCollection("tags"),
+    getCollection("materialTypes"),
+    getCollection("woodTypes"),
+    getCollection("objectTypes"),
     getCollection("materials"),
     getCollection("objects"),
     getCollection("oils"),
   ]);
 
-  return allTags.map((tag) => {
-    const materials = allMaterials.filter(
-      (item) =>
-        (item.data.tags ?? []).some((ref) => ref.id === tag.id) ||
-        (item.data.objectTypes ?? []).some((ref) => ref.id === tag.id) ||
-        item.data.woodType.id === tag.id ||
-        item.data.materialType.id === tag.id,
-    );
+  const pages = [
+    ...allTags.map((entry) => ({ collection: "tags" as const, entry })),
+    ...allMaterialTypes.map((entry) => ({
+      collection: "materialTypes" as const,
+      entry,
+    })),
+    ...allWoodTypes.map((entry) => ({
+      collection: "woodTypes" as const,
+      entry,
+    })),
+    ...allObjectTypes.map((entry) => ({
+      collection: "objectTypes" as const,
+      entry,
+    })),
+  ];
 
-    const objects = allObjects.filter(
-      (item) =>
-        (item.data.tags ?? []).some((ref) => ref.id === tag.id) ||
-        (item.data.objectTypes ?? []).some((ref) => ref.id === tag.id) ||
-        (item.data.woodTypes ?? []).some((ref) => ref.id === tag.id) ||
-        (item.data.materialTypes ?? []).some((ref) => ref.id === tag.id),
-    );
+  return pages.map(({ collection, entry }) => {
+    const materials = allMaterials.filter((item) => {
+      switch (collection) {
+        case "tags":
+          return (item.data.tags ?? []).some((ref) => ref.id === entry.id);
 
-    const oils = allOils.filter((item) =>
-      (item.data.tags ?? []).some((ref) => ref.id === tag.id),
-    );
+        case "materialTypes":
+          return item.data.materialType.id === entry.id;
+
+        case "woodTypes":
+          return item.data.woodType.id === entry.id;
+
+        case "objectTypes":
+          return (item.data.objectTypes ?? []).some(
+            (ref) => ref.id === entry.id,
+          );
+      }
+    });
+
+    const objects = allObjects.filter((item) => {
+      switch (collection) {
+        case "tags":
+          return (item.data.tags ?? []).some((ref) => ref.id === entry.id);
+
+        case "materialTypes":
+          return (item.data.materialTypes ?? []).some(
+            (ref) => ref.id === entry.id,
+          );
+
+        case "woodTypes":
+          return (item.data.woodTypes ?? []).some(
+            (ref) => ref.id === entry.id,
+          );
+
+        case "objectTypes":
+          return (item.data.objectTypes ?? []).some(
+            (ref) => ref.id === entry.id,
+          );
+      }
+    });
+
+    const oils = allOils.filter((item) => {
+      if (collection !== "tags") return false;
+
+      return (item.data.tags ?? []).some((ref) => ref.id === entry.id);
+    });
 
     return {
-      params: { tag: tag.id },
-      props: { tag, materials, objects, oils },
+      params: { tag: entry.id },
+      props: {
+        tag: entry,
+        materials,
+        objects,
+        oils,
+      },
     };
   });
 }
 
 interface Props {
-  tag: CollectionEntry<"tags">;
+  tag:
+    | CollectionEntry<"tags">
+    | CollectionEntry<"materialTypes">
+    | CollectionEntry<"woodTypes">
+    | CollectionEntry<"objectTypes">;
+
   materials: CollectionEntry<"materials">[];
   objects: CollectionEntry<"objects">[];
   oils: CollectionEntry<"oils">[];
@@ -56,9 +119,9 @@ interface Props {
 
 const { tag, materials, objects, oils } = Astro.props;
 
-const tagLabel = tag.data.label;
+const tagLabel = tag.data.tag;
 
-const h1Title = tag.data.label.toUpperCase();
+const h1Title = tag.data.tag.toUpperCase();
 const metaTitle = tag.data.metaTitle ?? `${tagLabel.charAt(0).toUpperCase() + tagLabel.slice(1)} — обработка дерева | ПланкенАрт`;
 const metaDescription = tag.data.metaDescription ?? `Материалы, объекты и масла по теме «${tagLabel}». Шлифовка и покрытие маслом OSMO в Нижнем Новгороде.`;
 ---
